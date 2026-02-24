@@ -7,3 +7,9 @@ try feed with two ways to display news, one is vertical for phone like whatsapp 
 ### https://shir-man.com/homepage/?sort=month
 
 ### https://github.com/glidea/zenfeed
+# use this to get source where to search : site:www.google.com autonomous surgery
+
+https://newatlas.com/science/
+https://newatlas.com/energy/
+https://newatlas.com/medical/
+https://news.mit.edu/
