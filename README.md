@@ -13,3 +13,5 @@ https://newatlas.com/science/
 https://newatlas.com/energy/
 https://newatlas.com/medical/
 https://news.mit.edu/
+
+https://revue.far.ma/
