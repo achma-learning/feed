@@ -57,6 +57,8 @@ Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 + https://ammps.sante.gov.ma/actualites/categories/actualites_internationales
 
 + https://www.sante.gov.ma/Pages/activites.aspx
++ https://www.sante.gov.ma/Pages/toutes_actualites.aspx?activiteID=* (for example : https://www.sante.gov.ma/Pages/toutes_actualites.aspx?activiteID=605)
+
 + https://www.sante.gov.ma/Pages/Dossiers.aspx
 + https://www.sante.gov.ma/Publications/Etudes_enquete/Pages/default.aspx
 + https://www.sante.gov.ma/Publications/Guides-Manuels/Pages/default.aspx
