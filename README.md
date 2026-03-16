@@ -2,14 +2,29 @@
 try feed with two ways to display news, one is vertical for phone like whatsapp news, one is 5 per line, 
 color like hespress english , with dark mode support : (https://en.hespress.com/)
 use RSS feed or n8n ???
-# i like this feed :
+# i like this feed styling by rank:
 + https://shir-man.com/homepage/?sort=month
 + https://github.com/glidea/zenfeed
 + https://news.google.com/
++ https://www.mapnews.ma/en/
++ https://en.hespress.com/
+
+
 # source of news
 + google news (health-maroc) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA%3Afr
 + google news (health-world) : https://news.google.com/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB%3Aen
 + site:www.google.com autonomous robotic surgery (ARS)
+// map news
++ https://www.mapnews.ma/ar/ 
+//map news RSS
+سياسة : https://www.mapnews.ma/ar/actualites/politique/rss
+إقتصاد : https://www.mapnews.ma/ar/actualites/economie/rss
+مجتمع : https://www.mapnews.ma/ar/actualites/social/rss
+ثقافة : https://www.mapnews.ma/ar/actualites/culture/rss
+رياضة : https://www.mapnews.ma/ar/actualites/sport/rss
+جهات : https://www.mapnews.ma/ar/actualites/regional/rss
+أخبار عامة : https://www.mapnews.ma/ar/actualites/general/rss
+دولي : https://www.mapnews.ma/ar/actualites/monde/rss
 + https://newatlas.com/science/
 + https://newatlas.com/energy/
 + https://newatlas.com/medical/
