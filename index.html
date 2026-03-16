@@ -1,13 +1,748 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Redirecting...</title>
-    <script>
-        window.location.href = "https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA%3Afr";
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Science Feed</title>
+    <style>
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --text-muted: #888888;
+            --accent: #d32f2f;
+            --accent-hover: #b71c1c;
+            --accent-light: #ffebee;
+            --border: #e0e0e0;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-hover: 0 4px 16px rgba(0,0,0,0.14);
+            --nav-bg: #d32f2f;
+            --nav-text: #ffffff;
+            --category-bg: #fafafa;
+            --tag-bg: #f0f0f0;
+            --tag-text: #555;
+            --overlay: rgba(0,0,0,0.6);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-card: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaaaaa;
+            --text-muted: #777777;
+            --accent: #ef5350;
+            --accent-hover: #f44336;
+            --accent-light: #2c1a1a;
+            --border: #333333;
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-hover: 0 4px 16px rgba(0,0,0,0.5);
+            --nav-bg: #1a1a1a;
+            --nav-text: #e0e0e0;
+            --category-bg: #181818;
+            --tag-bg: #2a2a2a;
+            --tag-text: #aaa;
+            --overlay: rgba(0,0,0,0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* NAV */
+        nav {
+            background: var(--nav-bg);
+            color: var(--nav-text);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .nav-brand {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .nav-brand span { font-weight: 300; opacity: 0.85; }
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: var(--nav-text);
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.25); }
+        .nav-btn.active { background: rgba(255,255,255,0.3); }
+
+        /* CATEGORY TABS */
+        .category-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .category-bar::-webkit-scrollbar { display: none; }
+        .cat-tab {
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .cat-tab:hover { color: var(--accent); }
+        .cat-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* STATUS BAR */
+        .status-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .status-left { display: flex; align-items: center; gap: 8px; }
+        .pulse {
+            width: 8px; height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .sort-select {
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* GRID VIEW */
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        /* CARD */
+        .card {
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 56%;
+            overflow: hidden;
+            background: var(--tag-bg);
+        }
+        .card-img-wrap img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .card:hover .card-img-wrap img { transform: scale(1.05); }
+        .card-source-badge {
+            position: absolute;
+            top: 8px; left: 8px;
+            background: var(--overlay);
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .card-body {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--text-primary);
+        }
+        .card-meta {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+        .card-tag {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 0.68rem;
+            font-weight: 500;
+        }
+
+        /* LIST VIEW (phone/vertical) */
+        .feed-list {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .feed-list .card {
+            flex-direction: row;
+            height: 110px;
+        }
+        .feed-list .card-img-wrap {
+            width: 140px;
+            min-width: 140px;
+            padding-top: 0;
+            height: 100%;
+        }
+        .feed-list .card-body {
+            padding: 10px 14px;
+        }
+        .feed-list .card-title {
+            font-size: 0.85rem;
+            -webkit-line-clamp: 2;
+        }
+
+        /* VIEW TOGGLE */
+        .view-grid .feed-grid { display: grid; }
+        .view-grid .feed-list { display: none; }
+        .view-list .feed-grid { display: none; }
+        .view-list .feed-list { display: flex; }
+
+        /* STORIES BAR (WhatsApp-style) */
+        .stories-bar {
+            display: flex;
+            gap: 14px;
+            padding: 14px 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        .stories-bar::-webkit-scrollbar { display: none; }
+        .story-item {
+            flex-shrink: 0;
+            width: 76px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .story-ring {
+            width: 68px; height: 68px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(135deg, var(--accent), #ff6f00);
+        }
+        .story-ring img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bg-secondary);
+        }
+        .story-name {
+            font-size: 0.65rem;
+            margin-top: 4px;
+            color: var(--text-secondary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* LOADING */
+        .skeleton {
+            background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 10px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-card { height: 260px; }
+        .skeleton-list { height: 110px; }
+
+        /* SPINNER */
+        .spinner-wrap {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .spinner {
+            width: 28px; height: 28px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* NO-IMAGE PLACEHOLDER */
+        .no-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-light), var(--tag-bg));
+            color: var(--accent);
+            font-size: 2rem;
+            font-weight: 700;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .feed-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 960px) {
+            .feed-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 700px) {
+            .feed-grid { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 10px; }
+            .feed-grid { gap: 10px; }
+            .card-title { font-size: 0.8rem; }
+        }
+        @media (max-width: 480px) {
+            /* Auto-switch to list view on small phones */
+            .view-grid .feed-grid { display: none; }
+            .view-grid .feed-list { display: flex; }
+            .nav-brand { font-size: 1.1rem; }
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+        }
+    </style>
 </head>
-<body>
-    <p>Redirecting...</p>
+<body data-theme="light">
+
+<nav>
+    <div class="nav-brand">Health<span>Feed</span></div>
+    <div class="nav-controls">
+        <button class="nav-btn" id="btnRefresh" title="Refresh">&#x21bb;</button>
+        <button class="nav-btn" id="btnGrid" title="Grid view">&#9638;</button>
+        <button class="nav-btn" id="btnList" title="List view">&#9776;</button>
+        <button class="nav-btn" id="btnDark" title="Toggle dark mode">&#9790;</button>
+    </div>
+</nav>
+
+<div class="category-bar" id="categoryBar">
+    <div class="cat-tab active" data-cat="all">All</div>
+    <div class="cat-tab" data-cat="health-maroc">Health Maroc</div>
+    <div class="cat-tab" data-cat="health-world">Health World</div>
+    <div class="cat-tab" data-cat="surgery">Surgery & AI</div>
+    <div class="cat-tab" data-cat="newatlas-science">Science</div>
+    <div class="cat-tab" data-cat="newatlas-energy">Energy</div>
+    <div class="cat-tab" data-cat="newatlas-medical">Medical</div>
+    <div class="cat-tab" data-cat="mit">MIT News</div>
+    <div class="cat-tab" data-cat="far">Revue FAR</div>
+</div>
+
+<div class="stories-bar" id="storiesBar"></div>
+
+<div class="status-bar">
+    <div class="status-left">
+        <div class="pulse"></div>
+        <span id="statusText">Loading feeds...</span>
+    </div>
+    <div>
+        <select class="sort-select" id="sortSelect">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="source">By source</option>
+        </select>
+    </div>
+</div>
+
+<div class="container view-grid" id="mainContainer">
+    <div class="feed-grid" id="feedGrid"></div>
+    <div class="feed-list" id="feedList"></div>
+</div>
+
+<div class="footer">
+    Auto-updates every 5 minutes &middot; Powered by RSS feeds
+</div>
+
+<script>
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+const FEEDS = [
+    {
+        id: 'health-maroc',
+        name: 'Health Maroc',
+        url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA:fr',
+        color: '#4caf50'
+    },
+    {
+        id: 'health-world',
+        name: 'Health World',
+        url: 'https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB:en',
+        color: '#2196f3'
+    },
+    {
+        id: 'surgery',
+        name: 'Surgery & AI',
+        url: 'https://news.google.com/rss/search?q=autonomous+surgery&hl=en&gl=US&ceid=US:en',
+        color: '#9c27b0'
+    },
+    {
+        id: 'newatlas-science',
+        name: 'New Atlas Science',
+        url: 'https://newatlas.com/science/feed/',
+        color: '#ff9800'
+    },
+    {
+        id: 'newatlas-energy',
+        name: 'New Atlas Energy',
+        url: 'https://newatlas.com/energy/feed/',
+        color: '#ff5722'
+    },
+    {
+        id: 'newatlas-medical',
+        name: 'New Atlas Medical',
+        url: 'https://newatlas.com/medical/feed/',
+        color: '#e91e63'
+    },
+    {
+        id: 'mit',
+        name: 'MIT News',
+        url: 'https://news.mit.edu/rss/feed',
+        color: '#607d8b'
+    },
+    {
+        id: 'far',
+        name: 'Revue FAR',
+        url: 'https://revue.far.ma/feed/',
+        color: '#795548'
+    }
+];
+
+let allArticles = [];
+let currentCategory = 'all';
+let currentSort = 'newest';
+let autoRefreshTimer = null;
+
+// ── Dark mode ──
+function initTheme() {
+    const saved = localStorage.getItem('feedTheme');
+    if (saved) document.body.dataset.theme = saved;
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.dataset.theme = 'dark';
+    }
+}
+initTheme();
+
+document.getElementById('btnDark').addEventListener('click', () => {
+    const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.body.dataset.theme = next;
+    localStorage.setItem('feedTheme', next);
+});
+
+// ── View toggle ──
+const mainContainer = document.getElementById('mainContainer');
+document.getElementById('btnGrid').addEventListener('click', () => {
+    mainContainer.className = 'container view-grid';
+    localStorage.setItem('feedView', 'grid');
+});
+document.getElementById('btnList').addEventListener('click', () => {
+    mainContainer.className = 'container view-list';
+    localStorage.setItem('feedView', 'list');
+});
+const savedView = localStorage.getItem('feedView');
+if (savedView === 'list') mainContainer.className = 'container view-list';
+
+// ── Category filter ──
+document.getElementById('categoryBar').addEventListener('click', (e) => {
+    const tab = e.target.closest('.cat-tab');
+    if (!tab) return;
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentCategory = tab.dataset.cat;
+    renderFeed();
+});
+
+// ── Sort ──
+document.getElementById('sortSelect').addEventListener('change', (e) => {
+    currentSort = e.target.value;
+    renderFeed();
+});
+
+// ── Refresh ──
+document.getElementById('btnRefresh').addEventListener('click', () => fetchAllFeeds());
+
+// ── Parse RSS ──
+function parseRSS(xml, feed) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'text/xml');
+    const items = doc.querySelectorAll('item');
+    const articles = [];
+
+    items.forEach(item => {
+        const title = item.querySelector('title')?.textContent || '';
+        const link = item.querySelector('link')?.textContent || '';
+        const pubDate = item.querySelector('pubDate')?.textContent || '';
+        const desc = item.querySelector('description')?.textContent || '';
+
+        // Try to extract image
+        let img = '';
+        const enclosure = item.querySelector('enclosure[type^="image"]');
+        if (enclosure) {
+            img = enclosure.getAttribute('url') || '';
+        }
+        const mediaThumbnail = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail')[0];
+        if (!img && mediaThumbnail) {
+            img = mediaThumbnail.getAttribute('url') || '';
+        }
+        const mediaContent = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'content')[0];
+        if (!img && mediaContent) {
+            img = mediaContent.getAttribute('url') || '';
+        }
+        // Fallback: try to find <img> in description
+        if (!img) {
+            const imgMatch = desc.match(/<img[^>]+src="([^"]+)"/);
+            if (imgMatch) img = imgMatch[1];
+        }
+
+        articles.push({
+            title: stripHTML(title),
+            link,
+            pubDate: pubDate ? new Date(pubDate) : new Date(),
+            image: img,
+            source: feed.name,
+            sourceId: feed.id,
+            color: feed.color,
+            description: stripHTML(desc).slice(0, 160)
+        });
+    });
+
+    return articles;
+}
+
+function stripHTML(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+}
+
+// ── Fetch feeds ──
+async function fetchFeed(feed) {
+    try {
+        const resp = await fetch(CORS_PROXY + encodeURIComponent(feed.url));
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const xml = await resp.text();
+        return parseRSS(xml, feed);
+    } catch (err) {
+        console.warn(`Failed to fetch ${feed.name}:`, err);
+        return [];
+    }
+}
+
+async function fetchAllFeeds() {
+    document.getElementById('statusText').textContent = 'Updating feeds...';
+    showSkeletons();
+
+    const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
+    allArticles = [];
+    results.forEach(r => {
+        if (r.status === 'fulfilled') allArticles.push(...r.value);
+    });
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('statusText').textContent =
+        `${allArticles.length} articles from ${FEEDS.length} sources \u00b7 Updated ${timeStr}`;
+
+    renderStories();
+    renderFeed();
+}
+
+// ── Skeletons ──
+function showSkeletons() {
+    const grid = document.getElementById('feedGrid');
+    const list = document.getElementById('feedList');
+    grid.innerHTML = Array(10).fill('<div class="skeleton skeleton-card"></div>').join('');
+    list.innerHTML = Array(6).fill('<div class="skeleton skeleton-list"></div>').join('');
+}
+
+// ── Stories ──
+function renderStories() {
+    const bar = document.getElementById('storiesBar');
+    // Pick latest from each source
+    const bySource = {};
+    allArticles.forEach(a => {
+        if (!bySource[a.sourceId] || a.pubDate > bySource[a.sourceId].pubDate) {
+            bySource[a.sourceId] = a;
+        }
+    });
+    bar.innerHTML = Object.values(bySource).map(a => `
+        <a class="story-item" href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none">
+            <div class="story-ring">
+                ${a.image
+                    ? `<img src="${a.image}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;border:3px solid var(--bg-secondary)\\'>${a.source[0]}</div>'">`
+                    : `<div style="width:100%;height:100%;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;border:3px solid var(--bg-secondary)">${a.source[0]}</div>`
+                }
+            </div>
+            <div class="story-name">${a.source}</div>
+        </a>
+    `).join('');
+}
+
+// ── Render ──
+function renderFeed() {
+    let filtered = currentCategory === 'all'
+        ? [...allArticles]
+        : allArticles.filter(a => a.sourceId === currentCategory);
+
+    if (currentSort === 'newest') filtered.sort((a, b) => b.pubDate - a.pubDate);
+    else if (currentSort === 'oldest') filtered.sort((a, b) => a.pubDate - b.pubDate);
+    else if (currentSort === 'source') filtered.sort((a, b) => a.source.localeCompare(b.source));
+
+    const gridHTML = filtered.map(cardHTML).join('');
+    const listHTML = filtered.map(listCardHTML).join('');
+
+    document.getElementById('feedGrid').innerHTML = gridHTML || '<div class="spinner-wrap">No articles found</div>';
+    document.getElementById('feedList').innerHTML = listHTML || '<div class="spinner-wrap">No articles found</div>';
+}
+
+function timeAgo(date) {
+    const seconds = Math.floor((Date.now() - date) / 1000);
+    if (seconds < 60) return 'just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}d ago`;
+    return date.toLocaleDateString();
+}
+
+function cardHTML(a) {
+    return `
+    <a class="card" href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+        <div class="card-img-wrap">
+            ${a.image
+                ? `<img src="${a.image}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+                : ''}
+            <div class="no-img" style="${a.image ? 'display:none' : ''}">${a.source[0]}</div>
+            <div class="card-source-badge" style="background:${a.color}">${a.source}</div>
+        </div>
+        <div class="card-body">
+            <div class="card-title">${a.title}</div>
+            <div class="card-meta">
+                <span class="card-tag">${a.sourceId}</span>
+                <span>${timeAgo(a.pubDate)}</span>
+            </div>
+        </div>
+    </a>`;
+}
+
+function listCardHTML(a) {
+    return `
+    <a class="card" href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+        <div class="card-img-wrap">
+            ${a.image
+                ? `<img src="${a.image}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+                : ''}
+            <div class="no-img" style="${a.image ? 'display:none' : ''}">${a.source[0]}</div>
+        </div>
+        <div class="card-body">
+            <div class="card-title">${a.title}</div>
+            <div class="card-meta">
+                <span class="card-tag" style="background:${a.color};color:#fff">${a.source}</span>
+                <span>${timeAgo(a.pubDate)}</span>
+            </div>
+        </div>
+    </a>`;
+}
+
+// ── Auto-refresh every 5 minutes ──
+function startAutoRefresh() {
+    if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+    autoRefreshTimer = setInterval(fetchAllFeeds, 5 * 60 * 1000);
+}
+
+// ── Init ──
+fetchAllFeeds();
+startAutoRefresh();
+</script>
+
 </body>
 </html>
