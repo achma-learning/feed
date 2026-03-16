@@ -1,62 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health & Science Feed</title>
     <style>
         :root {
-            --bg-primary: #f5f5f5;
+            --bg-primary: #f4f4f5;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #555555;
-            --text-muted: #888888;
-            --accent: #d32f2f;
-            --accent-hover: #b71c1c;
-            --accent-light: #ffebee;
-            --border: #e0e0e0;
-            --shadow: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-hover: 0 4px 16px rgba(0,0,0,0.14);
-            --nav-bg: #d32f2f;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --text-muted: #a1a1aa;
+            --accent: #dc2626;
+            --accent-hover: #b91c1c;
+            --accent-light: #fef2f2;
+            --border: #e4e4e7;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.1);
+            --nav-bg: #dc2626;
             --nav-text: #ffffff;
-            --category-bg: #fafafa;
-            --tag-bg: #f0f0f0;
-            --tag-text: #555;
+            --tag-bg: #f4f4f5;
+            --tag-text: #52525b;
             --overlay: rgba(0,0,0,0.6);
+            --sidebar-bg: #ffffff;
+            --island-bg: rgba(24,24,27,0.92);
+            --island-text: #ffffff;
+            --prayer-highlight: #dc2626;
+            --weather-gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
         }
 
         [data-theme="dark"] {
-            --bg-primary: #121212;
-            --bg-secondary: #1e1e1e;
-            --bg-card: #1e1e1e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #aaaaaa;
-            --text-muted: #777777;
-            --accent: #ef5350;
-            --accent-hover: #f44336;
-            --accent-light: #2c1a1a;
-            --border: #333333;
-            --shadow: 0 2px 8px rgba(0,0,0,0.3);
-            --shadow-hover: 0 4px 16px rgba(0,0,0,0.5);
-            --nav-bg: #1a1a1a;
-            --nav-text: #e0e0e0;
-            --category-bg: #181818;
-            --tag-bg: #2a2a2a;
-            --tag-text: #aaa;
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-card: #1c1c1f;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent: #ef4444;
+            --accent-hover: #f87171;
+            --accent-light: #1f1215;
+            --border: #27272a;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.4);
+            --nav-bg: #18181b;
+            --nav-text: #e4e4e7;
+            --tag-bg: #27272a;
+            --tag-text: #a1a1aa;
             --overlay: rgba(0,0,0,0.8);
+            --sidebar-bg: #18181b;
+            --island-bg: rgba(255,255,255,0.12);
+            --island-text: #e4e4e7;
+            --weather-gradient: linear-gradient(135deg, #1e3a5f, #164e63);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
 
-        /* NAV */
+        /* ── FLOATING ISLAND ── */
+        .floating-island {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            background: var(--island-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--island-text);
+            padding: 8px 24px;
+            border-radius: 28px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .floating-island:hover {
+            padding: 10px 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+        }
+        .island-dot {
+            width: 6px; height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        .island-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255,255,255,0.2);
+        }
+        .island-time {
+            font-weight: 700;
+            font-size: 0.85rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .island-date-en { opacity: 0.85; font-size: 0.75rem; }
+        .island-date-ar {
+            opacity: 0.85;
+            font-size: 0.75rem;
+            direction: rtl;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ── NAV ── */
         nav {
             background: var(--nav-bg);
             color: var(--nav-text);
@@ -64,113 +126,128 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 56px;
+            height: 52px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
         .nav-brand {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
-        .nav-brand span { font-weight: 300; opacity: 0.85; }
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .nav-brand span { font-weight: 300; opacity: 0.8; }
+        .nav-controls { display: flex; align-items: center; gap: 6px; }
         .nav-btn {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.12);
             border: none;
             color: var(--nav-text);
-            padding: 7px 12px;
-            border-radius: 6px;
+            width: 34px; height: 34px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             transition: background 0.2s;
             display: flex;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
         }
-        .nav-btn:hover { background: rgba(255,255,255,0.25); }
+        .nav-btn:hover { background: rgba(255,255,255,0.22); }
         .nav-btn.active { background: rgba(255,255,255,0.3); }
 
-        /* CATEGORY TABS */
+        /* ── CATEGORY TABS ── */
         .category-bar {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
-            padding: 0 20px;
+            padding: 0 16px;
             display: flex;
-            gap: 0;
             overflow-x: auto;
             scrollbar-width: none;
         }
         .category-bar::-webkit-scrollbar { display: none; }
         .cat-tab {
-            padding: 12px 18px;
+            padding: 10px 14px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: 500;
-            color: var(--text-secondary);
-            border-bottom: 3px solid transparent;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
             white-space: nowrap;
             transition: all 0.2s;
         }
         .cat-tab:hover { color: var(--accent); }
-        .cat-tab.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
+        .cat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-        /* STATUS BAR */
+        /* ── STATUS BAR ── */
         .status-bar {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
-            padding: 8px 20px;
+            padding: 6px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
         }
-        .status-left { display: flex; align-items: center; gap: 8px; }
-        .pulse {
-            width: 8px; height: 8px;
-            background: #4caf50;
+        .status-left { display: flex; align-items: center; gap: 6px; }
+        .status-pulse {
+            width: 6px; height: 6px;
+            background: #22c55e;
             border-radius: 50%;
             animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
         }
         .sort-select {
             background: var(--tag-bg);
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            padding: 4px 8px;
+            padding: 3px 8px;
             border-radius: 4px;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             cursor: pointer;
         }
 
-        /* MAIN CONTAINER */
-        .container {
-            max-width: 1400px;
+        /* ── FEED STATUS BADGES ── */
+        .feed-status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 6px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.65rem;
+        }
+        .feed-badge {
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .feed-badge.ok { background: #dcfce7; color: #166534; }
+        .feed-badge.fail { background: #fef2f2; color: #991b1b; }
+        [data-theme="dark"] .feed-badge.ok { background: #14532d33; color: #4ade80; }
+        [data-theme="dark"] .feed-badge.fail { background: #7f1d1d33; color: #fca5a5; }
+
+        /* ── MAIN LAYOUT ── */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 0;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 16px;
         }
 
-        /* GRID VIEW */
+        /* ── FEED AREA ── */
+        .feed-area {
+            padding: 14px;
+            min-width: 0;
+        }
+
+        /* ── GRID VIEW ── */
         .feed-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            gap: 14px;
         }
 
-        /* CARD */
+        /* ── CARD ── */
         .card {
             background: var(--bg-card);
             border-radius: 10px;
@@ -180,9 +257,11 @@
             cursor: pointer;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
+            color: inherit;
         }
         .card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
         }
         .card-img-wrap {
@@ -199,27 +278,26 @@
             object-fit: cover;
             transition: transform 0.3s;
         }
-        .card:hover .card-img-wrap img { transform: scale(1.05); }
+        .card:hover .card-img-wrap img { transform: scale(1.04); }
         .card-source-badge {
             position: absolute;
-            top: 8px; left: 8px;
-            background: var(--overlay);
+            top: 6px; left: 6px;
             color: #fff;
-            padding: 3px 8px;
+            padding: 2px 7px;
             border-radius: 4px;
-            font-size: 0.68rem;
+            font-size: 0.6rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
         .card-body {
-            padding: 12px;
+            padding: 10px;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
         .card-title {
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 600;
             line-height: 1.35;
             margin-bottom: 8px;
@@ -227,62 +305,68 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            color: var(--text-primary);
         }
         .card-meta {
             margin-top: auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.72rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
         }
         .card-tag {
             background: var(--accent-light);
             color: var(--accent);
-            padding: 2px 7px;
+            padding: 2px 6px;
             border-radius: 3px;
-            font-size: 0.68rem;
-            font-weight: 500;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+        .no-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-light), var(--tag-bg));
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
         }
 
-        /* LIST VIEW (phone/vertical) */
+        /* ── LIST VIEW ── */
         .feed-list {
             display: none;
             flex-direction: column;
-            gap: 12px;
-            max-width: 680px;
+            gap: 10px;
+            max-width: 700px;
             margin: 0 auto;
         }
         .feed-list .card {
             flex-direction: row;
-            height: 110px;
+            height: 100px;
         }
         .feed-list .card-img-wrap {
-            width: 140px;
-            min-width: 140px;
+            width: 130px;
+            min-width: 130px;
             padding-top: 0;
             height: 100%;
         }
-        .feed-list .card-body {
-            padding: 10px 14px;
-        }
-        .feed-list .card-title {
-            font-size: 0.85rem;
-            -webkit-line-clamp: 2;
-        }
+        .feed-list .card-body { padding: 8px 12px; }
+        .feed-list .card-title { font-size: 0.8rem; -webkit-line-clamp: 2; }
 
-        /* VIEW TOGGLE */
+        /* ── VIEW TOGGLE ── */
         .view-grid .feed-grid { display: grid; }
         .view-grid .feed-list { display: none; }
         .view-list .feed-grid { display: none; }
         .view-list .feed-list { display: flex; }
 
-        /* STORIES BAR (WhatsApp-style) */
+        /* ── STORIES BAR ── */
         .stories-bar {
             display: flex;
-            gap: 14px;
-            padding: 14px 20px;
+            gap: 12px;
+            padding: 10px 16px;
             overflow-x: auto;
             scrollbar-width: none;
             background: var(--bg-secondary);
@@ -291,32 +375,219 @@
         .stories-bar::-webkit-scrollbar { display: none; }
         .story-item {
             flex-shrink: 0;
-            width: 76px;
+            width: 68px;
             text-align: center;
             cursor: pointer;
+            text-decoration: none;
         }
         .story-ring {
-            width: 68px; height: 68px;
+            width: 60px; height: 60px;
             border-radius: 50%;
-            padding: 3px;
-            background: linear-gradient(135deg, var(--accent), #ff6f00);
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent), #f97316);
+            margin: 0 auto;
         }
         .story-ring img {
             width: 100%; height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--bg-secondary);
+            border: 2px solid var(--bg-secondary);
+        }
+        .story-ring .story-placeholder {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 2px solid var(--bg-secondary);
         }
         .story-name {
-            font-size: 0.65rem;
-            margin-top: 4px;
-            color: var(--text-secondary);
+            font-size: 0.58rem;
+            margin-top: 3px;
+            color: var(--text-muted);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        /* LOADING */
+        /* ── SIDEBAR ── */
+        .sidebar {
+            background: var(--sidebar-bg);
+            border-left: 1px solid var(--border);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            height: calc(100vh - 52px);
+            position: sticky;
+            top: 52px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        /* ── PRAYER TIMES CARD ── */
+        .prayer-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            direction: rtl;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .prayer-card-header {
+            margin-bottom: 12px;
+        }
+        .prayer-city-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .prayer-city-select {
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            direction: rtl;
+            font-family: inherit;
+            width: 100%;
+            text-align: center;
+        }
+        .prayer-hijri {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 8px 0 2px;
+        }
+        .prayer-gregorian {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .prayer-city-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .prayer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .prayer-item {
+            background: var(--tag-bg);
+            border-radius: 8px;
+            padding: 8px 6px;
+            text-align: center;
+        }
+        .prayer-item.active-prayer {
+            background: var(--accent);
+            color: #fff;
+        }
+        .prayer-item.active-prayer .prayer-name,
+        .prayer-item.active-prayer .prayer-time-val {
+            color: #fff;
+        }
+        .prayer-name {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .prayer-time-val {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
+        .prayer-loading {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* ── WEATHER CARD ── */
+        .weather-card {
+            background: var(--weather-gradient);
+            border-radius: 12px;
+            padding: 16px;
+            color: #fff;
+            box-shadow: var(--shadow);
+        }
+        .weather-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .weather-city {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .weather-icon {
+            font-size: 2rem;
+        }
+        .weather-temp {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .weather-desc {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        .weather-detail {
+            text-align: center;
+        }
+        .weather-detail-label {
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+        .weather-detail-val {
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .weather-loading {
+            padding: 20px;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.8rem;
+        }
+
+        /* ── SIDEBAR TOGGLE (mobile) ── */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 150;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* ── SKELETON ── */
         .skeleton {
             background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%);
             background-size: 200% 100%;
@@ -327,180 +598,279 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-        .skeleton-card { height: 260px; }
-        .skeleton-list { height: 110px; }
+        .skeleton-card { height: 240px; }
+        .skeleton-list { height: 100px; }
 
-        /* SPINNER */
         .spinner-wrap {
             text-align: center;
             padding: 30px;
             color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-        .spinner {
-            width: 28px; height: 28px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* NO-IMAGE PLACEHOLDER */
-        .no-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--accent-light), var(--tag-bg));
-            color: var(--accent);
-            font-size: 2rem;
-            font-weight: 700;
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            font-size: 0.82rem;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 1200px) {
-            .feed-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-        @media (max-width: 960px) {
-            .feed-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 700px) {
-            .feed-grid { grid-template-columns: repeat(2, 1fr); }
-            .container { padding: 10px; }
-            .feed-grid { gap: 10px; }
-            .card-title { font-size: 0.8rem; }
-        }
-        @media (max-width: 480px) {
-            /* Auto-switch to list view on small phones */
-            .view-grid .feed-grid { display: none; }
-            .view-grid .feed-list { display: flex; }
-            .nav-brand { font-size: 1.1rem; }
-        }
-
-        /* FOOTER */
+        /* ── FOOTER ── */
         .footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 20px;
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             border-top: 1px solid var(--border);
-            margin-top: 30px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1400px) {
+            .feed-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 1100px) {
+            .feed-grid { grid-template-columns: repeat(3, 1fr); }
+            .main-layout { grid-template-columns: 1fr 280px; }
+        }
+        @media (max-width: 860px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar {
+                position: fixed;
+                top: 0; right: -340px;
+                width: 320px;
+                height: 100vh;
+                z-index: 180;
+                border-left: 1px solid var(--border);
+                transition: right 0.3s ease;
+                box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+            }
+            .sidebar.open { right: 0; }
+            .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.4);
+                z-index: 170;
+            }
+            .sidebar-overlay.open { display: block; }
+            .feed-grid { grid-template-columns: repeat(3, 1fr); }
+            .floating-island { font-size: 0.7rem; padding: 6px 16px; }
+        }
+        @media (max-width: 640px) {
+            .feed-grid { grid-template-columns: repeat(2, 1fr); }
+            .feed-area { padding: 10px; }
+            .feed-grid { gap: 10px; }
+            .floating-island { font-size: 0.65rem; padding: 5px 14px; gap: 8px; }
+            .island-date-en, .island-date-ar { display: none; }
+        }
+        @media (max-width: 480px) {
+            .view-grid .feed-grid { display: none; }
+            .view-grid .feed-list { display: flex; }
         }
     </style>
 </head>
 <body data-theme="light">
 
+<!-- FLOATING ISLAND -->
+<div class="floating-island" id="floatingIsland">
+    <div class="island-dot"></div>
+    <span class="island-date-en" id="islandDateEn"></span>
+    <div class="island-divider"></div>
+    <span class="island-date-ar" id="islandDateAr"></span>
+    <div class="island-divider"></div>
+    <span class="island-time" id="islandTime"></span>
+</div>
+
+<!-- NAV -->
 <nav>
     <div class="nav-brand">Health<span>Feed</span></div>
     <div class="nav-controls">
-        <button class="nav-btn" id="btnRefresh" title="Refresh">&#x21bb;</button>
+        <button class="nav-btn" id="btnRefresh" title="Refresh feeds">&#x21bb;</button>
         <button class="nav-btn" id="btnGrid" title="Grid view">&#9638;</button>
         <button class="nav-btn" id="btnList" title="List view">&#9776;</button>
-        <button class="nav-btn" id="btnDark" title="Toggle dark mode">&#9790;</button>
+        <button class="nav-btn" id="btnDark" title="Dark mode">&#9790;</button>
     </div>
 </nav>
 
+<!-- CATEGORY TABS -->
 <div class="category-bar" id="categoryBar">
     <div class="cat-tab active" data-cat="all">All</div>
-    <div class="cat-tab" data-cat="health-maroc">Health Maroc</div>
+    <div class="cat-tab" data-cat="health-maroc">Sant&eacute; Maroc</div>
     <div class="cat-tab" data-cat="health-world">Health World</div>
-    <div class="cat-tab" data-cat="surgery">Surgery & AI</div>
-    <div class="cat-tab" data-cat="newatlas-science">Science</div>
-    <div class="cat-tab" data-cat="newatlas-energy">Energy</div>
-    <div class="cat-tab" data-cat="newatlas-medical">Medical</div>
+    <div class="cat-tab" data-cat="surgery">Surgery &amp; AI</div>
+    <div class="cat-tab" data-cat="map">MAP News</div>
+    <div class="cat-tab" data-cat="newatlas">New Atlas</div>
     <div class="cat-tab" data-cat="mit">MIT News</div>
     <div class="cat-tab" data-cat="far">Revue FAR</div>
+    <div class="cat-tab" data-cat="sante-gov">Minist&egrave;re Sant&eacute;</div>
 </div>
 
+<!-- STORIES BAR -->
 <div class="stories-bar" id="storiesBar"></div>
 
+<!-- STATUS BAR -->
 <div class="status-bar">
     <div class="status-left">
-        <div class="pulse"></div>
+        <div class="status-pulse"></div>
         <span id="statusText">Loading feeds...</span>
     </div>
-    <div>
-        <select class="sort-select" id="sortSelect">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="source">By source</option>
-        </select>
+    <select class="sort-select" id="sortSelect">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="source">By source</option>
+    </select>
+</div>
+<div class="feed-status" id="feedStatus"></div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+    <!-- FEED -->
+    <div class="feed-area view-grid" id="feedArea">
+        <div class="feed-grid" id="feedGrid"></div>
+        <div class="feed-list" id="feedList"></div>
+        <div class="footer">Auto-updates every 5 minutes &middot; Powered by RSS</div>
     </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <!-- PRAYER TIMES -->
+        <div class="prayer-card" id="prayerCard">
+            <div class="prayer-card-header">
+                <div class="prayer-city-label">&#1605;&#1608;&#1575;&#1602;&#1610;&#1578; &#1575;&#1604;&#1589;&#1604;&#1575;&#1577; &#1604;&#1605;&#1583;&#1610;&#1606;&#1577;</div>
+                <select class="prayer-city-select" id="citySelect"></select>
+            </div>
+            <div id="prayerHijri" class="prayer-hijri"></div>
+            <div id="prayerGregorian" class="prayer-gregorian"></div>
+            <div id="prayerCityName" class="prayer-city-name"></div>
+            <div class="prayer-grid" id="prayerGrid">
+                <div class="prayer-loading">&#1580;&#1575;&#1585;&#1610; &#1575;&#1604;&#1578;&#1581;&#1605;&#1610;&#1604;...</div>
+            </div>
+        </div>
+
+        <!-- WEATHER -->
+        <div class="weather-card" id="weatherCard">
+            <div class="weather-loading">Loading weather...</div>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div style="background:var(--bg-card);border-radius:12px;padding:14px;box-shadow:var(--shadow)">
+            <div style="font-size:0.78rem;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Quick Links</div>
+            <div style="display:flex;flex-direction:column;gap:5px;font-size:0.72rem">
+                <a href="https://www.habous.gov.ma/prieres/horaire_hijri_2.php?ville=104" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Habous Prayer Times</a>
+                <a href="https://mawaqit.net" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Mawaqit</a>
+                <a href="https://www.mapnews.ma/ar/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">MAP News</a>
+                <a href="https://www.sante.gov.ma" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Minist&egrave;re de la Sant&eacute;</a>
+                <a href="https://en.hespress.com/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Hespress</a>
+            </div>
+        </div>
+    </aside>
 </div>
 
-<div class="container view-grid" id="mainContainer">
-    <div class="feed-grid" id="feedGrid"></div>
-    <div class="feed-list" id="feedList"></div>
-</div>
-
-<div class="footer">
-    Auto-updates every 5 minutes &middot; Powered by RSS feeds
-</div>
+<!-- SIDEBAR MOBILE TOGGLE -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<button class="sidebar-toggle" id="sidebarToggle">&#9776;</button>
 
 <script>
-const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+// ══════════════════════════════════════════
+// CONFIGURATION
+// ══════════════════════════════════════════
+
+const CORS_PROXIES = [
+    (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+    (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
 
 const FEEDS = [
-    {
-        id: 'health-maroc',
-        name: 'Health Maroc',
-        url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA:fr',
-        color: '#4caf50'
-    },
-    {
-        id: 'health-world',
-        name: 'Health World',
-        url: 'https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB:en',
-        color: '#2196f3'
-    },
-    {
-        id: 'surgery',
-        name: 'Surgery & AI',
-        url: 'https://news.google.com/rss/search?q=autonomous+surgery&hl=en&gl=US&ceid=US:en',
-        color: '#9c27b0'
-    },
-    {
-        id: 'newatlas-science',
-        name: 'New Atlas Science',
-        url: 'https://newatlas.com/science/feed/',
-        color: '#ff9800'
-    },
-    {
-        id: 'newatlas-energy',
-        name: 'New Atlas Energy',
-        url: 'https://newatlas.com/energy/feed/',
-        color: '#ff5722'
-    },
-    {
-        id: 'newatlas-medical',
-        name: 'New Atlas Medical',
-        url: 'https://newatlas.com/medical/feed/',
-        color: '#e91e63'
-    },
-    {
-        id: 'mit',
-        name: 'MIT News',
-        url: 'https://news.mit.edu/rss/feed',
-        color: '#607d8b'
-    },
-    {
-        id: 'far',
-        name: 'Revue FAR',
-        url: 'https://revue.far.ma/feed/',
-        color: '#795548'
-    }
+    { id: 'health-maroc', cat: 'health-maroc', name: 'Sant\u00e9 Maroc', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA:fr', color: '#16a34a' },
+    { id: 'health-world', cat: 'health-world', name: 'Health World', url: 'https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB:en', color: '#2563eb' },
+    { id: 'surgery', cat: 'surgery', name: 'Surgery & AI', url: 'https://news.google.com/rss/search?q=autonomous+robotic+surgery+ARS&hl=en&gl=US&ceid=US:en', color: '#9333ea' },
+    { id: 'map-politique', cat: 'map', name: 'MAP Politique', url: 'https://www.mapnews.ma/ar/actualites/politique/rss', color: '#0d9488' },
+    { id: 'map-economie', cat: 'map', name: 'MAP Economie', url: 'https://www.mapnews.ma/ar/actualites/economie/rss', color: '#0d9488' },
+    { id: 'map-social', cat: 'map', name: 'MAP Social', url: 'https://www.mapnews.ma/ar/actualites/social/rss', color: '#0d9488' },
+    { id: 'map-culture', cat: 'map', name: 'MAP Culture', url: 'https://www.mapnews.ma/ar/actualites/culture/rss', color: '#0891b2' },
+    { id: 'map-sport', cat: 'map', name: 'MAP Sport', url: 'https://www.mapnews.ma/ar/actualites/sport/rss', color: '#0891b2' },
+    { id: 'map-monde', cat: 'map', name: 'MAP Monde', url: 'https://www.mapnews.ma/ar/actualites/monde/rss', color: '#0891b2' },
+    { id: 'map-general', cat: 'map', name: 'MAP G\u00e9n\u00e9ral', url: 'https://www.mapnews.ma/ar/actualites/general/rss', color: '#0891b2' },
+    { id: 'newatlas-science', cat: 'newatlas', name: 'New Atlas Science', url: 'https://newatlas.com/science/feed/', color: '#ea580c' },
+    { id: 'newatlas-energy', cat: 'newatlas', name: 'New Atlas Energy', url: 'https://newatlas.com/energy/feed/', color: '#d97706' },
+    { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/feed/', color: '#db2777' },
+    { id: 'mit', cat: 'mit', name: 'MIT News', url: 'https://news.mit.edu/rss/feed', color: '#475569' },
+    { id: 'far', cat: 'far', name: 'Revue FAR', url: 'https://revue.far.ma/feed/', color: '#78350f' },
 ];
+
+const MOROCCO_CITIES = [
+    { name: '\u0627\u0644\u0631\u0628\u0627\u0637', nameEn: 'Rabat', lat: 34.0209, lng: -6.8416 },
+    { name: '\u0627\u0644\u062f\u0627\u0631 \u0627\u0644\u0628\u064a\u0636\u0627\u0621', nameEn: 'Casablanca', lat: 33.5731, lng: -7.5898 },
+    { name: '\u0645\u0631\u0627\u0643\u0634', nameEn: 'Marrakech', lat: 31.6295, lng: -7.9811 },
+    { name: '\u0641\u0627\u0633', nameEn: 'Fes', lat: 34.0181, lng: -5.0078 },
+    { name: '\u0637\u0646\u062c\u0629', nameEn: 'Tangier', lat: 35.7595, lng: -5.8340 },
+    { name: '\u0623\u06af\u0627\u062f\u064a\u0631', nameEn: 'Agadir', lat: 30.4278, lng: -9.5981 },
+    { name: '\u0648\u062c\u062f\u0629', nameEn: 'Oujda', lat: 34.6814, lng: -1.9086 },
+    { name: '\u0645\u0643\u0646\u0627\u0633', nameEn: 'Meknes', lat: 33.8935, lng: -5.5473 },
+    { name: '\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629', nameEn: 'Kenitra', lat: 34.2610, lng: -6.5802 },
+    { name: '\u062a\u0637\u0648\u0627\u0646', nameEn: 'Tetouan', lat: 35.5889, lng: -5.3626 },
+    { name: '\u0627\u0644\u0639\u064a\u0648\u0646', nameEn: 'Laayoune', lat: 27.1253, lng: -13.1625 },
+    { name: '\u0627\u0644\u062c\u062f\u064a\u062f\u0629', nameEn: 'El Jadida', lat: 33.2316, lng: -8.5007 },
+    { name: '\u0628\u0646\u064a \u0645\u0644\u0627\u0644', nameEn: 'Beni Mellal', lat: 32.3394, lng: -6.3498 },
+    { name: '\u0627\u0644\u0646\u0627\u0638\u0648\u0631', nameEn: 'Nador', lat: 35.1681, lng: -2.9335 },
+    { name: '\u0622\u0633\u0641\u064a', nameEn: 'Safi', lat: 32.2994, lng: -9.2372 },
+];
+
+const AR_DAYS = ['\u0627\u0644\u0623\u062d\u062f','\u0627\u0644\u0627\u062b\u0646\u064a\u0646','\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621','\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621','\u0627\u0644\u062e\u0645\u064a\u0633','\u0627\u0644\u062c\u0645\u0639\u0629','\u0627\u0644\u0633\u0628\u062a'];
+const AR_MONTHS = ['\u064a\u0646\u0627\u064a\u0631','\u0641\u0628\u0631\u0627\u064a\u0631','\u0645\u0627\u0631\u0633','\u0623\u0628\u0631\u064a\u0644','\u0645\u0627\u064a','\u064a\u0648\u0646\u064a\u0648','\u064a\u0648\u0644\u064a\u0648\u0632','\u063a\u0634\u062a','\u0634\u062a\u0646\u0628\u0631','\u0623\u0643\u062a\u0648\u0628\u0631','\u0646\u0648\u0646\u0628\u0631','\u062f\u062c\u0646\u0628\u0631'];
+const EN_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const EN_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const PRAYER_NAMES = {
+    Fajr: '\u0627\u0644\u0641\u062c\u0631',
+    Sunrise: '\u0627\u0644\u0634\u0631\u0648\u0642',
+    Dhuhr: '\u0627\u0644\u0638\u0647\u0631',
+    Asr: '\u0627\u0644\u0639\u0635\u0631',
+    Maghrib: '\u0627\u0644\u0645\u063a\u0631\u0628',
+    Isha: '\u0627\u0644\u0639\u0634\u0627\u0621'
+};
+
+const WEATHER_ICONS = {
+    'Sunny': '\u2600\ufe0f', 'Clear': '\u2600\ufe0f',
+    'Partly cloudy': '\u26c5', 'Partly Cloudy': '\u26c5',
+    'Cloudy': '\u2601\ufe0f', 'Overcast': '\u2601\ufe0f',
+    'Mist': '\ud83c\udf2b\ufe0f', 'Fog': '\ud83c\udf2b\ufe0f',
+    'Light rain': '\ud83c\udf27\ufe0f', 'Rain': '\ud83c\udf27\ufe0f', 'Heavy rain': '\ud83c\udf27\ufe0f',
+    'Thunderstorm': '\u26c8\ufe0f', 'Snow': '\u2744\ufe0f',
+    'Patchy rain possible': '\ud83c\udf26\ufe0f',
+    'Light drizzle': '\ud83c\udf26\ufe0f',
+};
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
 
 let allArticles = [];
 let currentCategory = 'all';
 let currentSort = 'newest';
-let autoRefreshTimer = null;
+let feedResults = {};
+let selectedCityIdx = parseInt(localStorage.getItem('prayerCity') || '0');
 
-// ── Dark mode ──
+// ══════════════════════════════════════════
+// FLOATING ISLAND — Date & Time
+// ══════════════════════════════════════════
+
+function updateIsland() {
+    const now = new Date();
+    const dayEn = EN_DAYS[now.getDay()];
+    const monthEn = EN_MONTHS[now.getMonth()];
+    const dayAr = AR_DAYS[now.getDay()];
+    const monthAr = AR_MONTHS[now.getMonth()];
+
+    document.getElementById('islandDateEn').textContent =
+        `${dayEn}, ${monthEn} ${now.getDate()}, ${now.getFullYear()}`;
+    document.getElementById('islandDateAr').textContent =
+        `${dayAr} ${now.getDate()} ${monthAr} ${now.getFullYear()}`;
+    document.getElementById('islandTime').textContent =
+        now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+updateIsland();
+setInterval(updateIsland, 1000);
+
+// ══════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════
+
 function initTheme() {
     const saved = localStorage.getItem('feedTheme');
     if (saved) document.body.dataset.theme = saved;
@@ -516,20 +886,25 @@ document.getElementById('btnDark').addEventListener('click', () => {
     localStorage.setItem('feedTheme', next);
 });
 
-// ── View toggle ──
-const mainContainer = document.getElementById('mainContainer');
+// ══════════════════════════════════════════
+// VIEW TOGGLE
+// ══════════════════════════════════════════
+
+const feedArea = document.getElementById('feedArea');
 document.getElementById('btnGrid').addEventListener('click', () => {
-    mainContainer.className = 'container view-grid';
+    feedArea.className = 'feed-area view-grid';
     localStorage.setItem('feedView', 'grid');
 });
 document.getElementById('btnList').addEventListener('click', () => {
-    mainContainer.className = 'container view-list';
+    feedArea.className = 'feed-area view-list';
     localStorage.setItem('feedView', 'list');
 });
-const savedView = localStorage.getItem('feedView');
-if (savedView === 'list') mainContainer.className = 'container view-list';
+if (localStorage.getItem('feedView') === 'list') feedArea.className = 'feed-area view-list';
 
-// ── Category filter ──
+// ══════════════════════════════════════════
+// CATEGORY FILTER
+// ══════════════════════════════════════════
+
 document.getElementById('categoryBar').addEventListener('click', (e) => {
     const tab = e.target.closest('.cat-tab');
     if (!tab) return;
@@ -539,19 +914,37 @@ document.getElementById('categoryBar').addEventListener('click', (e) => {
     renderFeed();
 });
 
-// ── Sort ──
+// ══════════════════════════════════════════
+// SORT
+// ══════════════════════════════════════════
+
 document.getElementById('sortSelect').addEventListener('change', (e) => {
     currentSort = e.target.value;
     renderFeed();
 });
 
-// ── Refresh ──
-document.getElementById('btnRefresh').addEventListener('click', () => fetchAllFeeds());
+// ══════════════════════════════════════════
+// SIDEBAR MOBILE
+// ══════════════════════════════════════════
 
-// ── Parse RSS ──
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+// ══════════════════════════════════════════
+// RSS PARSING
+// ══════════════════════════════════════════
+
 function parseRSS(xml, feed) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, 'text/xml');
+    if (doc.querySelector('parsererror')) return [];
+
     const items = doc.querySelectorAll('item');
     const articles = [];
 
@@ -561,24 +954,21 @@ function parseRSS(xml, feed) {
         const pubDate = item.querySelector('pubDate')?.textContent || '';
         const desc = item.querySelector('description')?.textContent || '';
 
-        // Try to extract image
         let img = '';
-        const enclosure = item.querySelector('enclosure[type^="image"]');
-        if (enclosure) {
-            img = enclosure.getAttribute('url') || '';
-        }
-        const mediaThumbnail = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail')[0];
-        if (!img && mediaThumbnail) {
-            img = mediaThumbnail.getAttribute('url') || '';
-        }
-        const mediaContent = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'content')[0];
-        if (!img && mediaContent) {
-            img = mediaContent.getAttribute('url') || '';
-        }
-        // Fallback: try to find <img> in description
+        const enc = item.querySelector('enclosure[type^="image"]');
+        if (enc) img = enc.getAttribute('url') || '';
         if (!img) {
-            const imgMatch = desc.match(/<img[^>]+src="([^"]+)"/);
-            if (imgMatch) img = imgMatch[1];
+            const mt = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail')[0];
+            if (mt) img = mt.getAttribute('url') || '';
+        }
+        if (!img) {
+            const mc = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'content')[0];
+            if (mc && ((mc.getAttribute('type') || '').startsWith('image') || mc.getAttribute('medium') === 'image'))
+                img = mc.getAttribute('url') || '';
+        }
+        if (!img) {
+            const m = desc.match(/<img[^>]+src=["']([^"']+)["']/);
+            if (m) img = m[1];
         }
 
         articles.push({
@@ -588,126 +978,148 @@ function parseRSS(xml, feed) {
             image: img,
             source: feed.name,
             sourceId: feed.id,
+            cat: feed.cat,
             color: feed.color,
             description: stripHTML(desc).slice(0, 160)
         });
     });
-
     return articles;
 }
 
 function stripHTML(html) {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
+    const t = document.createElement('div');
+    t.innerHTML = html;
+    return t.textContent || '';
 }
 
-// ── Fetch feeds ──
+// ══════════════════════════════════════════
+// FETCH WITH CORS PROXY FALLBACK
+// ══════════════════════════════════════════
+
+async function fetchWithFallback(url, timeoutMs = 10000) {
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+        try {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+            const resp = await fetch(CORS_PROXIES[i](url), { signal: ctrl.signal });
+            clearTimeout(tid);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const text = await resp.text();
+            if (!text.includes('<') || (text.includes('<!DOCTYPE html>') && !text.includes('<rss') && !text.includes('<feed') && !text.includes('<item')))
+                throw new Error('Not RSS');
+            return text;
+        } catch (e) {
+            if (i === CORS_PROXIES.length - 1) throw e;
+        }
+    }
+}
+
 async function fetchFeed(feed) {
     try {
-        const resp = await fetch(CORS_PROXY + encodeURIComponent(feed.url));
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const xml = await resp.text();
-        return parseRSS(xml, feed);
+        const xml = await fetchWithFallback(feed.url);
+        const articles = parseRSS(xml, feed);
+        feedResults[feed.id] = { ok: true, count: articles.length };
+        return articles;
     } catch (err) {
-        console.warn(`Failed to fetch ${feed.name}:`, err);
+        feedResults[feed.id] = { ok: false, error: err.message };
         return [];
     }
 }
 
 async function fetchAllFeeds() {
     document.getElementById('statusText').textContent = 'Updating feeds...';
+    feedResults = {};
     showSkeletons();
 
     const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
     allArticles = [];
-    results.forEach(r => {
-        if (r.status === 'fulfilled') allArticles.push(...r.value);
-    });
+    results.forEach(r => { if (r.status === 'fulfilled') allArticles.push(...r.value); });
 
     const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const ok = Object.values(feedResults).filter(r => r.ok).length;
     document.getElementById('statusText').textContent =
-        `${allArticles.length} articles from ${FEEDS.length} sources \u00b7 Updated ${timeStr}`;
+        `${allArticles.length} articles from ${ok}/${FEEDS.length} sources \u00b7 ${time}`;
 
+    renderFeedStatus();
     renderStories();
     renderFeed();
 }
 
-// ── Skeletons ──
+// ══════════════════════════════════════════
+// RENDER FUNCTIONS
+// ══════════════════════════════════════════
+
 function showSkeletons() {
-    const grid = document.getElementById('feedGrid');
-    const list = document.getElementById('feedList');
-    grid.innerHTML = Array(10).fill('<div class="skeleton skeleton-card"></div>').join('');
-    list.innerHTML = Array(6).fill('<div class="skeleton skeleton-list"></div>').join('');
+    document.getElementById('feedGrid').innerHTML = Array(10).fill('<div class="skeleton skeleton-card"></div>').join('');
+    document.getElementById('feedList').innerHTML = Array(6).fill('<div class="skeleton skeleton-list"></div>').join('');
 }
 
-// ── Stories ──
+function renderFeedStatus() {
+    document.getElementById('feedStatus').innerHTML = FEEDS.map(f => {
+        const r = feedResults[f.id];
+        if (!r) return '';
+        return `<span class="feed-badge ${r.ok ? 'ok' : 'fail'}" title="${r.ok ? '' : (r.error||'')}">${f.name} ${r.ok ? '\u2713 ' + r.count : '\u2717'}</span>`;
+    }).join('');
+}
+
 function renderStories() {
-    const bar = document.getElementById('storiesBar');
-    // Pick latest from each source
     const bySource = {};
     allArticles.forEach(a => {
-        if (!bySource[a.sourceId] || a.pubDate > bySource[a.sourceId].pubDate) {
+        if (!bySource[a.sourceId] || a.pubDate > bySource[a.sourceId].pubDate)
             bySource[a.sourceId] = a;
-        }
     });
-    bar.innerHTML = Object.values(bySource).map(a => `
-        <a class="story-item" href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none">
+    document.getElementById('storiesBar').innerHTML = Object.values(bySource).map(a => `
+        <a class="story-item" href="${a.link}" target="_blank" rel="noopener">
             <div class="story-ring">
                 ${a.image
-                    ? `<img src="${a.image}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;border:3px solid var(--bg-secondary)\\'>${a.source[0]}</div>'">`
-                    : `<div style="width:100%;height:100%;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;border:3px solid var(--bg-secondary)">${a.source[0]}</div>`
-                }
+                    ? `<img src="${a.image}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=story-placeholder style=background:${a.color}>${a.source[0]}</div>'">`
+                    : `<div class="story-placeholder" style="background:${a.color}">${a.source[0]}</div>`}
             </div>
             <div class="story-name">${a.source}</div>
         </a>
     `).join('');
 }
 
-// ── Render ──
 function renderFeed() {
     let filtered = currentCategory === 'all'
         ? [...allArticles]
-        : allArticles.filter(a => a.sourceId === currentCategory);
+        : allArticles.filter(a => a.cat === currentCategory);
 
     if (currentSort === 'newest') filtered.sort((a, b) => b.pubDate - a.pubDate);
     else if (currentSort === 'oldest') filtered.sort((a, b) => a.pubDate - b.pubDate);
-    else if (currentSort === 'source') filtered.sort((a, b) => a.source.localeCompare(b.source));
+    else filtered.sort((a, b) => a.source.localeCompare(b.source));
 
-    const gridHTML = filtered.map(cardHTML).join('');
-    const listHTML = filtered.map(listCardHTML).join('');
-
-    document.getElementById('feedGrid').innerHTML = gridHTML || '<div class="spinner-wrap">No articles found</div>';
-    document.getElementById('feedList').innerHTML = listHTML || '<div class="spinner-wrap">No articles found</div>';
+    const empty = '<div class="spinner-wrap">No articles found</div>';
+    document.getElementById('feedGrid').innerHTML = filtered.map(cardHTML).join('') || empty;
+    document.getElementById('feedList').innerHTML = filtered.map(listCardHTML).join('') || empty;
 }
 
 function timeAgo(date) {
-    const seconds = Math.floor((Date.now() - date) / 1000);
-    if (seconds < 60) return 'just now';
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `${minutes}m ago`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours}h ago`;
-    const days = Math.floor(hours / 24);
-    if (days < 7) return `${days}d ago`;
+    const s = Math.floor((Date.now() - date) / 1000);
+    if (s < 60) return 'now';
+    const m = Math.floor(s / 60);
+    if (m < 60) return m + 'm';
+    const h = Math.floor(m / 60);
+    if (h < 24) return h + 'h';
+    const d = Math.floor(h / 24);
+    if (d < 7) return d + 'd';
     return date.toLocaleDateString();
 }
 
+function esc(s) { return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;'); }
+
 function cardHTML(a) {
-    return `
-    <a class="card" href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    return `<a class="card" href="${a.link}" target="_blank" rel="noopener">
         <div class="card-img-wrap">
-            ${a.image
-                ? `<img src="${a.image}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-                : ''}
+            ${a.image ? `<img src="${a.image}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
             <div class="no-img" style="${a.image ? 'display:none' : ''}">${a.source[0]}</div>
-            <div class="card-source-badge" style="background:${a.color}">${a.source}</div>
+            <div class="card-source-badge" style="background:${a.color}">${esc(a.source)}</div>
         </div>
         <div class="card-body">
-            <div class="card-title">${a.title}</div>
+            <div class="card-title">${esc(a.title)}</div>
             <div class="card-meta">
-                <span class="card-tag">${a.sourceId}</span>
+                <span class="card-tag">${esc(a.cat)}</span>
                 <span>${timeAgo(a.pubDate)}</span>
             </div>
         </div>
@@ -715,34 +1127,167 @@ function cardHTML(a) {
 }
 
 function listCardHTML(a) {
-    return `
-    <a class="card" href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    return `<a class="card" href="${a.link}" target="_blank" rel="noopener">
         <div class="card-img-wrap">
-            ${a.image
-                ? `<img src="${a.image}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-                : ''}
+            ${a.image ? `<img src="${a.image}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
             <div class="no-img" style="${a.image ? 'display:none' : ''}">${a.source[0]}</div>
         </div>
         <div class="card-body">
-            <div class="card-title">${a.title}</div>
+            <div class="card-title">${esc(a.title)}</div>
             <div class="card-meta">
-                <span class="card-tag" style="background:${a.color};color:#fff">${a.source}</span>
+                <span class="card-tag" style="background:${a.color};color:#fff">${esc(a.source)}</span>
                 <span>${timeAgo(a.pubDate)}</span>
             </div>
         </div>
     </a>`;
 }
 
-// ── Auto-refresh every 5 minutes ──
-function startAutoRefresh() {
-    if (autoRefreshTimer) clearInterval(autoRefreshTimer);
-    autoRefreshTimer = setInterval(fetchAllFeeds, 5 * 60 * 1000);
+// ══════════════════════════════════════════
+// PRAYER TIMES (Aladhan API — Method 21 Morocco)
+// ══════════════════════════════════════════
+
+function initCitySelect() {
+    const sel = document.getElementById('citySelect');
+    sel.innerHTML = MOROCCO_CITIES.map((c, i) =>
+        `<option value="${i}" ${i === selectedCityIdx ? 'selected' : ''}>${c.name} - ${c.nameEn}</option>`
+    ).join('');
+    sel.addEventListener('change', (e) => {
+        selectedCityIdx = parseInt(e.target.value);
+        localStorage.setItem('prayerCity', selectedCityIdx);
+        fetchPrayerTimes();
+    });
+}
+initCitySelect();
+
+async function fetchPrayerTimes() {
+    const city = MOROCCO_CITIES[selectedCityIdx];
+    const now = new Date();
+    const dateStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+
+    document.getElementById('prayerGrid').innerHTML = '<div class="prayer-loading">\u062c\u0627\u0631\u064a \u0627\u0644\u062a\u062d\u0645\u064a\u0644...</div>';
+
+    try {
+        const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${city.lat}&longitude=${city.lng}&method=21`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        if (data.code !== 200) throw new Error('API error');
+
+        const timings = data.data.timings;
+        const hijri = data.data.date.hijri;
+        const greg = data.data.date.gregorian;
+
+        // Hijri date
+        const hijriDay = hijri.day;
+        const hijriMonth = hijri.month.ar || hijri.month.en;
+        const hijriYear = hijri.year;
+        document.getElementById('prayerHijri').textContent =
+            `${AR_DAYS[now.getDay()]} ${hijriDay} ${hijriMonth} ${hijriYear}\u0647\u0640`;
+
+        document.getElementById('prayerGregorian').textContent =
+            `\u0627\u0644\u0645\u0648\u0627\u0641\u0642 ${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
+
+        document.getElementById('prayerCityName').textContent = city.name;
+
+        // Determine active prayer
+        const prayerKeys = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        const nowMinutes = now.getHours() * 60 + now.getMinutes();
+        let activePrayer = 'Isha';
+        for (let i = prayerKeys.length - 1; i >= 0; i--) {
+            const [h, m] = timings[prayerKeys[i]].split(':').map(Number);
+            if (nowMinutes >= h * 60 + m) {
+                activePrayer = prayerKeys[i];
+                break;
+            }
+        }
+
+        document.getElementById('prayerGrid').innerHTML = prayerKeys.map(key => {
+            const isActive = key === activePrayer;
+            return `<div class="prayer-item ${isActive ? 'active-prayer' : ''}">
+                <div class="prayer-name">${PRAYER_NAMES[key]}</div>
+                <div class="prayer-time-val">${timings[key]}</div>
+            </div>`;
+        }).join('');
+
+    } catch (err) {
+        document.getElementById('prayerGrid').innerHTML =
+            '<div class="prayer-loading" style="color:var(--accent)">\u062e\u0637\u0623 \u0641\u064a \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0648\u0627\u0642\u064a\u062a</div>';
+    }
 }
 
-// ── Init ──
-fetchAllFeeds();
-startAutoRefresh();
-</script>
+// ══════════════════════════════════════════
+// WEATHER (wttr.in)
+// ══════════════════════════════════════════
 
+async function fetchWeather() {
+    const card = document.getElementById('weatherCard');
+    const city = MOROCCO_CITIES[selectedCityIdx];
+
+    try {
+        // Try direct first, then proxy
+        let data;
+        try {
+            const resp = await fetch(`https://wttr.in/${city.nameEn}?format=j1`);
+            data = await resp.json();
+        } catch {
+            const resp = await fetch(CORS_PROXIES[0](`https://wttr.in/${city.nameEn}?format=j1`));
+            data = await resp.json();
+        }
+
+        const cur = data.current_condition[0];
+        const desc = cur.weatherDesc?.[0]?.value || cur.weatherDesc || 'N/A';
+        const icon = WEATHER_ICONS[desc] || '\ud83c\udf24\ufe0f';
+
+        card.innerHTML = `
+            <div class="weather-header">
+                <div>
+                    <div class="weather-city">${city.nameEn}</div>
+                    <div class="weather-temp">${cur.temp_C}\u00b0C</div>
+                    <div class="weather-desc">${desc}</div>
+                </div>
+                <div class="weather-icon">${icon}</div>
+            </div>
+            <div class="weather-details">
+                <div class="weather-detail">
+                    <div class="weather-detail-label">Humidity</div>
+                    <div class="weather-detail-val">${cur.humidity}%</div>
+                </div>
+                <div class="weather-detail">
+                    <div class="weather-detail-label">Wind</div>
+                    <div class="weather-detail-val">${cur.windspeedKmph} km/h</div>
+                </div>
+                <div class="weather-detail">
+                    <div class="weather-detail-label">Feels like</div>
+                    <div class="weather-detail-val">${cur.FeelsLikeC}\u00b0C</div>
+                </div>
+            </div>
+        `;
+    } catch (err) {
+        card.innerHTML = '<div class="weather-loading">Weather unavailable</div>';
+    }
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+
+document.getElementById('btnRefresh').addEventListener('click', () => {
+    fetchAllFeeds();
+    fetchPrayerTimes();
+    fetchWeather();
+});
+
+// Launch all
+fetchAllFeeds();
+fetchPrayerTimes();
+fetchWeather();
+
+// Auto-refresh every 5 minutes
+setInterval(fetchAllFeeds, 5 * 60 * 1000);
+// Refresh prayer times every hour
+setInterval(fetchPrayerTimes, 60 * 60 * 1000);
+// Refresh weather every 30 minutes
+setInterval(fetchWeather, 30 * 60 * 1000);
+</script>
 </body>
 </html>
