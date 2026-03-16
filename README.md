@@ -46,8 +46,23 @@ Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 + https://newatlas.com/energy/
 + https://newatlas.com/medical/
 + https://news.mit.edu/
+
 + https://revue.far.ma/revues?page=1
+
++ https://ammps.sante.gov.ma/alertes
++ https://ammps.sante.gov.ma/actualites
++ https://ammps.sante.gov.ma/actualites/categories/actualites_nationales
++ https://ammps.sante.gov.ma/actualites/categories/note_information
++ https://ammps.sante.gov.ma/actualites/categories/communique_presse
++ https://ammps.sante.gov.ma/actualites/categories/actualites_internationales
+
 + https://www.sante.gov.ma/Pages/activites.aspx
-  
++ https://www.sante.gov.ma/Pages/Dossiers.aspx
++ https://www.sante.gov.ma/Publications/Etudes_enquete/Pages/default.aspx
++ https://www.sante.gov.ma/Publications/Guides-Manuels/Pages/default.aspx
++ https://www.sante.gov.ma/Publications/Pages/Rapports.aspx
++ https://www.sante.gov.ma/Publications/Pages/Bullten_%C3%89pid%C3%A9miologique.aspx
+
+
 + https://www.youtube.com/@%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D9%90%D8%A8%D8%A7%D9%84%D8%AD%D9%93%D8%B3%D9%86%D9%90%D9%8A/videos
 + https://www.youtube.com/@elkamali/videos 
