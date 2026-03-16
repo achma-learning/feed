@@ -12,14 +12,19 @@ use RSS feed or n8n ???
 # add at top center, like the ios floating island the date and time of today like this :
 Monday, March 16, 2026 | الاثنين 16 مارس 2026 | 04:53
 
-# add also a tab to view prayer time, like these site :
+# add also a sidebar at right of page to view prayer time, like these site, with ability to change city like in these website with dropdown menu , mainly morocco cities :
 + https://www.habous.gov.ma/prieres/horaire_hijri_2.php?ville=104
 + https://fm6oa.org/prieres/code/index-fr.php?ville=40
 + https://mawaqit.net/fr/msjd-lzdhr-marrakesh-40000-morocco
 and in this prayer time instead of "Monday, March 16, 2026 | الاثنين 16 مارس 2026 | 04:53" show this date :
-الاثنين 26 رمضان 1447هـ | 04:53 | الموافق 16 مارس 2026م
+مواقيت الصلاة لمدينة [dropdown menu to select city like in website above]
+الاثنين 26 رمضان 1447هـ
+الموافق 16 مارس 2026م
 
-# add also today's weather, mainly for marrakech
+الرباط
+الفجر :	05:08	| الشروق :	06:34	| الظهر :	12:41
+العصر :	16:01	| المغرب :	18:40	| العشاء :	19:54
+# add also today's weather at right of page, mainly for marrakech
 
 # source of news
 + google news (health-maroc) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA%3Afr
