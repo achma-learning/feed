@@ -14,4 +14,8 @@ use RSS feed or n8n ???
 + https://newatlas.com/energy/
 + https://newatlas.com/medical/
 + https://news.mit.edu/
-+ https://revue.far.ma/revues
++ https://revue.far.ma/revues?page=1
++ https://www.sante.gov.ma/Pages/activites.aspx
+  
++ https://www.youtube.com/@%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D9%90%D8%A8%D8%A7%D9%84%D8%AD%D9%93%D8%B3%D9%86%D9%90%D9%8A/videos
++ 
