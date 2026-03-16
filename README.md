@@ -9,6 +9,10 @@ use RSS feed or n8n ???
 + https://www.mapnews.ma/en/
 + https://en.hespress.com/
 
+# add at top center, like the ios floating island the date and time of today like this :
+Monday, March 16, 2026 | الاثنين 16 مارس 2026 | 04:53
+
+
 
 # source of news
 + google news (health-maroc) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA%3Afr
