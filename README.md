@@ -33,14 +33,15 @@ and in this prayer time instead of "Monday, March 16, 2026 | الاثنين 16 �
 // map news
 + https://www.mapnews.ma/ar/ 
 //map news RSS
-سياسة : https://www.mapnews.ma/ar/actualites/politique/rss
-إقتصاد : https://www.mapnews.ma/ar/actualites/economie/rss
-مجتمع : https://www.mapnews.ma/ar/actualites/social/rss
-ثقافة : https://www.mapnews.ma/ar/actualites/culture/rss
-رياضة : https://www.mapnews.ma/ar/actualites/sport/rss
-جهات : https://www.mapnews.ma/ar/actualites/regional/rss
-أخبار عامة : https://www.mapnews.ma/ar/actualites/general/rss
-دولي : https://www.mapnews.ma/ar/actualites/monde/rss
+Politique : https://www.mapnews.ma/ar/actualites/politique/rss
+Economie : https://www.mapnews.ma/ar/actualites/economie/rss
+Social : https://www.mapnews.ma/ar/actualites/social/rss
+Culture : https://www.mapnews.ma/ar/actualites/culture/rss
+Sport : https://www.mapnews.ma/ar/actualites/sport/rss
+Regional : https://www.mapnews.ma/ar/actualites/regional/rss
+General : https://www.mapnews.ma/ar/actualites/general/rss
+Monde : https://www.mapnews.ma/ar/actualites/monde/rss
+// end of map news RSS
 + https://newatlas.com/science/
 + https://newatlas.com/energy/
 + https://newatlas.com/medical/
@@ -49,4 +50,4 @@ and in this prayer time instead of "Monday, March 16, 2026 | الاثنين 16 �
 + https://www.sante.gov.ma/Pages/activites.aspx
   
 + https://www.youtube.com/@%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D9%90%D8%A8%D8%A7%D9%84%D8%AD%D9%93%D8%B3%D9%86%D9%90%D9%8A/videos
-+ 
++ https://www.youtube.com/@elkamali/videos 
