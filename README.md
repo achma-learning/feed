@@ -60,6 +60,7 @@ Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 + https://www.sante.gov.ma/Pages/Dossiers.aspx
 + https://www.sante.gov.ma/Publications/Etudes_enquete/Pages/default.aspx
 + https://www.sante.gov.ma/Publications/Guides-Manuels/Pages/default.aspx
++ https://www.sante.gov.ma/Publications/Pages/Guideetprocedure.aspx
 + https://www.sante.gov.ma/Publications/Pages/Rapports.aspx
 + https://www.sante.gov.ma/Publications/Pages/Bullten_%C3%89pid%C3%A9miologique.aspx
 
