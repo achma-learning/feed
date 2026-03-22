@@ -459,6 +459,75 @@
             width: 100%;
             text-align: center;
         }
+
+        /* ── SEARCHABLE CITY DROPDOWN ── */
+        .city-search-wrap {
+            position: relative;
+            width: 100%;
+        }
+        .city-search-input {
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            direction: rtl;
+            font-family: inherit;
+            width: 100%;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .city-search-input:focus {
+            border-color: var(--accent);
+        }
+        .city-search-input::placeholder {
+            color: var(--text-muted);
+        }
+        .city-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 220px;
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            z-index: 50;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            scrollbar-width: thin;
+        }
+        .city-dropdown.open { display: block; }
+        .city-dropdown-item {
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            direction: rtl;
+            text-align: right;
+            color: var(--text-primary);
+            transition: background 0.15s;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .city-dropdown-item:hover,
+        .city-dropdown-item.highlighted {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+        .city-dropdown-item.selected {
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .city-dropdown-empty {
+            padding: 12px 10px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            direction: rtl;
+        }
         .prayer-hijri {
             font-size: 0.95rem;
             font-weight: 700;
@@ -670,9 +739,9 @@
     <div class="island-dot"></div>
     <span class="island-date-en" id="islandDateEn"></span>
     <div class="island-divider"></div>
-    <span class="island-date-ar" id="islandDateAr"></span>
-    <div class="island-divider"></div>
     <span class="island-time" id="islandTime"></span>
+    <div class="island-divider"></div>
+    <span class="island-date-ar" id="islandDateAr"></span>
 </div>
 
 <!-- NAV -->
@@ -731,7 +800,10 @@
         <div class="prayer-card" id="prayerCard">
             <div class="prayer-card-header">
                 <div class="prayer-city-label">&#1605;&#1608;&#1575;&#1602;&#1610;&#1578; &#1575;&#1604;&#1589;&#1604;&#1575;&#1577; &#1604;&#1605;&#1583;&#1610;&#1606;&#1577;</div>
-                <select class="prayer-city-select" id="citySelect"></select>
+                <div class="city-search-wrap" id="citySearchWrap">
+                    <input type="text" class="city-search-input" id="citySearchInput" placeholder="&#1575;&#1576;&#1581;&#1579; &#1593;&#1606; &#1605;&#1583;&#1610;&#1606;&#1577;..." autocomplete="off">
+                    <div class="city-dropdown" id="cityDropdown"></div>
+                </div>
             </div>
             <div id="prayerHijri" class="prayer-hijri"></div>
             <div id="prayerGregorian" class="prayer-gregorian"></div>
@@ -793,23 +865,40 @@ const FEEDS = [
     { id: 'far', cat: 'far', name: 'Revue FAR', url: 'https://revue.far.ma/feed/', color: '#78350f' },
 ];
 
-const MOROCCO_CITIES = [
-    { name: '\u0627\u0644\u0631\u0628\u0627\u0637', nameEn: 'Rabat', lat: 34.0209, lng: -6.8416 },
-    { name: '\u0627\u0644\u062f\u0627\u0631 \u0627\u0644\u0628\u064a\u0636\u0627\u0621', nameEn: 'Casablanca', lat: 33.5731, lng: -7.5898 },
-    { name: '\u0645\u0631\u0627\u0643\u0634', nameEn: 'Marrakech', lat: 31.6295, lng: -7.9811 },
-    { name: '\u0641\u0627\u0633', nameEn: 'Fes', lat: 34.0181, lng: -5.0078 },
-    { name: '\u0637\u0646\u062c\u0629', nameEn: 'Tangier', lat: 35.7595, lng: -5.8340 },
-    { name: '\u0623\u06af\u0627\u062f\u064a\u0631', nameEn: 'Agadir', lat: 30.4278, lng: -9.5981 },
-    { name: '\u0648\u062c\u062f\u0629', nameEn: 'Oujda', lat: 34.6814, lng: -1.9086 },
-    { name: '\u0645\u0643\u0646\u0627\u0633', nameEn: 'Meknes', lat: 33.8935, lng: -5.5473 },
-    { name: '\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629', nameEn: 'Kenitra', lat: 34.2610, lng: -6.5802 },
-    { name: '\u062a\u0637\u0648\u0627\u0646', nameEn: 'Tetouan', lat: 35.5889, lng: -5.3626 },
-    { name: '\u0627\u0644\u0639\u064a\u0648\u0646', nameEn: 'Laayoune', lat: 27.1253, lng: -13.1625 },
-    { name: '\u0627\u0644\u062c\u062f\u064a\u062f\u0629', nameEn: 'El Jadida', lat: 33.2316, lng: -8.5007 },
-    { name: '\u0628\u0646\u064a \u0645\u0644\u0627\u0644', nameEn: 'Beni Mellal', lat: 32.3394, lng: -6.3498 },
-    { name: '\u0627\u0644\u0646\u0627\u0638\u0648\u0631', nameEn: 'Nador', lat: 35.1681, lng: -2.9335 },
-    { name: '\u0622\u0633\u0641\u064a', nameEn: 'Safi', lat: 32.2994, lng: -9.2372 },
+// All Morocco cities from Habous.gov.ma — [villeId, arabicName]
+const HABOUS_CITIES = [
+    [1,'\u0627\u0644\u0631\u0628\u0627\u0637'],[2,'\u0627\u0644\u062e\u0645\u064a\u0633\u0627\u062a'],[3,'\u062a\u064a\u0641\u0644\u062a'],[4,'\u0627\u0644\u0631\u0645\u0627\u0646\u064a'],[5,'\u0648\u0627\u0644\u0645\u0627\u0633'],[6,'\u0628\u0648\u0632\u0646\u064a\u0642\u0629'],[7,'\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629'],[8,'\u0633\u064a\u062f\u064a \u0642\u0627\u0633\u0645'],[9,'\u0633\u064a\u062f\u064a \u064a\u062d\u064a\u0649 \u0627\u0644\u063a\u0631\u0628'],[10,'\u0633\u064a\u062f\u064a \u0633\u0644\u064a\u0645\u0627\u0646'],[11,'\u0633\u0648\u0642 \u0623\u0631\u0628\u0639\u0627\u0621 \u0627\u0644\u063a\u0631\u0628'],[12,'\u0639\u0631\u0628\u0627\u0648\u0629'],[13,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0633\u0644\u0647\u0627\u0645'],
+    [14,'\u0637\u0646\u062c\u0629'],[15,'\u062a\u0637\u0648\u0627\u0646'],[16,'\u0627\u0644\u0639\u0631\u0627\u0626\u0634'],[17,'\u0623\u0635\u064a\u0644\u0629'],[18,'\u0634\u0641\u0634\u0627\u0648\u0646'],[19,'\u0645\u0631\u062a\u064a\u0644'],[20,'\u0627\u0644\u0645\u0636\u064a\u0642'],[21,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0643\u0628\u064a\u0631'],[22,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0635\u063a\u064a\u0631'],[23,'\u0627\u0644\u062d\u0633\u064a\u0645\u0629'],[24,'\u0633\u0628\u062a\u0629'],[25,'\u0627\u0644\u0641\u0646\u064a\u062f\u0642'],[26,'\u0627\u0644\u062c\u0628\u0647\u0629'],[27,'\u0648\u0627\u062f \u0644\u0627\u0648'],[28,'\u0628\u0627\u0628 \u0628\u0631\u062f'],[29,'\u0648\u0632\u0627\u0646'],[30,'\u0628\u0648\u0633\u0643\u0648\u0631'],
+    [31,'\u0648\u062c\u062f\u0629'],[32,'\u0628\u0631\u0643\u0627\u0646'],[33,'\u0641\u0643\u064a\u0643'],[34,'\u0628\u0648\u0639\u0631\u0641\u0629'],[35,'\u0643\u0631\u0633\u064a\u0641'],[36,'\u062c\u0631\u0627\u062f\u0629'],[37,'\u0639\u064a\u0646 \u0627\u0644\u0634\u0639\u064a\u0631'],[38,'\u062a\u0627\u0648\u0631\u064a\u0631\u062a'],[39,'\u0627\u0644\u0646\u0627\u0638\u0648\u0631'],[40,'\u0645\u0644\u064a\u0644\u064a\u0629'],[41,'\u062f\u0628\u062f\u0648'],[42,'\u0633\u0644\u0648\u0627\u0646'],[43,'\u0628\u0646\u064a \u0623\u0646\u0635\u0627\u0631'],[44,'\u0641\u0631\u062e\u0627\u0646\u0629'],[45,'\u062a\u0627\u0644\u0633\u064a\u0646\u062a'],[46,'\u062a\u0646\u062f\u0631\u0627\u0631\u0629'],[47,'\u0627\u0644\u0639\u064a\u0648\u0646 \u0627\u0644\u0634\u0631\u0642\u064a\u0629'],[48,'\u0628\u0646\u064a \u0627\u062f\u0631\u0627\u0631'],[49,'\u0627\u0644\u0633\u0639\u064a\u062f\u064a\u0629'],[50,'\u0631\u0623\u0633 \u0627\u0644\u0645\u0627\u0621'],[51,'\u062a\u0627\u0641\u0648\u063a\u0627\u0644\u062a'],[52,'\u0641\u0632\u0648\u0627\u0646'],[53,'\u0623\u062d\u0641\u064a\u0631'],[54,'\u0632\u0627\u064a\u0648'],[55,'\u062f\u0631\u064a\u0648\u0634'],[56,'\u0628\u0646\u064a \u062a\u062c\u064a\u062a'],[57,'\u0628\u0648\u0639\u0646\u0627\u0646'],
+    [58,'\u0627\u0644\u062f\u0627\u0631 \u0627\u0644\u0628\u064a\u0636\u0627\u0621'],[59,'\u0627\u0644\u0645\u062d\u0645\u062f\u064a\u0629'],[60,'\u0628\u0646 \u0633\u0644\u064a\u0645\u0627\u0646'],[61,'\u0633\u0637\u0627\u062a'],[62,'\u0627\u0644\u0643\u0627\u0631\u0629'],[63,'\u0627\u0644\u0628\u0631\u0648\u062c'],[64,'\u0627\u0628\u0646 \u0623\u062d\u0645\u062f'],[65,'\u0628\u0631\u0634\u064a\u062f'],[66,'\u0627\u0644\u062c\u062f\u064a\u062f\u0629'],[67,'\u0623\u0632\u0645\u0648\u0631'],[68,'\u0633\u064a\u062f\u064a \u0628\u0646\u0648\u0631'],[69,'\u062e\u0645\u064a\u0633 \u0627\u0644\u0632\u0645\u0627\u0645\u0631\u0629'],
+    [70,'\u062e\u0646\u064a\u0641\u0631\u0629'],[71,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0639\u0632\u0629'],[72,'\u0632\u0627\u0648\u064a\u0629 \u0623\u062d\u0646\u0635\u0627\u0644'],[73,'\u0628\u0646\u064a \u0645\u0644\u0627\u0644'],[74,'\u0623\u0632\u064a\u0644\u0627\u0644'],[75,'\u0627\u0644\u0641\u0642\u064a\u0647 \u0628\u0646\u0635\u0627\u0644\u062d'],[76,'\u062f\u0645\u0646\u0627\u062a'],[77,'\u0627\u0644\u0642\u0635\u064a\u0628\u0629'],[78,'\u0642\u0635\u0628\u0629 \u062a\u0627\u062f\u0644\u0629'],[79,'\u062e\u0631\u064a\u0628\u0643\u0629'],[80,'\u0648\u0627\u062f\u064a \u0632\u0645'],
+    [81,'\u0641\u0627\u0633'],[82,'\u0635\u0641\u0631\u0648'],[83,'\u0645\u0648\u0644\u0627\u064a \u064a\u0639\u0642\u0648\u0628'],[84,'\u0628\u0648\u0644\u0645\u0627\u0646'],[85,'\u0645\u064a\u0633\u0648\u0631'],[86,'\u0631\u0628\u0627\u0637 \u0627\u0644\u062e\u064a\u0631'],[87,'\u0627\u0644\u0645\u0646\u0632\u0644 \u0628\u0646\u064a \u064a\u0627\u0632\u063a\u0629'],[88,'\u0625\u0645\u0648\u0632\u0627\u0631 \u0643\u0646\u062f\u0631'],[89,'\u062a\u0627\u0632\u0629'],[90,'\u062a\u0627\u0648\u0646\u0627\u062a'],[91,'\u0623\u0643\u0646\u0648\u0644'],[92,'\u062a\u064a\u0632\u064a \u0648\u0633\u0644\u064a'],[93,'\u0628\u0648\u0631\u062f'],[94,'\u062a\u0627\u0647\u0644\u0629'],[95,'\u062a\u064a\u0633\u0629'],[96,'\u0642\u0631\u064a\u0629 \u0628\u0627 \u0645\u062d\u0645\u062f'],[97,'\u0643\u062a\u0627\u0645\u0629'],[98,'\u0648\u0627\u062f \u0623\u0645\u0644\u064a\u0644'],[99,'\u0645\u0643\u0646\u0627\u0633'],[100,'\u064a\u0641\u0631\u0646'],[101,'\u0627\u0644\u062d\u0627\u062c\u0628'],[102,'\u0632\u0631\u0647\u0648\u0646'],[103,'\u0622\u0632\u0631\u0648'],
+    [104,'\u0645\u0631\u0627\u0643\u0634'],[105,'\u0642\u0644\u0639\u0629 \u0627\u0644\u0633\u0631\u0627\u063a\u0646\u0629'],[106,'\u0627\u0644\u0635\u0648\u064a\u0631\u0629'],[107,'\u0634\u064a\u0634\u0627\u0648\u0629'],[108,'\u0628\u0646\u062c\u0631\u064a\u0631'],[109,'\u0627\u0644\u0631\u062d\u0627\u0645\u0646\u0629'],[110,'\u062a\u0645\u0646\u0627\u0631'],[111,'\u0622\u0633\u0641\u064a'],[112,'\u0627\u0644\u0648\u0644\u064a\u062f\u064a\u0629'],[113,'\u0627\u0644\u064a\u0648\u0633\u0641\u064a\u0629'],[114,'\u062a\u0633\u0644\u0637\u0627\u0646\u062a'],[115,'\u062a\u0627\u0645\u0635\u0644\u0648\u062d\u062a'],[116,'\u0642\u0637\u0627\u0631\u0629'],
+    [117,'\u0623\u0643\u0627\u062f\u064a\u0631'],[118,'\u062a\u0627\u0631\u0648\u062f\u0627\u0646\u062a'],[119,'\u062a\u0632\u0646\u064a\u062a'],[120,'\u0625\u063a\u0631\u0645'],[121,'\u062a\u0627\u0644\u0648\u064a\u0646'],[122,'\u062a\u0627\u0641\u0631\u0627\u0648\u062a'],[123,'\u0637\u0627\u0637\u0627'],[124,'\u0623\u0642\u0627'],[125,'\u0641\u0645 \u0644\u062d\u0635\u0646'],[126,'\u0628\u0648\u064a\u0643\u0631\u0629'],[127,'\u0623\u0648\u0644\u0627\u062f \u062a\u0627\u064a\u0645\u0629'],
+    [128,'\u0627\u0644\u0631\u0634\u064a\u062f\u064a\u0629'],[129,'\u0627\u0644\u0631\u064a\u0635\u0627\u0646\u064a'],[130,'\u0623\u0631\u0641\u0648\u062f'],[131,'\u062a\u0646\u062f\u064a\u062a'],[132,'\u0643\u0644\u0645\u064a\u0645\u0629'],[133,'\u0625\u0645\u0644\u0634\u064a\u0644'],[134,'\u062a\u0646\u062c\u062f\u0627\u062f'],[135,'\u0627\u0644\u0631\u064a\u0634'],[136,'\u0645\u064a\u062f\u0644\u062a'],[137,'\u0632\u0627\u0643\u0648\u0631\u0629'],[138,'\u0648\u0631\u0632\u0627\u0632\u0627\u062a'],[139,'\u062a\u0646\u063a\u064a\u0631'],[140,'\u0647\u0633\u0643\u0648\u0631\u0629'],[141,'\u0642\u0644\u0639\u0629 \u0645\u0643\u0648\u0646\u0629'],[142,'\u0623\u0643\u062f\u0632'],[143,'\u0628\u0648\u0645\u0627\u0644\u0646 \u062f\u0627\u062f\u0633'],[144,'\u0627\u0644\u0646\u064a\u0641'],[145,'\u0623\u0633\u0648\u0644'],[146,'\u0623\u0645\u0633\u0645\u0631\u064a\u0631'],[147,'\u062a\u0627\u0632\u0627\u0631\u064a\u0646'],
+    [148,'\u0633\u064a\u062f\u064a \u0625\u0641\u0646\u064a'],[149,'\u0643\u0644\u0645\u064a\u0645'],[150,'\u0623\u0633\u0627'],[151,'\u0627\u0644\u0632\u0627\u0643'],[152,'\u0637\u0627\u0646\u0637\u0627\u0646'],[153,'\u0628\u0648\u064a\u0632\u0643\u0627\u0631\u0646'],[154,'\u0627\u0644\u0645\u062d\u0628\u0633'],[155,'\u0644\u0645\u0633\u064a\u062f'],[156,'\u0627\u0644\u0639\u064a\u0648\u0646'],[157,'\u0627\u0644\u0633\u0645\u0627\u0631\u0629'],[158,'\u0628\u0648\u062c\u062f\u0648\u0631'],[159,'\u0637\u0631\u0641\u0627\u064a\u0629'],[160,'\u062a\u0641\u0627\u0631\u064a\u062a\u064a'],[161,'\u0628\u0648\u0643\u0631\u0627\u0639'],[162,'\u0643\u0644\u062a\u0629 \u0632\u0645\u0648\u0631'],[163,'\u0623\u0645\u0643\u0627\u0644\u0629'],[164,'\u0623\u062e\u0641\u0646\u064a\u0631'],[165,'\u0627\u0644\u062f\u0627\u062e\u0644\u0629'],[166,'\u0627\u0644\u0643\u0648\u064a\u0631\u0629'],[167,'\u0623\u0648\u0633\u0631\u062f'],[168,'\u0628\u0626\u0631 \u0643\u0646\u062f\u0648\u0632'],[169,'\u0628\u0626\u0631 \u0623\u0646\u0632\u0627\u0631\u0627\u0646'],
+    [301,'\u062e\u0645\u064a\u0633 \u0633\u064a\u062f\u064a \u0639\u0628\u062f \u0627\u0644\u062c\u0644\u064a\u0644'],[302,'\u0623\u0648\u0644\u0627\u062f \u0639\u064a\u0627\u062f'],[303,'\u062a\u0627\u0647\u0644\u0629'],[304,'\u0645\u0637\u0645\u0627\u0637\u0629'],[305,'\u0625\u064a\u0645\u0646\u062a\u0627\u0646\u0648\u062a'],[306,'\u0633\u064a\u062f\u064a \u063a\u0627\u0646\u0645'],[307,'\u062a\u0641\u0646\u062a\u0627\u0646'],[308,'\u0622\u064a\u062a \u0627\u0644\u0642\u0627\u0642'],[309,'\u0623\u0643\u062f\u0627\u0644 \u0623\u0645\u0644\u0634\u064a\u0644'],[310,'\u0627\u0643\u0648\u062f\u0627\u0644 \u0627\u0645\u0644\u0634\u064a\u0644 \u0645\u064a\u062f\u0644\u062a'],[311,'\u0623\u0643\u0627\u064a\u0648\u0627\u0631'],[312,'\u0639\u064a\u0646 \u0627\u0644\u0639\u0648\u062f\u0629'],[313,'\u0623\u0633\u0643\u064a\u0646'],[314,'\u0622\u064a\u062a \u0648\u0631\u064a\u0631'],[315,'\u0632\u0627\u0648\u064a\u0629 \u0645\u0648\u0644\u0627\u064a \u0627\u0628\u0631\u0627\u0647\u064a\u0645'],[316,'\u062a\u0648\u0644\u0643\u0648\u0644\u062a'],[317,'\u0625\u064a\u0643\u0633'],[318,'\u0643\u0631\u0633'],[319,'\u062a\u064a\u0633\u0646\u062a'],[320,'\u0641\u0645 \u0632\u0643\u064a\u062f'],[321,'\u0642\u0635\u0631 \u0625\u064a\u0634'],[322,'\u0625\u064a\u0645\u064a\u0646 \u062b\u0644\u0627\u062b'],
 ];
+
+// Map Habous ville IDs to coordinates for Aladhan fallback + weather
+function getCityCoords(villeId) {
+    const C = {1:[34.02,-6.84],7:[34.26,-6.58],14:[35.76,-5.83],15:[35.59,-5.36],23:[35.25,-3.93],31:[34.68,-1.91],39:[35.17,-2.93],58:[33.57,-7.59],66:[33.23,-8.50],70:[32.93,-5.67],73:[32.34,-6.35],79:[32.88,-6.91],81:[34.02,-5.01],89:[34.21,-4.01],99:[33.89,-5.55],104:[31.63,-7.98],106:[31.51,-9.77],111:[32.30,-9.24],117:[30.43,-9.60],118:[30.47,-8.88],119:[29.70,-9.80],128:[31.93,-4.43],136:[32.68,-4.73],137:[30.33,-5.84],138:[30.92,-6.90],139:[31.51,-5.53],149:[28.98,-10.06],152:[28.44,-11.10],156:[27.13,-13.16],165:[23.68,-15.96]};
+    if (C[villeId]) return C[villeId];
+    if (villeId<=13) return C[1]; if (villeId<=30) return C[14]; if (villeId<=57) return C[31];
+    if (villeId<=69) return C[58]; if (villeId<=80) return C[73]; if (villeId<=103) return C[81];
+    if (villeId<=116) return C[104]; if (villeId<=127) return C[117]; if (villeId<=147) return C[128];
+    if (villeId<=153) return C[149]; if (villeId<=164) return C[156]; if (villeId<=169) return C[165];
+    return C[104]; // default Marrakech region for 301+
+}
+function getCityWeatherName(villeId) {
+    const N = {1:'Rabat',7:'Kenitra',14:'Tangier',15:'Tetouan',23:'Al+Hoceima',31:'Oujda',39:'Nador',58:'Casablanca',66:'El+Jadida',70:'Khenifra',73:'Beni+Mellal',79:'Khouribga',81:'Fes',89:'Taza',99:'Meknes',104:'Marrakech',106:'Essaouira',111:'Safi',117:'Agadir',118:'Taroudant',128:'Errachidia',136:'Midelt',137:'Zagora',138:'Ouarzazate',149:'Guelmim',152:'Tan-Tan',156:'Laayoune',165:'Dakhla'};
+    if (N[villeId]) return N[villeId];
+    if (villeId<=13) return 'Rabat'; if (villeId<=30) return 'Tangier'; if (villeId<=57) return 'Oujda';
+    if (villeId<=69) return 'Casablanca'; if (villeId<=80) return 'Beni+Mellal'; if (villeId<=103) return 'Fes';
+    if (villeId<=116) return 'Marrakech'; if (villeId<=127) return 'Agadir'; if (villeId<=147) return 'Errachidia';
+    if (villeId<=153) return 'Guelmim'; if (villeId<=164) return 'Laayoune'; if (villeId<=169) return 'Dakhla';
+    return 'Marrakech';
+}
 
 const AR_DAYS = ['\u0627\u0644\u0623\u062d\u062f','\u0627\u0644\u0627\u062b\u0646\u064a\u0646','\u0627\u0644\u062b\u0644\u0627\u062b\u0627\u0621','\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621','\u0627\u0644\u062e\u0645\u064a\u0633','\u0627\u0644\u062c\u0645\u0639\u0629','\u0627\u0644\u0633\u0628\u062a'];
 const AR_MONTHS = ['\u064a\u0646\u0627\u064a\u0631','\u0641\u0628\u0631\u0627\u064a\u0631','\u0645\u0627\u0631\u0633','\u0623\u0628\u0631\u064a\u0644','\u0645\u0627\u064a','\u064a\u0648\u0646\u064a\u0648','\u064a\u0648\u0644\u064a\u0648\u0632','\u063a\u0634\u062a','\u0634\u062a\u0646\u0628\u0631','\u0623\u0643\u062a\u0648\u0628\u0631','\u0646\u0648\u0646\u0628\u0631','\u062f\u062c\u0646\u0628\u0631'];
@@ -844,7 +933,7 @@ let allArticles = [];
 let currentCategory = 'all';
 let currentSort = 'newest';
 let feedResults = {};
-let selectedCityIdx = parseInt(localStorage.getItem('prayerCity') || '0');
+let selectedVilleId = parseInt(localStorage.getItem('prayerVille') || '104'); // Default: Marrakech
 
 // ══════════════════════════════════════════
 // FLOATING ISLAND — Date & Time
@@ -1143,76 +1232,224 @@ function listCardHTML(a) {
 }
 
 // ══════════════════════════════════════════
-// PRAYER TIMES (Aladhan API — Method 21 Morocco)
+// SEARCHABLE CITY COMBOBOX
 // ══════════════════════════════════════════
 
-function initCitySelect() {
-    const sel = document.getElementById('citySelect');
-    sel.innerHTML = MOROCCO_CITIES.map((c, i) =>
-        `<option value="${i}" ${i === selectedCityIdx ? 'selected' : ''}>${c.name} - ${c.nameEn}</option>`
-    ).join('');
-    sel.addEventListener('change', (e) => {
-        selectedCityIdx = parseInt(e.target.value);
-        localStorage.setItem('prayerCity', selectedCityIdx);
+function getSelectedCityName() {
+    const c = HABOUS_CITIES.find(([id]) => id === selectedVilleId);
+    return c ? c[1] : HABOUS_CITIES[0][1];
+}
+
+function initCitySearch() {
+    const input = document.getElementById('citySearchInput');
+    const dropdown = document.getElementById('cityDropdown');
+    let highlightIdx = -1;
+
+    // Set initial value
+    input.value = getSelectedCityName();
+
+    function renderDropdown(filter = '') {
+        const query = filter.trim();
+        const filtered = query
+            ? HABOUS_CITIES.filter(([, name]) => name.includes(query))
+            : HABOUS_CITIES;
+
+        if (filtered.length === 0) {
+            dropdown.innerHTML = '<div class="city-dropdown-empty">\u0644\u0627 \u062a\u0648\u062c\u062f \u0646\u062a\u0627\u0626\u062c</div>';
+        } else {
+            dropdown.innerHTML = filtered.map(([id, name], i) =>
+                `<div class="city-dropdown-item${id === selectedVilleId ? ' selected' : ''}${i === highlightIdx ? ' highlighted' : ''}" data-id="${id}" data-idx="${i}">${name}</div>`
+            ).join('');
+        }
+        dropdown.classList.add('open');
+    }
+
+    function selectCity(villeId) {
+        selectedVilleId = villeId;
+        localStorage.setItem('prayerVille', villeId);
+        input.value = getSelectedCityName();
+        dropdown.classList.remove('open');
+        highlightIdx = -1;
         fetchPrayerTimes();
+        fetchWeather();
+    }
+
+    input.addEventListener('focus', () => {
+        input.select();
+        renderDropdown(input.value === getSelectedCityName() ? '' : input.value);
+    });
+
+    input.addEventListener('input', () => {
+        highlightIdx = -1;
+        renderDropdown(input.value);
+    });
+
+    input.addEventListener('keydown', (e) => {
+        const items = dropdown.querySelectorAll('.city-dropdown-item');
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            highlightIdx = Math.min(highlightIdx + 1, items.length - 1);
+            items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightIdx));
+            if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            highlightIdx = Math.max(highlightIdx - 1, 0);
+            items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightIdx));
+            if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (highlightIdx >= 0 && items[highlightIdx]) {
+                selectCity(parseInt(items[highlightIdx].dataset.id));
+            }
+        } else if (e.key === 'Escape') {
+            input.value = getSelectedCityName();
+            dropdown.classList.remove('open');
+            input.blur();
+        }
+    });
+
+    dropdown.addEventListener('click', (e) => {
+        const item = e.target.closest('.city-dropdown-item');
+        if (item) selectCity(parseInt(item.dataset.id));
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#citySearchWrap')) {
+            dropdown.classList.remove('open');
+            input.value = getSelectedCityName();
+        }
     });
 }
-initCitySelect();
+initCitySearch();
 
-async function fetchPrayerTimes() {
-    const city = MOROCCO_CITIES[selectedCityIdx];
+// ══════════════════════════════════════════
+// PRAYER TIMES — Habous API + Aladhan fallback
+// ══════════════════════════════════════════
+
+function parseHabousPrayerHTML(html) {
+    const times = {};
+    const patterns = [
+        { key: 'Fajr', ar: '\u0627\u0644\u0641\u062c\u0631' },
+        { key: 'Sunrise', ar: '\u0627\u0644\u0634\u0631\u0648\u0642' },
+        { key: 'Dhuhr', ar: '\u0627\u0644\u0638\u0647\u0631' },
+        { key: 'Asr', ar: '\u0627\u0644\u0639\u0635\u0631' },
+        { key: 'Maghrib', ar: '\u0627\u0644\u0645\u063a\u0631\u0628' },
+        { key: 'Isha', ar: '\u0627\u0644\u0639\u0634\u0627\u0621' },
+    ];
+    for (const p of patterns) {
+        const regex = new RegExp(p.ar + '[^\\d]*(\\d{1,2}:\\d{2})');
+        const match = html.match(regex);
+        if (match) times[p.key] = match[1];
+    }
+    // Extract Hijri date
+    const hijriMatch = html.match(/(\u0627\u0644[\u0627-\u064a]+\s+\d+\s+[\u0627-\u064a]+\s+\d+\s*\u0647\u0640?)/);
+    const hijriDate = hijriMatch ? hijriMatch[1].trim() : '';
+    const gregMatch = html.match(/\u0627\u0644\u0645\u0648\u0627\u0641\u0642\s*([\d\s\u0627-\u064a]+\u0645)/);
+    const gregDate = gregMatch ? gregMatch[1].trim() : '';
+    return { times, hijriDate, gregDate };
+}
+
+async function fetchPrayerFromHabous(villeId) {
+    const url = `https://www.habous.gov.ma/prieres/horaire-api.php?ville=${villeId}`;
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+        try {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 10000);
+            const resp = await fetch(CORS_PROXIES[i](url), { signal: ctrl.signal });
+            clearTimeout(tid);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const html = await resp.text();
+            const parsed = parseHabousPrayerHTML(html);
+            if (Object.keys(parsed.times).length >= 5) return parsed;
+            throw new Error('Incomplete data');
+        } catch (e) {
+            if (i === CORS_PROXIES.length - 1) throw e;
+        }
+    }
+}
+
+async function fetchPrayerFromAladhan(villeId) {
+    const [lat, lng] = getCityCoords(villeId);
     const now = new Date();
     const dateStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+    const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=21`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.code !== 200) throw new Error('Aladhan API error');
+    return data.data;
+}
+
+async function fetchPrayerTimes() {
+    const cityName = getSelectedCityName();
+    const now = new Date();
 
     document.getElementById('prayerGrid').innerHTML = '<div class="prayer-loading">\u062c\u0627\u0631\u064a \u0627\u0644\u062a\u062d\u0645\u064a\u0644...</div>';
 
+    let timings = null;
+    let hijriText = '';
+    let gregText = '';
+
+    // Try Habous API first
     try {
-        const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${city.lat}&longitude=${city.lng}&method=21`;
-        const resp = await fetch(url);
-        const data = await resp.json();
-
-        if (data.code !== 200) throw new Error('API error');
-
-        const timings = data.data.timings;
-        const hijri = data.data.date.hijri;
-        const greg = data.data.date.gregorian;
-
-        // Hijri date
-        const hijriDay = hijri.day;
-        const hijriMonth = hijri.month.ar || hijri.month.en;
-        const hijriYear = hijri.year;
-        document.getElementById('prayerHijri').textContent =
-            `${AR_DAYS[now.getDay()]} ${hijriDay} ${hijriMonth} ${hijriYear}\u0647\u0640`;
-
-        document.getElementById('prayerGregorian').textContent =
-            `\u0627\u0644\u0645\u0648\u0627\u0641\u0642 ${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
-
-        document.getElementById('prayerCityName').textContent = city.name;
-
-        // Determine active prayer
-        const prayerKeys = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-        const nowMinutes = now.getHours() * 60 + now.getMinutes();
-        let activePrayer = 'Isha';
-        for (let i = prayerKeys.length - 1; i >= 0; i--) {
-            const [h, m] = timings[prayerKeys[i]].split(':').map(Number);
-            if (nowMinutes >= h * 60 + m) {
-                activePrayer = prayerKeys[i];
-                break;
-            }
-        }
-
-        document.getElementById('prayerGrid').innerHTML = prayerKeys.map(key => {
-            const isActive = key === activePrayer;
-            return `<div class="prayer-item ${isActive ? 'active-prayer' : ''}">
-                <div class="prayer-name">${PRAYER_NAMES[key]}</div>
-                <div class="prayer-time-val">${timings[key]}</div>
-            </div>`;
-        }).join('');
-
-    } catch (err) {
-        document.getElementById('prayerGrid').innerHTML =
-            '<div class="prayer-loading" style="color:var(--accent)">\u062e\u0637\u0623 \u0641\u064a \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0648\u0627\u0642\u064a\u062a</div>';
+        const habous = await fetchPrayerFromHabous(selectedVilleId);
+        timings = habous.times;
+        hijriText = habous.hijriDate;
+        gregText = habous.gregDate;
+    } catch (e) {
+        console.warn('Habous API failed, trying Aladhan:', e.message);
     }
+
+    // Fallback to Aladhan
+    if (!timings || Object.keys(timings).length < 5) {
+        try {
+            const data = await fetchPrayerFromAladhan(selectedVilleId);
+            timings = {};
+            ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'].forEach(k => {
+                timings[k] = data.timings[k];
+            });
+            const hijri = data.date.hijri;
+            hijriText = `${AR_DAYS[now.getDay()]} ${hijri.day} ${hijri.month.ar || hijri.month.en} ${hijri.year}\u0647\u0640`;
+            gregText = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
+        } catch (err) {
+            document.getElementById('prayerGrid').innerHTML =
+                '<div class="prayer-loading" style="color:var(--accent)">\u062e\u0637\u0623 \u0641\u064a \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0648\u0627\u0642\u064a\u062a</div>';
+            return;
+        }
+    }
+
+    // If no hijri from Habous, build from Aladhan or show static
+    if (!hijriText) {
+        hijriText = `${AR_DAYS[now.getDay()]}`;
+    }
+    if (!gregText) {
+        gregText = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
+    }
+
+    document.getElementById('prayerHijri').textContent = hijriText;
+    document.getElementById('prayerGregorian').textContent = `\u0627\u0644\u0645\u0648\u0627\u0641\u0642 ${gregText}`;
+    document.getElementById('prayerCityName').textContent = cityName;
+
+    // Determine active prayer
+    const prayerKeys = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    let activePrayer = 'Isha';
+    for (let i = prayerKeys.length - 1; i >= 0; i--) {
+        if (!timings[prayerKeys[i]]) continue;
+        const [h, m] = timings[prayerKeys[i]].split(':').map(Number);
+        if (nowMinutes >= h * 60 + m) {
+            activePrayer = prayerKeys[i];
+            break;
+        }
+    }
+
+    document.getElementById('prayerGrid').innerHTML = prayerKeys.map(key => {
+        const isActive = key === activePrayer;
+        return `<div class="prayer-item ${isActive ? 'active-prayer' : ''}">
+            <div class="prayer-name">${PRAYER_NAMES[key]}</div>
+            <div class="prayer-time-val">${timings[key] || '--:--'}</div>
+        </div>`;
+    }).join('');
 }
 
 // ══════════════════════════════════════════
@@ -1221,27 +1458,27 @@ async function fetchPrayerTimes() {
 
 async function fetchWeather() {
     const card = document.getElementById('weatherCard');
-    const city = MOROCCO_CITIES[selectedCityIdx];
+    const weatherCity = getCityWeatherName(selectedVilleId);
 
     try {
-        // Try direct first, then proxy
         let data;
         try {
-            const resp = await fetch(`https://wttr.in/${city.nameEn}?format=j1`);
+            const resp = await fetch(`https://wttr.in/${weatherCity}?format=j1`);
             data = await resp.json();
         } catch {
-            const resp = await fetch(CORS_PROXIES[0](`https://wttr.in/${city.nameEn}?format=j1`));
+            const resp = await fetch(CORS_PROXIES[0](`https://wttr.in/${weatherCity}?format=j1`));
             data = await resp.json();
         }
 
         const cur = data.current_condition[0];
         const desc = cur.weatherDesc?.[0]?.value || cur.weatherDesc || 'N/A';
         const icon = WEATHER_ICONS[desc] || '\ud83c\udf24\ufe0f';
+        const displayName = weatherCity.replace(/\+/g, ' ');
 
         card.innerHTML = `
             <div class="weather-header">
                 <div>
-                    <div class="weather-city">${city.nameEn}</div>
+                    <div class="weather-city">${displayName}</div>
                     <div class="weather-temp">${cur.temp_C}\u00b0C</div>
                     <div class="weather-desc">${desc}</div>
                 </div>
