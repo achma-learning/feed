@@ -82,7 +82,23 @@ Actualités santé et société : https://www.vidal.fr/actualites/sante-et-socie
 Actualités sur les études scientifiques, congrés et symposiums médicaux : https://www.vidal.fr/actualites/etudes-et-congres.html
 // end of other vidal :
 
-
-
+// Haut-Commissariat au Plan du Maroc - HCP news
+Publications générales : https://www.hcp.ma/downloads/?tag=Publications+g%C3%A9n%C3%A9rales
+Publications thématiques : https://www.hcp.ma/downloads/?tag=Publications+th%C3%A9matiques
+  Publications thématiques [Economie] : https://www.hcp.ma/downloads/?tag=Publications+th%C3%A9matiques
+  Publications thématiques [Marché du travail] : https://www.hcp.ma/downloads/?tag=March%C3%A9+du+travail
+  Publications thématiques [Revenu et conditions de vie] : https://www.hcp.ma/downloads/?tag=Revenu+et+conditions+de+vie
+  Publications thématiques [Population et démographie] : https://www.hcp.ma/downloads/?tag=Population+et+d%C3%A9mographie
+  Publications thématiques [Développement durable] : https://www.hcp.ma/downloads/?tag=D%C3%A9veloppement+durable
+  Publications thématiques [Nouveau modèle de développemen] : https://www.hcp.ma/downloads/?tag=Nouveau+mod%C3%A8le+de+d%C3%A9veloppement
+Publications enquêtes statistiques : https://www.hcp.ma/downloads/?tag=Publications+enqu%C3%AAtes+statistiques
+  Publications enquêtes statistiques [Enquêtes économiques] : https://www.hcp.ma/downloads/?tag=Enqu%C3%AAtes+%C3%A9conomiques
+  Publications enquêtes statistiques [Enquêtes marché du travail] : https://www.hcp.ma/downloads/?tag=Enqu%C3%AAtes+march%C3%A9+du+travail
+  Publications enquêtes statistiques [Enquêtes revenu et conditions de vie] : https://www.hcp.ma/downloads/?tag=Enqu%C3%AAtes+revenu+et+conditions+de+vie
+  Publications enquêtes statistiques [Enquêtes population et démographie] : https://www.hcp.ma/downloads/?tag=Enqu%C3%AAtes+population+et+d%C3%A9mographie
+  Publications enquêtes statistiques [Enquêtes Covid-19] : https://www.hcp.ma/downloads/?tag=Enqu%C3%AAtes+Covid-19
+  Publications enquêtes statistiques [Enquêtes prospectives] : https://www.hcp.ma/downloads/?tag=Enqu%C3%AAtes+prospectives
+  
+  
 + https://www.youtube.com/@%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D9%90%D8%A8%D8%A7%D9%84%D8%AD%D9%93%D8%B3%D9%86%D9%90%D9%8A/videos
 + https://www.youtube.com/@elkamali/videos 
