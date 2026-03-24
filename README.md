@@ -42,6 +42,7 @@ Regional : https://www.mapnews.ma/ar/actualites/regional/rss
 General : https://www.mapnews.ma/ar/actualites/general/rss
 Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 // end of map news RSS
+
 + https://newatlas.com/science/
 + https://newatlas.com/energy/
 + https://newatlas.com/medical/
@@ -65,6 +66,18 @@ Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 + https://www.sante.gov.ma/Publications/Pages/Guideetprocedure.aspx
 + https://www.sante.gov.ma/Publications/Pages/Rapports.aspx
 + https://www.sante.gov.ma/Publications/Pages/Bullten_%C3%89pid%C3%A9miologique.aspx
+
+// vidal news : https://www.vidal.fr/actualites.html
+// other vidal :
+Actualités médicaments et autres produits de santé : https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.html
+Actualités diagnostic et prise en charge thérapeutique : https://www.vidal.fr/actualites/diagnostic-et-therapeutique.html
+Actualités socioprofessionnelles médicales : https://www.vidal.fr/actualites/socioprofessionnel.html
+Actualités santé publique et prévention : https://www.vidal.fr/actualites/sante-publique.html
+Actualités innovations et nouvelles technologies de santé : https://www.vidal.fr/actualites/technologie-et-innovation.html
+Actualités santé et société : https://www.vidal.fr/actualites/sante-et-societe.html
+Actualités sur les études scientifiques, congrés et symposiums médicaux : https://www.vidal.fr/actualites/etudes-et-congres.html
+// end of other vidal :
+
 
 
 + https://www.youtube.com/@%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D9%90%D8%A8%D8%A7%D9%84%D8%AD%D9%93%D8%B3%D9%86%D9%90%D9%8A/videos
