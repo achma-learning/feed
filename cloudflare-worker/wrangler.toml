@@ -2,8 +2,9 @@ name = "feed-aggregator"
 main = "src/worker.js"
 compatibility_date = "2024-12-01"
 
-# Free plan is fine for this use case
-# 100,000 requests/day, 10ms CPU time per invocation
+# Cron: refresh feeds every 5 minutes
+[triggers]
+crons = ["*/5 * * * *"]
 
 [observability]
 enabled = true

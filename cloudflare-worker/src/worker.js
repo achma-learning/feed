@@ -32,27 +32,18 @@ const RSS_FEEDS = [
 
 // ── HTML Scrape Sources (no RSS available) ──
 const SCRAPE_SOURCES = [
-  {
-    id: 'sante-gov-activites', cat: 'sante-gov', name: 'Min. Santé Activités',
-    url: 'https://www.sante.gov.ma/Pages/activites.aspx', color: '#15803d',
-  },
-  {
-    id: 'sante-gov-actualites', cat: 'sante-gov', name: 'Min. Santé Actualités',
-    url: 'https://www.sante.gov.ma/Pages/toutes_actualites.aspx', color: '#15803d',
-  },
-  {
-    id: 'ammps-actualites', cat: 'sante-gov', name: 'AMMPS Actualités',
-    url: 'https://ammps.sante.gov.ma/actualites', color: '#059669',
-  },
-  {
-    id: 'hcp-publications', cat: 'hcp', name: 'HCP Publications',
-    url: 'https://www.hcp.ma/downloads/', color: '#b45309',
-  },
+  { id: 'sante-gov-activites', cat: 'sante-gov', name: 'Min. Santé Activités', url: 'https://www.sante.gov.ma/Pages/activites.aspx', color: '#15803d' },
+  { id: 'sante-gov-actualites', cat: 'sante-gov', name: 'Min. Santé Actualités', url: 'https://www.sante.gov.ma/Pages/toutes_actualites.aspx', color: '#15803d' },
+  { id: 'ammps-actualites', cat: 'sante-gov', name: 'AMMPS Actualités', url: 'https://ammps.sante.gov.ma/actualites', color: '#059669' },
+  { id: 'hcp-publications', cat: 'hcp', name: 'HCP Publications', url: 'https://www.hcp.ma/downloads/', color: '#b45309' },
 ];
 
-// Revue FAR config
 const FAR_BASE = 'https://revue.far.ma';
 const FAR_PAGES = [1, 2, 3];
+
+// Stable cache keys — do NOT depend on worker URL or subdomain
+const FEEDS_CACHE_KEY = 'https://feed-cache.internal/api/feeds';
+const PRAYER_CACHE_PREFIX = 'https://feed-cache.internal/api/prayer?ville=';
 
 
 // ═══════════════════════════════════════════════════════════════
@@ -61,7 +52,6 @@ const FAR_PAGES = [1, 2, 3];
 
 export default {
   async fetch(request, env, ctx) {
-    // CORS preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders() });
     }
@@ -71,14 +61,11 @@ export default {
     try {
       switch (url.pathname) {
         case '/api/feeds':
-          return await handleFeeds(request, ctx);
-
+          return await handleFeeds(ctx);
         case '/api/prayer':
-          return await handlePrayer(request, ctx, url);
-
+          return await handlePrayer(ctx, url);
         case '/health':
           return jsonResponse({ status: 'ok', time: new Date().toISOString() });
-
         default:
           return jsonResponse({
             name: 'Feed Aggregator API',
@@ -86,75 +73,138 @@ export default {
           });
       }
     } catch (err) {
-      return jsonResponse({ error: err.message }, 500);
+      console.error('Top-level error:', err.message, err.stack);
+      return jsonResponse({ error: err.message, stack: err.stack }, 500);
+    }
+  },
+
+  // Cron Trigger — runs on schedule, keeps cache warm
+  async scheduled(event, env, ctx) {
+    console.log('Cron triggered at', new Date().toISOString());
+    try {
+      const data = await fetchAllFeedData();
+      const cache = caches.default;
+      const cacheKey = new Request(FEEDS_CACHE_KEY);
+
+      await cache.delete(cacheKey);
+
+      const response = new Response(JSON.stringify(data), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'public, max-age=300',
+          'X-Cache': 'CRON',
+        },
+      });
+
+      await cache.put(cacheKey, response.clone());
+      console.log(`Cron: cached ${data.articles.length} articles from ${Object.keys(data.feedResults).length} sources`);
+    } catch (err) {
+      console.error('Cron error:', err.message, err.stack);
     }
   },
 };
 
 
 // ═══════════════════════════════════════════════════════════════
-// /api/feeds — All news feeds + scraped sources + FAR
+// SHARED: Fetch all feed data (used by both /api/feeds and cron)
 // ═══════════════════════════════════════════════════════════════
 
-async function handleFeeds(request, ctx) {
-  // Check cache (5 min TTL)
-  const cache = caches.default;
-  const cacheKey = new Request(new URL('/api/feeds', request.url).toString());
-
-  const cached = await cache.match(cacheKey);
-  if (cached) {
-    const resp = new Response(cached.body, cached);
-    resp.headers.set('Access-Control-Allow-Origin', '*');
-    resp.headers.set('X-Cache', 'HIT');
-    return resp;
-  }
-
-  // Fetch everything in parallel
+async function fetchAllFeedData() {
   const [rssResults, farResults, scrapeResults] = await Promise.allSettled([
     fetchAllRSS(),
-    scrapeFarRevues(),
-    scrapeAllHTML(),
+    safeCall(scrapeFarRevues, []),
+    safeCall(scrapeAllHTML, { articles: [], feedResults: {} }),
   ]);
 
   const rss = rssResults.status === 'fulfilled' ? rssResults.value : { articles: [], feedResults: {} };
   const far = farResults.status === 'fulfilled' ? farResults.value : [];
   const scraped = scrapeResults.status === 'fulfilled' ? scrapeResults.value : { articles: [], feedResults: {} };
 
-  const data = {
+  return {
     articles: [...rss.articles, ...scraped.articles],
     far,
-    feedResults: { ...rss.feedResults, ...scraped.feedResults, 'far-revue': { ok: far.length > 0, count: far.length } },
+    feedResults: {
+      ...rss.feedResults,
+      ...scraped.feedResults,
+      'far-revue': { ok: far.length > 0, count: far.length },
+    },
     timestamp: new Date().toISOString(),
   };
+}
+
+// Wraps any async function so it never throws
+async function safeCall(fn, fallback) {
+  try {
+    return await fn();
+  } catch (err) {
+    console.error(`safeCall(${fn.name}) failed:`, err.message);
+    return fallback;
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// /api/feeds
+// ═══════════════════════════════════════════════════════════════
+
+async function handleFeeds(ctx) {
+  // Try cache first
+  try {
+    const cache = caches.default;
+    const cacheKey = new Request(FEEDS_CACHE_KEY);
+    const cached = await cache.match(cacheKey);
+    if (cached) {
+      const resp = new Response(cached.body, cached);
+      resp.headers.set('Access-Control-Allow-Origin', '*');
+      resp.headers.set('X-Cache', 'HIT');
+      return resp;
+    }
+  } catch (cacheErr) {
+    console.error('Cache read failed (non-fatal):', cacheErr.message);
+  }
+
+  // Cache miss — fetch everything fresh
+  const data = await fetchAllFeedData();
 
   const response = jsonResponse(data, 200, {
     'Cache-Control': 'public, max-age=300',
     'X-Cache': 'MISS',
   });
 
-  ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  // Write to cache in background
+  try {
+    const cache = caches.default;
+    const cacheKey = new Request(FEEDS_CACHE_KEY);
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  } catch (cacheErr) {
+    console.error('Cache write failed (non-fatal):', cacheErr.message);
+  }
+
   return response;
 }
 
 
 // ═══════════════════════════════════════════════════════════════
-// /api/prayer — Prayer times from Habous.gov.ma
+// /api/prayer
 // ═══════════════════════════════════════════════════════════════
 
-async function handlePrayer(request, ctx, url) {
+async function handlePrayer(ctx, url) {
   const ville = url.searchParams.get('ville') || '104';
 
-  // Cache per city (1 hour)
-  const cache = caches.default;
-  const cacheKey = new Request(new URL(`/api/prayer?ville=${ville}`, request.url).toString());
-
-  const cached = await cache.match(cacheKey);
-  if (cached) {
-    const resp = new Response(cached.body, cached);
-    resp.headers.set('Access-Control-Allow-Origin', '*');
-    resp.headers.set('X-Cache', 'HIT');
-    return resp;
-  }
+  // Try cache
+  try {
+    const cache = caches.default;
+    const cacheKey = new Request(PRAYER_CACHE_PREFIX + ville);
+    const cached = await cache.match(cacheKey);
+    if (cached) {
+      const resp = new Response(cached.body, cached);
+      resp.headers.set('Access-Control-Allow-Origin', '*');
+      resp.headers.set('X-Cache', 'HIT');
+      return resp;
+    }
+  } catch (e) { /* cache miss */ }
 
   let data;
   try {
@@ -164,7 +214,7 @@ async function handlePrayer(request, ctx, url) {
     data = parseHabousPrayer(html);
     data.source = 'habous';
   } catch (e) {
-    data = { error: 'Habous API failed: ' + e.message, source: 'none' };
+    data = { error: 'Habous API failed: ' + e.message, source: 'none', times: {} };
   }
 
   const response = jsonResponse(data, 200, {
@@ -172,7 +222,12 @@ async function handlePrayer(request, ctx, url) {
     'X-Cache': 'MISS',
   });
 
-  ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  try {
+    const cache = caches.default;
+    const cacheKey = new Request(PRAYER_CACHE_PREFIX + ville);
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  } catch (e) { /* non-fatal */ }
+
   return response;
 }
 
@@ -195,7 +250,9 @@ async function fetchAllRSS() {
       articles.push(...r.value);
       feedResults[feed.id] = { ok: true, count: r.value.length };
     } else {
-      const error = r.status === 'rejected' ? r.reason?.message : 'No articles parsed';
+      const error = r.status === 'rejected'
+        ? (r.reason?.message || 'Unknown error')
+        : 'No articles parsed';
       feedResults[feed.id] = { ok: false, count: 0, error };
     }
   });
@@ -204,46 +261,78 @@ async function fetchAllRSS() {
 }
 
 async function fetchSingleRSS(feed) {
-  const resp = await fetchWithTimeout(feed.url, 15000);
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-  const xml = await resp.text();
-
-  // Validate it looks like XML/RSS
-  if (!xml.includes('<') || (!xml.includes('<rss') && !xml.includes('<feed') && !xml.includes('<item') && !xml.includes('<entry'))) {
-    // For HAS/Vidal: the URL might return HTML instead of RSS.
-    // Try to detect and fall back to scraping.
-    if (feed.cat === 'has') return scrapeHAS(feed, xml);
-    if (feed.cat === 'vidal') return scrapeVidal(feed, xml);
-    throw new Error('Response is not RSS/Atom XML');
+  let resp;
+  try {
+    resp = await fetchWithTimeout(feed.url, 15000);
+  } catch (err) {
+    throw new Error(`Fetch failed: ${err.message}`);
   }
 
-  return parseRSS(xml, feed);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+  let text;
+  try {
+    text = await resp.text();
+  } catch (err) {
+    throw new Error(`Read body failed: ${err.message}`);
+  }
+
+  if (!text || text.length < 50) {
+    throw new Error('Empty or too-short response');
+  }
+
+  // Check if response looks like RSS/Atom
+  const looksLikeXML = text.includes('<rss') || text.includes('<feed') ||
+                        text.includes('<item') || text.includes('<entry');
+
+  if (looksLikeXML) {
+    const articles = parseRSS(text, feed);
+    if (articles.length > 0) return articles;
+  }
+
+  // Not RSS — try HTML scraping for known categories
+  if (feed.cat === 'has') {
+    try {
+      const scraped = scrapeHAS(feed, text);
+      if (scraped.length > 0) return scraped;
+    } catch (e) { /* fall through */ }
+  }
+  if (feed.cat === 'vidal') {
+    try {
+      const scraped = scrapeVidal(feed, text);
+      if (scraped.length > 0) return scraped;
+    } catch (e) { /* fall through */ }
+  }
+
+  throw new Error('Not RSS/Atom and scraper found nothing');
 }
 
 
 // ═══════════════════════════════════════════════════════════════
-// RSS PARSER (regex-based, no DOM needed in Workers)
+// RSS PARSER (regex-based — no DOM available in Workers)
 // ═══════════════════════════════════════════════════════════════
 
 function parseRSS(xml, feed) {
   const articles = [];
 
-  // Try RSS 2.0 <item> elements
+  // RSS 2.0 <item>
   const itemRegex = /<item[\s>]([\s\S]*?)<\/item>/gi;
   let match;
   while ((match = itemRegex.exec(xml)) !== null) {
-    const item = match[1];
-    const article = parseRSSItem(item, feed);
-    if (article) articles.push(article);
+    try {
+      const article = parseRSSItem(match[1], feed);
+      if (article) articles.push(article);
+    } catch (e) { /* skip broken item */ }
   }
 
-  // Try Atom <entry> if no RSS items found
+  // Atom <entry> fallback
   if (articles.length === 0) {
     const entryRegex = /<entry[\s>]([\s\S]*?)<\/entry>/gi;
     while ((match = entryRegex.exec(xml)) !== null) {
-      const entry = match[1];
-      const article = parseAtomEntry(entry, feed);
-      if (article) articles.push(article);
+      try {
+        const article = parseAtomEntry(match[1], feed);
+        if (article) articles.push(article);
+      } catch (e) { /* skip */ }
     }
   }
 
@@ -252,28 +341,26 @@ function parseRSS(xml, feed) {
 
 function parseRSSItem(item, feed) {
   const title = extractCDATA(item, 'title');
-  const link = extractTag(item, 'link') || extractAttr(item, 'link', 'href');
-  const pubDate = extractTag(item, 'pubDate') || extractTag(item, 'dc:date');
-  const desc = extractCDATA(item, 'description');
+  if (!title || title.length < 3) return null;
 
-  if (!title) return null;
+  const link = extractTag(item, 'link') || extractAttr(item, 'link', 'href') || '';
+  const pubDate = extractTag(item, 'pubDate') || extractTag(item, 'dc:date') || '';
+  const desc = extractCDATA(item, 'description') || '';
 
   let image = '';
-  // enclosure
-  const enc = item.match(/<enclosure[^>]+type=["']image[^"']*["'][^>]+url=["']([^"']+)["']/i)
-    || item.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i);
-  if (enc) image = enc[1];
-  // media:thumbnail
-  if (!image) { const m = item.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i); if (m) image = m[1]; }
-  // media:content with image type
-  if (!image) { const m = item.match(/<media:content[^>]+(?:type=["']image|medium=["']image)[^>]+url=["']([^"']+)["']/i); if (m) image = m[1]; }
-  if (!image) { const m = item.match(/<media:content[^>]+url=["']([^"']+)["'][^>]+(?:type=["']image|medium=["']image)/i); if (m) image = m[1]; }
-  // img in description
-  if (!image) { const m = desc.match(/<img[^>]+src=["']([^"']+)["']/i); if (m) image = m[1]; }
+  try {
+    const enc = item.match(/<enclosure[^>]+type=["']image[^"']*["'][^>]+url=["']([^"']+)["']/i)
+      || item.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i);
+    if (enc) image = enc[1];
+    if (!image) { const m = item.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i); if (m) image = m[1]; }
+    if (!image) { const m = item.match(/<media:content[^>]+(?:type=["']image|medium=["']image)[^>]+url=["']([^"']+)["']/i); if (m) image = m[1]; }
+    if (!image) { const m = item.match(/<media:content[^>]+url=["']([^"']+)["'][^>]+(?:type=["']image|medium=["']image)/i); if (m) image = m[1]; }
+    if (!image && desc) { const m = desc.match(/<img[^>]+src=["']([^"']+)["']/i); if (m) image = m[1]; }
+  } catch (e) { /* no image */ }
 
   return {
     title: stripHTML(title),
-    link: link || '',
+    link,
     pubDate: pubDate || new Date().toISOString(),
     image,
     source: feed.name,
@@ -286,34 +373,35 @@ function parseRSSItem(item, feed) {
 
 function parseAtomEntry(entry, feed) {
   const title = extractCDATA(entry, 'title');
-  // Atom links use <link href="..." />
-  const link = extractAttr(entry, 'link[rel="alternate"]', 'href')
-    || extractAttr(entry, 'link', 'href');
-  const updated = extractTag(entry, 'updated') || extractTag(entry, 'published');
-  const summary = extractCDATA(entry, 'summary') || extractCDATA(entry, 'content');
+  if (!title || title.length < 3) return null;
 
-  if (!title) return null;
+  let link = '';
+  const altLink = entry.match(/<link[^>]+rel=["']alternate["'][^>]+href=["']([^"']+)["']/i);
+  if (altLink) link = altLink[1];
+  if (!link) { const m = entry.match(/<link[^>]+href=["']([^"']+)["']/i); if (m) link = m[1]; }
+
+  const updated = extractTag(entry, 'updated') || extractTag(entry, 'published') || '';
+  const summary = extractCDATA(entry, 'summary') || extractCDATA(entry, 'content') || '';
 
   let image = '';
-  const m = (summary || '').match(/<img[^>]+src=["']([^"']+)["']/i);
-  if (m) image = m[1];
+  try { const m = summary.match(/<img[^>]+src=["']([^"']+)["']/i); if (m) image = m[1]; } catch (e) {}
 
   return {
     title: stripHTML(title),
-    link: link || '',
+    link,
     pubDate: updated || new Date().toISOString(),
     image,
     source: feed.name,
     sourceId: feed.id,
     cat: feed.cat,
     color: feed.color,
-    description: stripHTML(summary || '').slice(0, 200),
+    description: stripHTML(summary).slice(0, 200),
   };
 }
 
 
 // ═══════════════════════════════════════════════════════════════
-// HTML SCRAPERS — Sites without RSS
+// HTML SCRAPERS
 // ═══════════════════════════════════════════════════════════════
 
 async function scrapeAllHTML() {
@@ -330,7 +418,8 @@ async function scrapeAllHTML() {
       articles.push(...r.value);
       feedResults[src.id] = { ok: true, count: r.value.length };
     } else {
-      feedResults[src.id] = { ok: false, count: 0, error: r.reason?.message || 'No articles' };
+      const err = r.status === 'rejected' ? (r.reason?.message || 'Failed') : 'No articles';
+      feedResults[src.id] = { ok: false, count: 0, error: err };
     }
   });
 
@@ -341,6 +430,7 @@ async function scrapeSingleHTML(src) {
   const resp = await fetchWithTimeout(src.url, 15000);
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   const html = await resp.text();
+  if (!html || html.length < 100) throw new Error('Empty response');
 
   switch (src.id) {
     case 'sante-gov-activites':
@@ -355,82 +445,42 @@ async function scrapeSingleHTML(src) {
   }
 }
 
-// ── HAS fallback scraper (when RSS URL returns HTML) ──
 function scrapeHAS(feed, html) {
   const articles = [];
-  // HAS uses JCMS — look for article links in the actualites page
-  const pattern = /<a[^>]+href=["'](\/jcms\/[^"']+)["'][^>]*class=["'][^"']*publication-title[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
+  const seen = new Set();
+  const linkPattern = /<a[^>]+href=["'](\/jcms\/[^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let m;
-  while ((m = pattern.exec(html)) !== null) {
-    articles.push({
-      title: stripHTML(m[2]).trim(),
-      link: 'https://www.has-sante.fr' + m[1],
-      pubDate: new Date().toISOString(),
-      image: '',
-      source: feed.name, sourceId: feed.id, cat: feed.cat, color: feed.color,
-      description: '',
-    });
-  }
-
-  // Broader fallback: look for any structured article-like links
-  if (articles.length === 0) {
-    const linkPattern = /<a[^>]+href=["'](\/jcms\/[^"']+\/[^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
-    const seen = new Set();
-    while ((m = linkPattern.exec(html)) !== null) {
-      const title = stripHTML(m[2]).trim();
-      const link = 'https://www.has-sante.fr' + m[1];
-      if (title.length > 20 && !seen.has(link)) {
-        seen.add(link);
-        articles.push({
-          title, link,
-          pubDate: new Date().toISOString(),
-          image: '',
-          source: feed.name, sourceId: feed.id, cat: feed.cat, color: feed.color,
-          description: '',
-        });
-      }
+  while ((m = linkPattern.exec(html)) !== null) {
+    const title = stripHTML(m[2]).trim();
+    const link = 'https://www.has-sante.fr' + m[1];
+    if (title.length > 15 && !seen.has(link)) {
+      seen.add(link);
+      articles.push({ title, link, pubDate: new Date().toISOString(), image: '', source: feed.name, sourceId: feed.id, cat: feed.cat, color: feed.color, description: '' });
     }
   }
-
   return articles;
 }
 
-// ── Vidal fallback scraper ──
 function scrapeVidal(feed, html) {
   const articles = [];
-  // Vidal article cards typically have structured links
-  const pattern = /<a[^>]+href=["'](\/actualites\/[^"']+\.html)["'][^>]*>([\s\S]*?)<\/a>/gi;
   const seen = new Set();
+  const pattern = /<a[^>]+href=["'](\/actualites\/[^"']+\.html)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let m;
   while ((m = pattern.exec(html)) !== null) {
     const title = stripHTML(m[2]).trim();
     const link = 'https://www.vidal.fr' + m[1];
     if (title.length > 15 && !seen.has(link)) {
       seen.add(link);
-
-      // Try to find an image near this article
-      let image = '';
-      const imgPattern = new RegExp(`<img[^>]+src=["']([^"']+)[^>]+[^>]*>`, 'i');
-      const imgMatch = html.slice(Math.max(0, m.index - 500), m.index).match(imgPattern);
-      if (imgMatch) image = imgMatch[1].startsWith('http') ? imgMatch[1] : 'https://www.vidal.fr' + imgMatch[1];
-
-      articles.push({
-        title, link, image,
-        pubDate: new Date().toISOString(),
-        source: feed.name, sourceId: feed.id, cat: feed.cat, color: feed.color,
-        description: '',
-      });
+      articles.push({ title, link, image: '', pubDate: new Date().toISOString(), source: feed.name, sourceId: feed.id, cat: feed.cat, color: feed.color, description: '' });
     }
   }
   return articles;
 }
 
-// ── sante.gov.ma scraper ──
 function scrapeSanteGov(html, src) {
   const articles = [];
-  // SharePoint-based site — articles in list items
-  const pattern = /<a[^>]+href=["']([^"']*(?:activite|actualite)[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
   const seen = new Set();
+  const pattern = /<a[^>]+href=["']([^"']*(?:activite|actualite)[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let m;
   while ((m = pattern.exec(html)) !== null) {
     const title = stripHTML(m[2]).trim();
@@ -438,22 +488,16 @@ function scrapeSanteGov(html, src) {
     if (!link.startsWith('http')) link = 'https://www.sante.gov.ma' + (link.startsWith('/') ? '' : '/') + link;
     if (title.length > 10 && !seen.has(link)) {
       seen.add(link);
-      articles.push({
-        title, link, image: '',
-        pubDate: new Date().toISOString(),
-        source: src.name, sourceId: src.id, cat: src.cat, color: src.color,
-        description: '',
-      });
+      articles.push({ title, link, image: '', pubDate: new Date().toISOString(), source: src.name, sourceId: src.id, cat: src.cat, color: src.color, description: '' });
     }
   }
   return articles;
 }
 
-// ── AMMPS scraper ──
 function scrapeAMMPS(html, src) {
   const articles = [];
-  const pattern = /<a[^>]+href=["']([^"']*(?:\/actualites\/|\/alertes\/)[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
   const seen = new Set();
+  const pattern = /<a[^>]+href=["']([^"']*(?:\/actualites\/|\/alertes\/)[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let m;
   while ((m = pattern.exec(html)) !== null) {
     const title = stripHTML(m[2]).trim();
@@ -461,23 +505,16 @@ function scrapeAMMPS(html, src) {
     if (!link.startsWith('http')) link = 'https://ammps.sante.gov.ma' + (link.startsWith('/') ? '' : '/') + link;
     if (title.length > 10 && !seen.has(link)) {
       seen.add(link);
-      articles.push({
-        title, link, image: '',
-        pubDate: new Date().toISOString(),
-        source: src.name, sourceId: src.id, cat: src.cat, color: src.color,
-        description: '',
-      });
+      articles.push({ title, link, image: '', pubDate: new Date().toISOString(), source: src.name, sourceId: src.id, cat: src.cat, color: src.color, description: '' });
     }
   }
   return articles;
 }
 
-// ── HCP scraper ──
 function scrapeHCP(html, src) {
   const articles = [];
-  // HCP uses a download/publication listing
-  const pattern = /<a[^>]+href=["']([^"']+\.pdf|[^"']*downloads[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
   const seen = new Set();
+  const pattern = /<a[^>]+href=["']([^"']+\.pdf|[^"']*downloads[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let m;
   while ((m = pattern.exec(html)) !== null) {
     const title = stripHTML(m[2]).trim();
@@ -485,12 +522,7 @@ function scrapeHCP(html, src) {
     if (!link.startsWith('http')) link = 'https://www.hcp.ma' + (link.startsWith('/') ? '' : '/') + link;
     if (title.length > 10 && !seen.has(link)) {
       seen.add(link);
-      articles.push({
-        title, link, image: '',
-        pubDate: new Date().toISOString(),
-        source: src.name, sourceId: src.id, cat: src.cat, color: src.color,
-        description: '',
-      });
+      articles.push({ title, link, image: '', pubDate: new Date().toISOString(), source: src.name, sourceId: src.id, cat: src.cat, color: src.color, description: '' });
     }
   }
   return articles;
@@ -503,15 +535,12 @@ function scrapeHCP(html, src) {
 
 async function scrapeFarRevues() {
   const allRevues = [];
-
   const results = await Promise.allSettled(
     FAR_PAGES.map(page => scrapeFarPage(page))
   );
-
   for (const r of results) {
     if (r.status === 'fulfilled') allRevues.push(...r.value);
   }
-
   return allRevues;
 }
 
@@ -524,71 +553,26 @@ async function scrapeFarPage(page) {
 
 function parseFarHTML(html) {
   const revues = [];
-
-  // Match card blocks — FAR uses .card.card-hover-shadow
-  // We look for link + img + title patterns within card structures
-  const cardPattern = /<div[^>]*class=["'][^"']*card[^"']*["'][^>]*>([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/gi;
-  let cardMatch;
-  while ((cardMatch = cardPattern.exec(html)) !== null) {
-    const block = cardMatch[1];
-
-    // Extract link (editon pages)
-    const linkMatch = block.match(/<a[^>]+href=["']([^"']*editon[^"']*)["']/i);
-    if (!linkMatch) continue;
-
-    let link = linkMatch[1];
-    if (link && !link.startsWith('http')) {
-      link = FAR_BASE + (link.startsWith('/') ? '' : '/') + link;
-    }
-
-    // Extract image
-    let image = '';
-    const imgMatch = block.match(/<img[^>]+src=["']([^"']+)["']/i);
-    if (imgMatch) {
-      image = imgMatch[1];
-      if (image && !image.startsWith('http')) {
-        image = FAR_BASE + (image.startsWith('/') ? '' : '/') + image;
-      }
-    }
-
-    // Extract title
-    let title = '';
-    const titleMatch = block.match(/<[^>]*class=["'][^"']*card-title[^"']*["'][^>]*>([\s\S]*?)<\//i);
-    if (titleMatch) title = stripHTML(titleMatch[1]).trim();
-    if (!title) {
-      // Fallback: use link text
-      const aTextMatch = block.match(/<a[^>]*>([\s\S]*?)<\/a>/i);
-      if (aTextMatch) title = stripHTML(aTextMatch[1]).trim();
-    }
-
-    if (title && link) {
-      revues.push({ title, link, image, source: 'Revue FAR', cat: 'far' });
-    }
-  }
-
-  // Broader fallback: find all links to /editon/ pages
-  if (revues.length === 0) {
-    const linkRegex = /<a[^>]+href=["']([^"']*editon[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
-    const seen = new Set();
-    let m;
-    while ((m = linkRegex.exec(html)) !== null) {
-      let link = m[1];
-      if (!link.startsWith('http')) link = FAR_BASE + (link.startsWith('/') ? '' : '/') + link;
-      const title = stripHTML(m[2]).trim();
-      if (title && !seen.has(link)) {
-        seen.add(link);
-        // Look for nearby image
-        let image = '';
-        const nearbyImg = html.slice(Math.max(0, m.index - 300), m.index + 300).match(/<img[^>]+src=["']([^"']+)["']/i);
+  const seen = new Set();
+  const linkRegex = /<a[^>]+href=["']([^"']*editon[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  let m;
+  while ((m = linkRegex.exec(html)) !== null) {
+    let link = m[1];
+    if (!link.startsWith('http')) link = FAR_BASE + (link.startsWith('/') ? '' : '/') + link;
+    const title = stripHTML(m[2]).trim();
+    if (title && title.length > 3 && !seen.has(link)) {
+      seen.add(link);
+      let image = '';
+      try {
+        const nearbyImg = html.slice(Math.max(0, m.index - 500), m.index + 500).match(/<img[^>]+src=["']([^"']+)["']/i);
         if (nearbyImg) {
           image = nearbyImg[1];
           if (!image.startsWith('http')) image = FAR_BASE + (image.startsWith('/') ? '' : '/') + image;
         }
-        revues.push({ title, link, image, source: 'Revue FAR', cat: 'far' });
-      }
+      } catch (e) {}
+      revues.push({ title, link, image, source: 'Revue FAR', cat: 'far' });
     }
   }
-
   return revues;
 }
 
@@ -608,22 +592,22 @@ function parseHabousPrayer(html) {
     { key: 'Isha', ar: '\u0627\u0644\u0639\u0634\u0627\u0621' },
   ];
   for (const p of prayers) {
-    const regex = new RegExp(p.ar + '[^\\d]*(\\d{1,2}:\\d{2})');
-    const match = html.match(regex);
-    if (match) times[p.key] = match[1];
+    try {
+      const regex = new RegExp(p.ar + '[^\\d]*(\\d{1,2}:\\d{2})');
+      const match = html.match(regex);
+      if (match) times[p.key] = match[1];
+    } catch (e) {}
   }
-  // Hijri date
   const hijriMatch = html.match(/(\u0627\u0644[\u0627-\u064a]+\s+\d+\s+[\u0627-\u064a]+\s+\d+\s*\u0647\u0640?)/);
   const hijriDate = hijriMatch ? hijriMatch[1].trim() : '';
   const gregMatch = html.match(/\u0627\u0644\u0645\u0648\u0627\u0641\u0642\s*([\d\s\u0627-\u064a]+\u0645)/);
   const gregDate = gregMatch ? gregMatch[1].trim() : '';
-
   return { times, hijriDate, gregDate };
 }
 
 
 // ═══════════════════════════════════════════════════════════════
-// UTILITY FUNCTIONS
+// UTILITIES
 // ═══════════════════════════════════════════════════════════════
 
 async function fetchWithTimeout(url, ms = 12000) {
@@ -646,40 +630,42 @@ async function fetchWithTimeout(url, ms = 12000) {
 }
 
 function extractTag(xml, tag) {
-  const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i');
-  const m = xml.match(regex);
-  return m ? m[1].trim() : '';
+  try {
+    const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i');
+    const m = xml.match(regex);
+    return m ? m[1].trim() : '';
+  } catch (e) { return ''; }
 }
 
 function extractCDATA(xml, tag) {
-  // Handle CDATA sections: <tag><![CDATA[content]]></tag>
-  const regex = new RegExp(`<${tag}[^>]*>\\s*(?:<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>|([\\s\\S]*?))\\s*</${tag}>`, 'i');
-  const m = xml.match(regex);
-  if (!m) return '';
-  return (m[1] || m[2] || '').trim();
+  try {
+    const regex = new RegExp(`<${tag}[^>]*>\\s*(?:<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>|([\\s\\S]*?))\\s*</${tag}>`, 'i');
+    const m = xml.match(regex);
+    if (!m) return '';
+    return (m[1] || m[2] || '').trim();
+  } catch (e) { return ''; }
 }
 
 function extractAttr(xml, tag, attr) {
-  // Extract attribute from a tag, handling self-closing tags
-  const tagName = tag.split('[')[0]; // strip [attr=val] selectors
-  const regex = new RegExp(`<${tagName}[^>]+${attr}=["']([^"']+)["']`, 'i');
-  const m = xml.match(regex);
-  return m ? m[1] : '';
+  try {
+    const tagName = tag.split('[')[0];
+    const regex = new RegExp(`<${tagName}[^>]+${attr}=["']([^"']+)["']`, 'i');
+    const m = xml.match(regex);
+    return m ? m[1] : '';
+  } catch (e) { return ''; }
 }
 
 function stripHTML(str) {
   if (!str) return '';
-  return str
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&nbsp;/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  try {
+    return str
+      .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  } catch (e) { return ''; }
 }
 
 function corsHeaders() {
