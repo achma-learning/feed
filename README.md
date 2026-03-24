@@ -29,8 +29,9 @@ and in this prayer time instead of "Monday, March 16, 2026 | الاثنين 16 �
 # // not now ,later now now , add a calendar event sync with google calendar but not now, under calendar month view
 
 # source of news
-+ google news (health-maroc) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA%3Afr
-+ google news (health-world) : https://news.google.com/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB%3Aen
++ google news (health-maroc) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?ceid=MA:fr&oc=3+ 
++ google news (health-UK) : https://news.google.com/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB%3Aen
++ google news (health-france) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=FR&ceid=FR%3Afr
 + site:www.google.com autonomous robotic surgery (ARS)
 // map news
 + https://www.mapnews.ma/ar/ 
