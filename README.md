@@ -24,7 +24,9 @@ and in this prayer time instead of "Monday, March 16, 2026 | الاثنين 16 �
 الرباط
 الفجر :	05:08	| الشروق :	06:34	| الظهر :	12:41
 العصر :	16:01	| المغرب :	18:40	| العشاء :	19:54
-# add also today's weather at right of page, mainly for marrakech
+# add also today's weather at right of page, mainly for marrakech, and make it sync with prayer city
+# add also under weather in same side bar a calendar view of current month , and highlight today
+# // not now ,later now now , add a calendar event sync with google calendar but not now, under calendar month view
 
 # source of news
 + google news (health-maroc) : https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA%3Afr
@@ -42,6 +44,11 @@ Regional : https://www.mapnews.ma/ar/actualites/regional/rss
 General : https://www.mapnews.ma/ar/actualites/general/rss
 Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 // end of map news RSS
+
+//
+https://www.maroc.ma/ar/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1
+//
+
 
 + https://newatlas.com/science/
 + https://newatlas.com/energy/
