@@ -1421,15 +1421,57 @@ async function fetchFarRevues(pages = [1]) {
 }
 
 async function loadInitialFarRevues() {
-    const revues = await fetchFarRevues([1, 2]);
-    farRevues = revues;
-    farLoadedPages = 2;
-    feedResults['far-revue'] = { ok: revues.length > 0, count: revues.length };
-    renderFarSection();
-    renderFeedStatus();
+    try {
+        const revues = await fetchFarRevues([1, 2]);
+        farRevues = revues;
+        farLoadedPages = 2;
+        feedResults['far-revue'] = { ok: revues.length > 0, count: revues.length };
+        renderFarSection();
+        renderFeedStatus();
 
-    if (farLoadedPages < FAR_PAGES.length) {
-        document.getElementById('farShowMore').style.display = 'flex';
+        if (revues.length > 0 && farLoadedPages < FAR_PAGES.length) {
+            document.getElementById('farShowMore').style.display = 'flex';
+        }
+
+        // If HTML scraping returned nothing, fallback to RSS
+        if (revues.length === 0) {
+            console.warn('FAR HTML scraping returned 0 results, falling back to RSS');
+            await loadFarFromRSS();
+        }
+    } catch (e) {
+        console.warn('FAR HTML scraping failed, falling back to RSS:', e);
+        await loadFarFromRSS();
+    }
+}
+
+// Fallback: load Revue FAR from RSS feed if HTML scraping fails
+async function loadFarFromRSS() {
+    try {
+        const farFeed = { id: 'far-revue', cat: 'far', name: 'Revue FAR', url: 'https://revue.far.ma/feed/', color: '#5b6e1e' };
+        const xml = await fetchWithFallback(farFeed.url);
+        const articles = parseRSS(xml, farFeed);
+
+        // Try to derive cover image URLs from article links
+        // Pattern: edition link like /editon431... → image /storage/revues/CouvE431.png
+        farRevues = articles.map(a => {
+            let image = a.image || '';
+            if (!image) {
+                const edMatch = a.link.match(/editon(\d+)/);
+                if (edMatch) {
+                    image = `${FAR_BASE}/storage/revues/CouvE${edMatch[1]}.png`;
+                }
+            }
+            return { title: a.title, link: a.link, image, source: 'Revue FAR', cat: 'far' };
+        });
+
+        farLoadedPages = FAR_PAGES[FAR_PAGES.length - 1]; // No more pages to load
+        feedResults['far-revue'] = { ok: farRevues.length > 0, count: farRevues.length };
+        renderFarSection();
+        renderFeedStatus();
+    } catch (e2) {
+        console.warn('FAR RSS fallback also failed:', e2);
+        feedResults['far-revue'] = { ok: false, count: 0, error: 'Failed to load' };
+        renderFeedStatus();
     }
 }
 
@@ -1438,14 +1480,18 @@ async function loadMoreFarRevues() {
     btn.textContent = 'Chargement...';
     btn.disabled = true;
 
-    const remainingPages = FAR_PAGES.filter(p => p > farLoadedPages);
-    const revues = await fetchFarRevues(remainingPages);
-    farRevues.push(...revues);
-    farLoadedPages = FAR_PAGES[FAR_PAGES.length - 1];
+    try {
+        const remainingPages = FAR_PAGES.filter(p => p > farLoadedPages);
+        const revues = await fetchFarRevues(remainingPages);
+        farRevues.push(...revues);
+        farLoadedPages = FAR_PAGES[FAR_PAGES.length - 1];
 
-    feedResults['far-revue'] = { ok: farRevues.length > 0, count: farRevues.length };
-    renderFarSection();
-    renderFeedStatus();
+        feedResults['far-revue'] = { ok: farRevues.length > 0, count: farRevues.length };
+        renderFarSection();
+        renderFeedStatus();
+    } catch (e) {
+        console.warn('FAR load more failed:', e);
+    }
 
     btn.style.display = 'none';
 }
