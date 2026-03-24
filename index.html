@@ -797,6 +797,84 @@
         .weather-loading {
             padding: 20px;
             text-align: center;
+        }
+
+        /* ── CALENDAR CARD ── */
+        .calendar-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .calendar-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 4px;
+        }
+        .calendar-nav-btn {
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            width: 26px; height: 26px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .calendar-nav-btn:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-bottom: 4px;
+        }
+        .calendar-weekday {
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 4px 0;
+        }
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        .calendar-day {
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.72rem;
+            border-radius: 6px;
+            cursor: default;
+            color: var(--text-secondary);
+            transition: background 0.15s;
+        }
+        .calendar-day.empty { visibility: hidden; }
+        .calendar-day.today {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+        }
+        .calendar-day.other-month {
+            color: var(--text-muted);
+            opacity: 0.4;
             opacity: 0.8;
             font-size: 0.8rem;
         }
@@ -928,6 +1006,9 @@
     <div class="cat-tab" data-cat="mit">MIT News</div>
     <div class="cat-tab" data-cat="far">Revue FAR</div>
     <div class="cat-tab" data-cat="sante-gov">Minist&egrave;re Sant&eacute;</div>
+    <div class="cat-tab" data-cat="has">HAS</div>
+    <div class="cat-tab" data-cat="vidal">Vidal</div>
+    <div class="cat-tab" data-cat="hcp">HCP</div>
 </div>
 
 <!-- STORIES BAR -->
@@ -998,6 +1079,27 @@
             <div class="weather-loading">Loading weather...</div>
         </div>
 
+        <!-- CALENDAR -->
+        <div class="calendar-card" id="calendarCard">
+            <div class="calendar-header">
+                <span class="calendar-title" id="calendarTitle"></span>
+                <div class="calendar-nav">
+                    <button class="calendar-nav-btn" id="calPrev">&#9664;</button>
+                    <button class="calendar-nav-btn" id="calNext">&#9654;</button>
+                </div>
+            </div>
+            <div class="calendar-weekdays">
+                <div class="calendar-weekday">Mon</div>
+                <div class="calendar-weekday">Tue</div>
+                <div class="calendar-weekday">Wed</div>
+                <div class="calendar-weekday">Thu</div>
+                <div class="calendar-weekday">Fri</div>
+                <div class="calendar-weekday">Sat</div>
+                <div class="calendar-weekday">Sun</div>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+        </div>
+
         <!-- QUICK LINKS -->
         <div style="background:var(--bg-card);border-radius:12px;padding:14px;box-shadow:var(--shadow)">
             <div style="font-size:0.78rem;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Quick Links</div>
@@ -1007,6 +1109,12 @@
                 <a href="https://www.mapnews.ma/ar/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">MAP News</a>
                 <a href="https://www.sante.gov.ma" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Minist&egrave;re de la Sant&eacute;</a>
                 <a href="https://en.hespress.com/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Hespress</a>
+                <a href="https://www.has-sante.fr/jcms/fc_2874902/fr/actualites" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">HAS - Haute Autorit&eacute; de Sant&eacute;</a>
+                <a href="https://www.vidal.fr/actualites.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Vidal Actualit&eacute;s</a>
+                <a href="https://ammps.sante.gov.ma/actualites" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">AMMPS</a>
+                <a href="https://www.hcp.ma/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">HCP Maroc</a>
+                <a href="https://www.maroc.ma/ar/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Maroc.ma</a>
+                <a href="https://revue.far.ma/revues" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Revue FAR</a>
             </div>
         </div>
     </aside>
@@ -1041,7 +1149,15 @@ const FEEDS = [
     { id: 'newatlas-science', cat: 'newatlas', name: 'New Atlas Science', url: 'https://newatlas.com/science/feed/', color: '#ea580c' },
     { id: 'newatlas-energy', cat: 'newatlas', name: 'New Atlas Energy', url: 'https://newatlas.com/energy/feed/', color: '#d97706' },
     { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/feed/', color: '#db2777' },
+    { id: 'health-france', cat: 'health-world', name: 'Santé France', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=FR&ceid=FR:fr', color: '#1d4ed8' },
+    { id: 'map-regional', cat: 'map', name: 'MAP Régional', url: 'https://www.mapnews.ma/ar/actualites/regional/rss', color: '#0d9488' },
     { id: 'mit', cat: 'mit', name: 'MIT News', url: 'https://news.mit.edu/rss/feed', color: '#475569' },
+    { id: 'has-actualites', cat: 'has', name: 'HAS Actualités', url: 'https://www.has-sante.fr/jcms/fc_2874902/fr/actualites?rss=true', color: '#7c3aed' },
+    { id: 'has-presse', cat: 'has', name: 'HAS Presse', url: 'https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse?rss=true', color: '#7c3aed' },
+    { id: 'vidal-medicaments', cat: 'vidal', name: 'Vidal Médicaments', url: 'https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.xml', color: '#0369a1' },
+    { id: 'vidal-diagnostic', cat: 'vidal', name: 'Vidal Diagnostic', url: 'https://www.vidal.fr/actualites/diagnostic-et-therapeutique.xml', color: '#0369a1' },
+    { id: 'vidal-sante-publique', cat: 'vidal', name: 'Vidal Santé Publique', url: 'https://www.vidal.fr/actualites/sante-publique.xml', color: '#0284c7' },
+    { id: 'vidal-innovation', cat: 'vidal', name: 'Vidal Innovation', url: 'https://www.vidal.fr/actualites/technologie-et-innovation.xml', color: '#0284c7' },
 ];
 
 // Revue FAR — scraped from HTML pages
@@ -1899,6 +2015,45 @@ async function fetchWeather() {
         card.innerHTML = '<div class="weather-loading">Weather unavailable</div>';
     }
 }
+
+// ══════════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════════
+
+let calendarDate = new Date();
+
+function renderCalendar() {
+    const now = new Date();
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = (firstDay.getDay() + 6) % 7; // Monday=0
+
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+    document.getElementById('calendarTitle').textContent = `${monthNames[month]} ${year}`;
+
+    let html = '';
+    for (let i = 0; i < startDay; i++) {
+        html += '<div class="calendar-day empty"></div>';
+    }
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+        const isToday = d === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+        html += `<div class="calendar-day${isToday ? ' today' : ''}">${d}</div>`;
+    }
+    document.getElementById('calendarDays').innerHTML = html;
+}
+
+document.getElementById('calPrev').addEventListener('click', () => {
+    calendarDate.setMonth(calendarDate.getMonth() - 1);
+    renderCalendar();
+});
+document.getElementById('calNext').addEventListener('click', () => {
+    calendarDate.setMonth(calendarDate.getMonth() + 1);
+    renderCalendar();
+});
+renderCalendar();
 
 // ══════════════════════════════════════════
 // INIT
