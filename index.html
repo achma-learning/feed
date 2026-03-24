@@ -28,6 +28,8 @@
             --island-text: #ffffff;
             --prayer-highlight: #dc2626;
             --weather-gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
+            --far-accent: #5b6e1e;
+            --far-accent-light: #f5f7ed;
         }
 
         [data-theme="dark"] {
@@ -52,6 +54,8 @@
             --island-bg: rgba(255,255,255,0.12);
             --island-text: #e4e4e7;
             --weather-gradient: linear-gradient(135deg, #1e3a5f, #164e63);
+            --far-accent: #8fa33b;
+            --far-accent-light: #1a1d12;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -238,6 +242,164 @@
         .feed-area {
             padding: 14px;
             min-width: 0;
+        }
+
+        /* ── SECTION HEADER ── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 18px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-header:first-child { margin-top: 0; }
+        .section-header h2 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-header h2 .section-icon {
+            width: 24px; height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #fff;
+            font-weight: 700;
+        }
+        .section-header .section-count {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* ── REVUE FAR MAGAZINE GRID ── */
+        .far-revue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .far-revue-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .far-revue-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .far-revue-card .revue-img-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 133%; /* ~3:4 magazine ratio */
+            overflow: hidden;
+            background: var(--far-accent-light);
+        }
+        .far-revue-card .revue-img-wrap img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .far-revue-card:hover .revue-img-wrap img {
+            transform: scale(1.04);
+        }
+        .far-revue-card .revue-img-wrap .revue-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: var(--far-accent);
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .far-revue-card .revue-body {
+            padding: 10px 12px 12px;
+        }
+        .far-revue-card .revue-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.35;
+            margin-bottom: 6px;
+        }
+        .far-revue-card .revue-link {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--far-accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.2s;
+        }
+        .far-revue-card:hover .revue-link {
+            gap: 8px;
+        }
+        .far-revue-card .revue-link-arrow {
+            font-size: 0.65rem;
+            transition: transform 0.2s;
+        }
+        .far-revue-card:hover .revue-link-arrow {
+            transform: translateX(2px);
+        }
+        .far-revue-card .revue-img-placeholder {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--far-accent-light), var(--tag-bg));
+            color: var(--far-accent);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .far-show-more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin: 8px auto 0;
+            padding: 8px 20px;
+            background: var(--tag-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .far-show-more:hover {
+            background: var(--far-accent);
+            color: #fff;
+            border-color: var(--far-accent);
+        }
+        .far-loading-bar {
+            height: 3px;
+            background: var(--far-accent);
+            border-radius: 2px;
+            width: 0;
+            transition: width 0.3s;
+            margin-bottom: 8px;
         }
 
         /* ── GRID VIEW ── */
@@ -789,6 +951,24 @@
 <div class="main-layout">
     <!-- FEED -->
     <div class="feed-area view-grid" id="feedArea">
+
+        <!-- REVUE FAR SECTION -->
+        <div id="farSection" style="display:none;">
+            <div class="section-header">
+                <h2>
+                    <span class="section-icon" style="background:#5b6e1e">R</span>
+                    Revue des Forces Arm&eacute;es Royales
+                </h2>
+                <span class="section-count" id="farCount"></span>
+            </div>
+            <div class="far-loading-bar" id="farLoadingBar"></div>
+            <div class="far-revue-grid" id="farRevueGrid"></div>
+            <button class="far-show-more" id="farShowMore" style="display:none;">
+                Charger plus d'&eacute;ditions &#8594;
+            </button>
+        </div>
+
+        <!-- NEWS FEED SECTION -->
         <div class="feed-grid" id="feedGrid"></div>
         <div class="feed-list" id="feedList"></div>
         <div class="footer">Auto-updates every 5 minutes &middot; Powered by RSS</div>
@@ -862,8 +1042,11 @@ const FEEDS = [
     { id: 'newatlas-energy', cat: 'newatlas', name: 'New Atlas Energy', url: 'https://newatlas.com/energy/feed/', color: '#d97706' },
     { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/feed/', color: '#db2777' },
     { id: 'mit', cat: 'mit', name: 'MIT News', url: 'https://news.mit.edu/rss/feed', color: '#475569' },
-    { id: 'far', cat: 'far', name: 'Revue FAR', url: 'https://revue.far.ma/feed/', color: '#78350f' },
 ];
+
+// Revue FAR — scraped from HTML pages
+const FAR_PAGES = [1, 2, 3, 4, 5];
+const FAR_BASE = 'https://revue.far.ma';
 
 // All Morocco cities from Habous.gov.ma — [villeId, arabicName, frenchName, englishName]
 const HABOUS_CITIES = [
@@ -934,6 +1117,8 @@ let currentCategory = 'all';
 let currentSort = 'newest';
 let feedResults = {};
 let selectedVilleId = parseInt(localStorage.getItem('prayerVille') || '104'); // Default: Marrakech
+let farRevues = [];
+let farLoadedPages = 0;
 
 // ══════════════════════════════════════════
 // FLOATING ISLAND — Date & Time
@@ -1001,6 +1186,7 @@ document.getElementById('categoryBar').addEventListener('click', (e) => {
     tab.classList.add('active');
     currentCategory = tab.dataset.cat;
     renderFeed();
+    renderFarSection();
 });
 
 // ══════════════════════════════════════════
@@ -1085,7 +1271,22 @@ function stripHTML(html) {
 // FETCH WITH CORS PROXY FALLBACK
 // ══════════════════════════════════════════
 
-async function fetchWithFallback(url, timeoutMs = 10000) {
+async function fetchWithFallback(url, timeoutMs = 12000) {
+    // Try direct fetch first (works for CORS-enabled APIs like New Atlas)
+    try {
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+        const resp = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(tid);
+        if (resp.ok) {
+            const text = await resp.text();
+            if (text.includes('<') && (text.includes('<rss') || text.includes('<feed') || text.includes('<item') || text.includes('<entry'))) {
+                return text;
+            }
+        }
+    } catch (e) { /* fallback to proxies */ }
+
+    // Try CORS proxies
     for (let i = 0; i < CORS_PROXIES.length; i++) {
         try {
             const ctrl = new AbortController();
@@ -1097,6 +1298,30 @@ async function fetchWithFallback(url, timeoutMs = 10000) {
             if (!text.includes('<') || (text.includes('<!DOCTYPE html>') && !text.includes('<rss') && !text.includes('<feed') && !text.includes('<item')))
                 throw new Error('Not RSS');
             return text;
+        } catch (e) {
+            if (i === CORS_PROXIES.length - 1) throw e;
+        }
+    }
+}
+
+async function fetchHTML(url, timeoutMs = 12000) {
+    // For fetching HTML pages (Revue FAR)
+    try {
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+        const resp = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(tid);
+        if (resp.ok) return await resp.text();
+    } catch (e) { /* fallback */ }
+
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+        try {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+            const resp = await fetch(CORS_PROXIES[i](url), { signal: ctrl.signal });
+            clearTimeout(tid);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            return await resp.text();
         } catch (e) {
             if (i === CORS_PROXIES.length - 1) throw e;
         }
@@ -1136,6 +1361,141 @@ async function fetchAllFeeds() {
 }
 
 // ══════════════════════════════════════════
+// REVUE FAR — HTML SCRAPING
+// ══════════════════════════════════════════
+
+function parseFarRevuePage(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const cards = doc.querySelectorAll('.card.card-hover-shadow');
+    const revues = [];
+
+    cards.forEach(card => {
+        const linkEl = card.querySelector('a[href*="editon"]') || card.querySelector('a[href*="/editon"]');
+        const imgEl = card.querySelector('img.card-img-top');
+        const titleEl = card.querySelector('.card-title');
+
+        if (!linkEl) return;
+
+        let link = linkEl.getAttribute('href') || '';
+        if (link && !link.startsWith('http')) {
+            link = FAR_BASE + (link.startsWith('/') ? '' : '/') + link;
+        }
+
+        let image = imgEl ? (imgEl.getAttribute('src') || '') : '';
+        if (image && !image.startsWith('http')) {
+            image = FAR_BASE + (image.startsWith('/') ? '' : '/') + image;
+        }
+
+        const title = titleEl ? titleEl.textContent.trim() : '';
+
+        if (title && link) {
+            revues.push({ title, link, image, source: 'Revue FAR', cat: 'far' });
+        }
+    });
+
+    return revues;
+}
+
+async function fetchFarRevues(pages = [1]) {
+    const bar = document.getElementById('farLoadingBar');
+    bar.style.width = '10%';
+
+    const allRevues = [];
+    for (let i = 0; i < pages.length; i++) {
+        const page = pages[i];
+        bar.style.width = `${10 + ((i + 1) / pages.length) * 80}%`;
+        try {
+            const html = await fetchHTML(`${FAR_BASE}/revues?page=${page}`);
+            const revues = parseFarRevuePage(html);
+            allRevues.push(...revues);
+        } catch (e) {
+            console.warn(`FAR page ${page} failed:`, e);
+        }
+    }
+
+    bar.style.width = '100%';
+    setTimeout(() => { bar.style.width = '0'; }, 500);
+
+    return allRevues;
+}
+
+async function loadInitialFarRevues() {
+    const revues = await fetchFarRevues([1, 2]);
+    farRevues = revues;
+    farLoadedPages = 2;
+    feedResults['far-revue'] = { ok: revues.length > 0, count: revues.length };
+    renderFarSection();
+    renderFeedStatus();
+
+    if (farLoadedPages < FAR_PAGES.length) {
+        document.getElementById('farShowMore').style.display = 'flex';
+    }
+}
+
+async function loadMoreFarRevues() {
+    const btn = document.getElementById('farShowMore');
+    btn.textContent = 'Chargement...';
+    btn.disabled = true;
+
+    const remainingPages = FAR_PAGES.filter(p => p > farLoadedPages);
+    const revues = await fetchFarRevues(remainingPages);
+    farRevues.push(...revues);
+    farLoadedPages = FAR_PAGES[FAR_PAGES.length - 1];
+
+    feedResults['far-revue'] = { ok: farRevues.length > 0, count: farRevues.length };
+    renderFarSection();
+    renderFeedStatus();
+
+    btn.style.display = 'none';
+}
+
+document.getElementById('farShowMore').addEventListener('click', loadMoreFarRevues);
+
+function renderFarSection() {
+    const section = document.getElementById('farSection');
+    const grid = document.getElementById('farRevueGrid');
+    const count = document.getElementById('farCount');
+
+    const showFar = currentCategory === 'all' || currentCategory === 'far';
+    section.style.display = showFar && farRevues.length > 0 ? 'block' : 'none';
+
+    if (!showFar || farRevues.length === 0) return;
+
+    const limit = currentCategory === 'far' ? farRevues.length : 5;
+    const display = farRevues.slice(0, limit);
+    count.textContent = `${display.length} of ${farRevues.length} éditions`;
+
+    grid.innerHTML = display.map(r => `
+        <a class="far-revue-card" href="${r.link}" target="_blank" rel="noopener">
+            <div class="revue-img-wrap">
+                ${r.image
+                    ? `<img src="${r.image}" alt="${esc(r.title)}" loading="lazy" referrerpolicy="no-referrer"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+                    : ''}
+                <div class="revue-img-placeholder" style="${r.image ? 'display:none' : ''}">FAR</div>
+                <div class="revue-badge">Revue FAR</div>
+            </div>
+            <div class="revue-body">
+                <div class="revue-title">${esc(r.title)}</div>
+                <span class="revue-link">
+                    En savoir plus <span class="revue-link-arrow">&#8594;</span>
+                </span>
+            </div>
+        </a>
+    `).join('');
+
+    const moreBtn = document.getElementById('farShowMore');
+    if (currentCategory === 'far' && farLoadedPages < FAR_PAGES[FAR_PAGES.length - 1]) {
+        moreBtn.style.display = 'flex';
+        moreBtn.textContent = 'Charger plus d\'éditions →';
+        moreBtn.disabled = false;
+    } else if (currentCategory === 'all') {
+        moreBtn.style.display = 'none';
+    }
+}
+
+// ══════════════════════════════════════════
 // RENDER FUNCTIONS
 // ══════════════════════════════════════════
 
@@ -1145,7 +1505,8 @@ function showSkeletons() {
 }
 
 function renderFeedStatus() {
-    document.getElementById('feedStatus').innerHTML = FEEDS.map(f => {
+    const allFeedIds = [...FEEDS, { id: 'far-revue', name: 'Revue FAR' }];
+    document.getElementById('feedStatus').innerHTML = allFeedIds.map(f => {
         const r = feedResults[f.id];
         if (!r) return '';
         return `<span class="feed-badge ${r.ok ? 'ok' : 'fail'}" title="${r.ok ? '' : (r.error||'')}">${f.name} ${r.ok ? '\u2713 ' + r.count : '\u2717'}</span>`;
@@ -1158,6 +1519,16 @@ function renderStories() {
         if (!bySource[a.sourceId] || a.pubDate > bySource[a.sourceId].pubDate)
             bySource[a.sourceId] = a;
     });
+    // Add FAR as a story too
+    if (farRevues.length > 0) {
+        bySource['far-revue'] = {
+            link: `${FAR_BASE}/revues`,
+            image: farRevues[0].image,
+            source: 'Revue FAR',
+            sourceId: 'far-revue',
+            color: '#5b6e1e'
+        };
+    }
     document.getElementById('storiesBar').innerHTML = Object.values(bySource).map(a => `
         <a class="story-item" href="${a.link}" target="_blank" rel="noopener">
             <div class="story-ring">
@@ -1525,12 +1896,14 @@ async function fetchWeather() {
 
 document.getElementById('btnRefresh').addEventListener('click', () => {
     fetchAllFeeds();
+    loadInitialFarRevues();
     fetchPrayerTimes();
     fetchWeather();
 });
 
 // Launch all
 fetchAllFeeds();
+loadInitialFarRevues();
 fetchPrayerTimes();
 fetchWeather();
 
