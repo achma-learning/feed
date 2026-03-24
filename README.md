@@ -80,6 +80,9 @@ Fêtes nationales et religieuses
 + HAS Actualités : https://www.has-sante.fr/jcms/fc_2874902/fr/actualites
 + HAS Actualités presse : https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse
 // end of HAS news
+
+Agence Nationale de Sécurité du Médicament (France) : https://ansm.sante.fr/actualites/a-la-une
+
 // vidal news : https://www.vidal.fr/actualites.html
 // other vidal :
 + Actualités médicaments et autres produits de santé : https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.html
