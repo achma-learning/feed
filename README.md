@@ -47,6 +47,7 @@ Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 
 //
 https://www.maroc.ma/ar/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1
+Fêtes nationales et religieuses
 //
 
 
