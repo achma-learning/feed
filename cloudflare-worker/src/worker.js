@@ -15,6 +15,10 @@ const RSS_FEEDS = [
   { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/index.rss', color: '#db2777' },
   { id: 'health-france', cat: 'health-world', name: 'Santé France', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=FR&ceid=FR:fr', color: '#1d4ed8' },
   { id: 'mit', cat: 'mit', name: 'MIT News', url: 'https://news.mit.edu/rss/feed', color: '#475569' },
+  { id: 'has-actualites', cat: 'has', name: 'HAS Actualités', url: 'https://www.has-sante.fr/feed/Rss2.jsp?id=p_3081656', color: '#7c3aed' },
+  { id: 'has-recommandations', cat: 'has', name: 'HAS Recommandations', url: 'https://www.has-sante.fr/feed/Rss2.jsp?id=p_3081452', color: '#7c3aed' },
+  { id: 'has-medicaments', cat: 'has', name: 'HAS Médicaments', url: 'https://www.has-sante.fr/feed/Rss2.jsp?id=p_3081449', color: '#7c3aed' },
+  { id: 'vidal-actualites', cat: 'vidal', name: 'Vidal Actualités', url: 'https://www.vidal.fr/rss.xml', color: '#0369a1' },
 ];
 
 // ── HTML Scrape Sources (no RSS available) ──
@@ -23,9 +27,6 @@ const SCRAPE_SOURCES = [
   { id: 'sante-gov-actualites', cat: 'sante-gov', name: 'Min. Santé Actualités', url: 'https://www.sante.gov.ma/Pages/toutes_actualites.aspx', color: '#15803d' },
   { id: 'ammps-actualites', cat: 'sante-gov', name: 'AMMPS Actualités', url: 'https://ammps.sante.gov.ma/actualites', color: '#059669' },
   { id: 'hcp-publications', cat: 'hcp', name: 'HCP Publications', url: 'https://www.hcp.ma/downloads/', color: '#b45309' },
-  { id: 'has-actualites', cat: 'has', name: 'HAS Actualités', url: 'https://www.has-sante.fr/jcms/fc_2874902/fr/actualites', color: '#7c3aed' },
-  { id: 'has-presse', cat: 'has', name: 'HAS Presse', url: 'https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse', color: '#7c3aed' },
-  { id: 'vidal-actualites', cat: 'vidal', name: 'Vidal Actualités', url: 'https://www.vidal.fr/actualites.html', color: '#0369a1' },
 ];
 
 const FAR_BASE = 'https://revue.far.ma';
@@ -430,11 +431,6 @@ async function scrapeSingleHTML(src) {
       return scrapeAMMPS(html, src);
     case 'hcp-publications':
       return scrapeHCP(html, src);
-    case 'has-actualites':
-    case 'has-presse':
-      return scrapeHAS(src, html);
-    case 'vidal-actualites':
-      return scrapeVidal(src, html);
     default:
       return [];
   }
