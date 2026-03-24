@@ -472,7 +472,7 @@
             padding: 7px 10px;
             border-radius: 6px;
             font-size: 0.82rem;
-            direction: rtl;
+            direction: ltr;
             font-family: inherit;
             width: 100%;
             text-align: center;
@@ -506,8 +506,8 @@
             padding: 7px 10px;
             cursor: pointer;
             font-size: 0.78rem;
-            direction: rtl;
-            text-align: right;
+            direction: ltr;
+            text-align: left;
             color: var(--text-primary);
             transition: background 0.15s;
             font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -526,7 +526,7 @@
             text-align: center;
             color: var(--text-muted);
             font-size: 0.75rem;
-            direction: rtl;
+            direction: ltr;
         }
         .prayer-hijri {
             font-size: 0.95rem;
@@ -801,7 +801,7 @@
             <div class="prayer-card-header">
                 <div class="prayer-city-label">&#1605;&#1608;&#1575;&#1602;&#1610;&#1578; &#1575;&#1604;&#1589;&#1604;&#1575;&#1577; &#1604;&#1605;&#1583;&#1610;&#1606;&#1577;</div>
                 <div class="city-search-wrap" id="citySearchWrap">
-                    <input type="text" class="city-search-input" id="citySearchInput" placeholder="&#1575;&#1576;&#1581;&#1579; &#1593;&#1606; &#1605;&#1583;&#1610;&#1606;&#1577;..." autocomplete="off">
+                    <input type="text" class="city-search-input" id="citySearchInput" placeholder="&#1575;&#1576;&#1581;&#1579; / Search city..." autocomplete="off">
                     <div class="city-dropdown" id="cityDropdown"></div>
                 </div>
             </div>
@@ -865,19 +865,19 @@ const FEEDS = [
     { id: 'far', cat: 'far', name: 'Revue FAR', url: 'https://revue.far.ma/feed/', color: '#78350f' },
 ];
 
-// All Morocco cities from Habous.gov.ma — [villeId, arabicName]
+// All Morocco cities from Habous.gov.ma — [villeId, arabicName, frenchName, englishName]
 const HABOUS_CITIES = [
-    [1,'\u0627\u0644\u0631\u0628\u0627\u0637'],[2,'\u0627\u0644\u062e\u0645\u064a\u0633\u0627\u062a'],[3,'\u062a\u064a\u0641\u0644\u062a'],[4,'\u0627\u0644\u0631\u0645\u0627\u0646\u064a'],[5,'\u0648\u0627\u0644\u0645\u0627\u0633'],[6,'\u0628\u0648\u0632\u0646\u064a\u0642\u0629'],[7,'\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629'],[8,'\u0633\u064a\u062f\u064a \u0642\u0627\u0633\u0645'],[9,'\u0633\u064a\u062f\u064a \u064a\u062d\u064a\u0649 \u0627\u0644\u063a\u0631\u0628'],[10,'\u0633\u064a\u062f\u064a \u0633\u0644\u064a\u0645\u0627\u0646'],[11,'\u0633\u0648\u0642 \u0623\u0631\u0628\u0639\u0627\u0621 \u0627\u0644\u063a\u0631\u0628'],[12,'\u0639\u0631\u0628\u0627\u0648\u0629'],[13,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0633\u0644\u0647\u0627\u0645'],
-    [14,'\u0637\u0646\u062c\u0629'],[15,'\u062a\u0637\u0648\u0627\u0646'],[16,'\u0627\u0644\u0639\u0631\u0627\u0626\u0634'],[17,'\u0623\u0635\u064a\u0644\u0629'],[18,'\u0634\u0641\u0634\u0627\u0648\u0646'],[19,'\u0645\u0631\u062a\u064a\u0644'],[20,'\u0627\u0644\u0645\u0636\u064a\u0642'],[21,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0643\u0628\u064a\u0631'],[22,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0635\u063a\u064a\u0631'],[23,'\u0627\u0644\u062d\u0633\u064a\u0645\u0629'],[24,'\u0633\u0628\u062a\u0629'],[25,'\u0627\u0644\u0641\u0646\u064a\u062f\u0642'],[26,'\u0627\u0644\u062c\u0628\u0647\u0629'],[27,'\u0648\u0627\u062f \u0644\u0627\u0648'],[28,'\u0628\u0627\u0628 \u0628\u0631\u062f'],[29,'\u0648\u0632\u0627\u0646'],[30,'\u0628\u0648\u0633\u0643\u0648\u0631'],
-    [31,'\u0648\u062c\u062f\u0629'],[32,'\u0628\u0631\u0643\u0627\u0646'],[33,'\u0641\u0643\u064a\u0643'],[34,'\u0628\u0648\u0639\u0631\u0641\u0629'],[35,'\u0643\u0631\u0633\u064a\u0641'],[36,'\u062c\u0631\u0627\u062f\u0629'],[37,'\u0639\u064a\u0646 \u0627\u0644\u0634\u0639\u064a\u0631'],[38,'\u062a\u0627\u0648\u0631\u064a\u0631\u062a'],[39,'\u0627\u0644\u0646\u0627\u0638\u0648\u0631'],[40,'\u0645\u0644\u064a\u0644\u064a\u0629'],[41,'\u062f\u0628\u062f\u0648'],[42,'\u0633\u0644\u0648\u0627\u0646'],[43,'\u0628\u0646\u064a \u0623\u0646\u0635\u0627\u0631'],[44,'\u0641\u0631\u062e\u0627\u0646\u0629'],[45,'\u062a\u0627\u0644\u0633\u064a\u0646\u062a'],[46,'\u062a\u0646\u062f\u0631\u0627\u0631\u0629'],[47,'\u0627\u0644\u0639\u064a\u0648\u0646 \u0627\u0644\u0634\u0631\u0642\u064a\u0629'],[48,'\u0628\u0646\u064a \u0627\u062f\u0631\u0627\u0631'],[49,'\u0627\u0644\u0633\u0639\u064a\u062f\u064a\u0629'],[50,'\u0631\u0623\u0633 \u0627\u0644\u0645\u0627\u0621'],[51,'\u062a\u0627\u0641\u0648\u063a\u0627\u0644\u062a'],[52,'\u0641\u0632\u0648\u0627\u0646'],[53,'\u0623\u062d\u0641\u064a\u0631'],[54,'\u0632\u0627\u064a\u0648'],[55,'\u062f\u0631\u064a\u0648\u0634'],[56,'\u0628\u0646\u064a \u062a\u062c\u064a\u062a'],[57,'\u0628\u0648\u0639\u0646\u0627\u0646'],
-    [58,'\u0627\u0644\u062f\u0627\u0631 \u0627\u0644\u0628\u064a\u0636\u0627\u0621'],[59,'\u0627\u0644\u0645\u062d\u0645\u062f\u064a\u0629'],[60,'\u0628\u0646 \u0633\u0644\u064a\u0645\u0627\u0646'],[61,'\u0633\u0637\u0627\u062a'],[62,'\u0627\u0644\u0643\u0627\u0631\u0629'],[63,'\u0627\u0644\u0628\u0631\u0648\u062c'],[64,'\u0627\u0628\u0646 \u0623\u062d\u0645\u062f'],[65,'\u0628\u0631\u0634\u064a\u062f'],[66,'\u0627\u0644\u062c\u062f\u064a\u062f\u0629'],[67,'\u0623\u0632\u0645\u0648\u0631'],[68,'\u0633\u064a\u062f\u064a \u0628\u0646\u0648\u0631'],[69,'\u062e\u0645\u064a\u0633 \u0627\u0644\u0632\u0645\u0627\u0645\u0631\u0629'],
-    [70,'\u062e\u0646\u064a\u0641\u0631\u0629'],[71,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0639\u0632\u0629'],[72,'\u0632\u0627\u0648\u064a\u0629 \u0623\u062d\u0646\u0635\u0627\u0644'],[73,'\u0628\u0646\u064a \u0645\u0644\u0627\u0644'],[74,'\u0623\u0632\u064a\u0644\u0627\u0644'],[75,'\u0627\u0644\u0641\u0642\u064a\u0647 \u0628\u0646\u0635\u0627\u0644\u062d'],[76,'\u062f\u0645\u0646\u0627\u062a'],[77,'\u0627\u0644\u0642\u0635\u064a\u0628\u0629'],[78,'\u0642\u0635\u0628\u0629 \u062a\u0627\u062f\u0644\u0629'],[79,'\u062e\u0631\u064a\u0628\u0643\u0629'],[80,'\u0648\u0627\u062f\u064a \u0632\u0645'],
-    [81,'\u0641\u0627\u0633'],[82,'\u0635\u0641\u0631\u0648'],[83,'\u0645\u0648\u0644\u0627\u064a \u064a\u0639\u0642\u0648\u0628'],[84,'\u0628\u0648\u0644\u0645\u0627\u0646'],[85,'\u0645\u064a\u0633\u0648\u0631'],[86,'\u0631\u0628\u0627\u0637 \u0627\u0644\u062e\u064a\u0631'],[87,'\u0627\u0644\u0645\u0646\u0632\u0644 \u0628\u0646\u064a \u064a\u0627\u0632\u063a\u0629'],[88,'\u0625\u0645\u0648\u0632\u0627\u0631 \u0643\u0646\u062f\u0631'],[89,'\u062a\u0627\u0632\u0629'],[90,'\u062a\u0627\u0648\u0646\u0627\u062a'],[91,'\u0623\u0643\u0646\u0648\u0644'],[92,'\u062a\u064a\u0632\u064a \u0648\u0633\u0644\u064a'],[93,'\u0628\u0648\u0631\u062f'],[94,'\u062a\u0627\u0647\u0644\u0629'],[95,'\u062a\u064a\u0633\u0629'],[96,'\u0642\u0631\u064a\u0629 \u0628\u0627 \u0645\u062d\u0645\u062f'],[97,'\u0643\u062a\u0627\u0645\u0629'],[98,'\u0648\u0627\u062f \u0623\u0645\u0644\u064a\u0644'],[99,'\u0645\u0643\u0646\u0627\u0633'],[100,'\u064a\u0641\u0631\u0646'],[101,'\u0627\u0644\u062d\u0627\u062c\u0628'],[102,'\u0632\u0631\u0647\u0648\u0646'],[103,'\u0622\u0632\u0631\u0648'],
-    [104,'\u0645\u0631\u0627\u0643\u0634'],[105,'\u0642\u0644\u0639\u0629 \u0627\u0644\u0633\u0631\u0627\u063a\u0646\u0629'],[106,'\u0627\u0644\u0635\u0648\u064a\u0631\u0629'],[107,'\u0634\u064a\u0634\u0627\u0648\u0629'],[108,'\u0628\u0646\u062c\u0631\u064a\u0631'],[109,'\u0627\u0644\u0631\u062d\u0627\u0645\u0646\u0629'],[110,'\u062a\u0645\u0646\u0627\u0631'],[111,'\u0622\u0633\u0641\u064a'],[112,'\u0627\u0644\u0648\u0644\u064a\u062f\u064a\u0629'],[113,'\u0627\u0644\u064a\u0648\u0633\u0641\u064a\u0629'],[114,'\u062a\u0633\u0644\u0637\u0627\u0646\u062a'],[115,'\u062a\u0627\u0645\u0635\u0644\u0648\u062d\u062a'],[116,'\u0642\u0637\u0627\u0631\u0629'],
-    [117,'\u0623\u0643\u0627\u062f\u064a\u0631'],[118,'\u062a\u0627\u0631\u0648\u062f\u0627\u0646\u062a'],[119,'\u062a\u0632\u0646\u064a\u062a'],[120,'\u0625\u063a\u0631\u0645'],[121,'\u062a\u0627\u0644\u0648\u064a\u0646'],[122,'\u062a\u0627\u0641\u0631\u0627\u0648\u062a'],[123,'\u0637\u0627\u0637\u0627'],[124,'\u0623\u0642\u0627'],[125,'\u0641\u0645 \u0644\u062d\u0635\u0646'],[126,'\u0628\u0648\u064a\u0643\u0631\u0629'],[127,'\u0623\u0648\u0644\u0627\u062f \u062a\u0627\u064a\u0645\u0629'],
-    [128,'\u0627\u0644\u0631\u0634\u064a\u062f\u064a\u0629'],[129,'\u0627\u0644\u0631\u064a\u0635\u0627\u0646\u064a'],[130,'\u0623\u0631\u0641\u0648\u062f'],[131,'\u062a\u0646\u062f\u064a\u062a'],[132,'\u0643\u0644\u0645\u064a\u0645\u0629'],[133,'\u0625\u0645\u0644\u0634\u064a\u0644'],[134,'\u062a\u0646\u062c\u062f\u0627\u062f'],[135,'\u0627\u0644\u0631\u064a\u0634'],[136,'\u0645\u064a\u062f\u0644\u062a'],[137,'\u0632\u0627\u0643\u0648\u0631\u0629'],[138,'\u0648\u0631\u0632\u0627\u0632\u0627\u062a'],[139,'\u062a\u0646\u063a\u064a\u0631'],[140,'\u0647\u0633\u0643\u0648\u0631\u0629'],[141,'\u0642\u0644\u0639\u0629 \u0645\u0643\u0648\u0646\u0629'],[142,'\u0623\u0643\u062f\u0632'],[143,'\u0628\u0648\u0645\u0627\u0644\u0646 \u062f\u0627\u062f\u0633'],[144,'\u0627\u0644\u0646\u064a\u0641'],[145,'\u0623\u0633\u0648\u0644'],[146,'\u0623\u0645\u0633\u0645\u0631\u064a\u0631'],[147,'\u062a\u0627\u0632\u0627\u0631\u064a\u0646'],
-    [148,'\u0633\u064a\u062f\u064a \u0625\u0641\u0646\u064a'],[149,'\u0643\u0644\u0645\u064a\u0645'],[150,'\u0623\u0633\u0627'],[151,'\u0627\u0644\u0632\u0627\u0643'],[152,'\u0637\u0627\u0646\u0637\u0627\u0646'],[153,'\u0628\u0648\u064a\u0632\u0643\u0627\u0631\u0646'],[154,'\u0627\u0644\u0645\u062d\u0628\u0633'],[155,'\u0644\u0645\u0633\u064a\u062f'],[156,'\u0627\u0644\u0639\u064a\u0648\u0646'],[157,'\u0627\u0644\u0633\u0645\u0627\u0631\u0629'],[158,'\u0628\u0648\u062c\u062f\u0648\u0631'],[159,'\u0637\u0631\u0641\u0627\u064a\u0629'],[160,'\u062a\u0641\u0627\u0631\u064a\u062a\u064a'],[161,'\u0628\u0648\u0643\u0631\u0627\u0639'],[162,'\u0643\u0644\u062a\u0629 \u0632\u0645\u0648\u0631'],[163,'\u0623\u0645\u0643\u0627\u0644\u0629'],[164,'\u0623\u062e\u0641\u0646\u064a\u0631'],[165,'\u0627\u0644\u062f\u0627\u062e\u0644\u0629'],[166,'\u0627\u0644\u0643\u0648\u064a\u0631\u0629'],[167,'\u0623\u0648\u0633\u0631\u062f'],[168,'\u0628\u0626\u0631 \u0643\u0646\u062f\u0648\u0632'],[169,'\u0628\u0626\u0631 \u0623\u0646\u0632\u0627\u0631\u0627\u0646'],
-    [301,'\u062e\u0645\u064a\u0633 \u0633\u064a\u062f\u064a \u0639\u0628\u062f \u0627\u0644\u062c\u0644\u064a\u0644'],[302,'\u0623\u0648\u0644\u0627\u062f \u0639\u064a\u0627\u062f'],[303,'\u062a\u0627\u0647\u0644\u0629'],[304,'\u0645\u0637\u0645\u0627\u0637\u0629'],[305,'\u0625\u064a\u0645\u0646\u062a\u0627\u0646\u0648\u062a'],[306,'\u0633\u064a\u062f\u064a \u063a\u0627\u0646\u0645'],[307,'\u062a\u0641\u0646\u062a\u0627\u0646'],[308,'\u0622\u064a\u062a \u0627\u0644\u0642\u0627\u0642'],[309,'\u0623\u0643\u062f\u0627\u0644 \u0623\u0645\u0644\u0634\u064a\u0644'],[310,'\u0627\u0643\u0648\u062f\u0627\u0644 \u0627\u0645\u0644\u0634\u064a\u0644 \u0645\u064a\u062f\u0644\u062a'],[311,'\u0623\u0643\u0627\u064a\u0648\u0627\u0631'],[312,'\u0639\u064a\u0646 \u0627\u0644\u0639\u0648\u062f\u0629'],[313,'\u0623\u0633\u0643\u064a\u0646'],[314,'\u0622\u064a\u062a \u0648\u0631\u064a\u0631'],[315,'\u0632\u0627\u0648\u064a\u0629 \u0645\u0648\u0644\u0627\u064a \u0627\u0628\u0631\u0627\u0647\u064a\u0645'],[316,'\u062a\u0648\u0644\u0643\u0648\u0644\u062a'],[317,'\u0625\u064a\u0643\u0633'],[318,'\u0643\u0631\u0633'],[319,'\u062a\u064a\u0633\u0646\u062a'],[320,'\u0641\u0645 \u0632\u0643\u064a\u062f'],[321,'\u0642\u0635\u0631 \u0625\u064a\u0634'],[322,'\u0625\u064a\u0645\u064a\u0646 \u062b\u0644\u0627\u062b'],
+    [1,'\u0627\u0644\u0631\u0628\u0627\u0637','Rabat','Rabat'],[2,'\u0627\u0644\u062e\u0645\u064a\u0633\u0627\u062a','Khémisset','Khemisset'],[3,'\u062a\u064a\u0641\u0644\u062a','Tiflet','Tiflet'],[4,'\u0627\u0644\u0631\u0645\u0627\u0646\u064a','Rommani','Rommani'],[5,'\u0648\u0627\u0644\u0645\u0627\u0633','Oulmès','Oulmes'],[6,'\u0628\u0648\u0632\u0646\u064a\u0642\u0629','Bouznika','Bouznika'],[7,'\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629','Kénitra','Kenitra'],[8,'\u0633\u064a\u062f\u064a \u0642\u0627\u0633\u0645','Sidi Kacem','Sidi Kacem'],[9,'\u0633\u064a\u062f\u064a \u064a\u062d\u064a\u0649 \u0627\u0644\u063a\u0631\u0628','Sidi Yahia El Gharb','Sidi Yahia El Gharb'],[10,'\u0633\u064a\u062f\u064a \u0633\u0644\u064a\u0645\u0627\u0646','Sidi Slimane','Sidi Slimane'],[11,'\u0633\u0648\u0642 \u0623\u0631\u0628\u0639\u0627\u0621 \u0627\u0644\u063a\u0631\u0628','Souk El Arbaa','Souk El Arbaa'],[12,'\u0639\u0631\u0628\u0627\u0648\u0629','Arbaoua','Arbaoua'],[13,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0633\u0644\u0647\u0627\u0645','Moulay Bousselham','Moulay Bousselham'],
+    [14,'\u0637\u0646\u062c\u0629','Tanger','Tangier'],[15,'\u062a\u0637\u0648\u0627\u0646','Tétouan','Tetouan'],[16,'\u0627\u0644\u0639\u0631\u0627\u0626\u0634','Larache','Larache'],[17,'\u0623\u0635\u064a\u0644\u0629','Asilah','Asilah'],[18,'\u0634\u0641\u0634\u0627\u0648\u0646','Chefchaouen','Chefchaouen'],[19,'\u0645\u0631\u062a\u064a\u0644','Martil','Martil'],[20,'\u0627\u0644\u0645\u0636\u064a\u0642','M\'diq','Mdiq'],[21,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0643\u0628\u064a\u0631','Ksar El Kébir','Ksar El Kebir'],[22,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0635\u063a\u064a\u0631','Ksar Sghir','Ksar Sghir'],[23,'\u0627\u0644\u062d\u0633\u064a\u0645\u0629','Al Hoceïma','Al Hoceima'],[24,'\u0633\u0628\u062a\u0629','Ceuta','Ceuta'],[25,'\u0627\u0644\u0641\u0646\u064a\u062f\u0642','Fnideq','Fnideq'],[26,'\u0627\u0644\u062c\u0628\u0647\u0629','Jebha','Jebha'],[27,'\u0648\u0627\u062f \u0644\u0627\u0648','Oued Laou','Oued Laou'],[28,'\u0628\u0627\u0628 \u0628\u0631\u062f','Bab Berred','Bab Berred'],[29,'\u0648\u0632\u0627\u0646','Ouezzane','Ouazzane'],[30,'\u0628\u0648\u0633\u0643\u0648\u0631','Bouskour','Bouskour'],
+    [31,'\u0648\u062c\u062f\u0629','Oujda','Oujda'],[32,'\u0628\u0631\u0643\u0627\u0646','Berkane','Berkane'],[33,'\u0641\u0643\u064a\u0643','Figuig','Figuig'],[34,'\u0628\u0648\u0639\u0631\u0641\u0629','Bouarfa','Bouarfa'],[35,'\u0643\u0631\u0633\u064a\u0641','Guercif','Guercif'],[36,'\u062c\u0631\u0627\u062f\u0629','Jerada','Jerada'],[37,'\u0639\u064a\u0646 \u0627\u0644\u0634\u0639\u064a\u0631','Aïn Chaïr','Ain Chair'],[38,'\u062a\u0627\u0648\u0631\u064a\u0631\u062a','Taourirt','Taourirt'],[39,'\u0627\u0644\u0646\u0627\u0638\u0648\u0631','Nador','Nador'],[40,'\u0645\u0644\u064a\u0644\u064a\u0629','Melilla','Melilla'],[41,'\u062f\u0628\u062f\u0648','Debdou','Debdou'],[42,'\u0633\u0644\u0648\u0627\u0646','Selouane','Selouane'],[43,'\u0628\u0646\u064a \u0623\u0646\u0635\u0627\u0631','Beni Ensar','Beni Ansar'],[44,'\u0641\u0631\u062e\u0627\u0646\u0629','Farkhana','Farkhana'],[45,'\u062a\u0627\u0644\u0633\u064a\u0646\u062a','Talsint','Talsint'],[46,'\u062a\u0646\u062f\u0631\u0627\u0631\u0629','Tendrara','Tendrara'],[47,'\u0627\u0644\u0639\u064a\u0648\u0646 \u0627\u0644\u0634\u0631\u0642\u064a\u0629','El Aïoun','El Aioun'],[48,'\u0628\u0646\u064a \u0627\u062f\u0631\u0627\u0631','Beni Drar','Beni Drar'],[49,'\u0627\u0644\u0633\u0639\u064a\u062f\u064a\u0629','Saïdia','Saidia'],[50,'\u0631\u0623\u0633 \u0627\u0644\u0645\u0627\u0621','Ras El Ma','Ras El Ma'],[51,'\u062a\u0627\u0641\u0648\u063a\u0627\u0644\u062a','Taforalt','Taforalt'],[52,'\u0641\u0632\u0648\u0627\u0646','Fezouane','Fezouane'],[53,'\u0623\u062d\u0641\u064a\u0631','Ahfir','Ahfir'],[54,'\u0632\u0627\u064a\u0648','Zaïo','Zaio'],[55,'\u062f\u0631\u064a\u0648\u0634','Driouch','Driouch'],[56,'\u0628\u0646\u064a \u062a\u062c\u064a\u062a','Beni Tajjit','Beni Tajjit'],[57,'\u0628\u0648\u0639\u0646\u0627\u0646','Bouanane','Bouanane'],
+    [58,'\u0627\u0644\u062f\u0627\u0631 \u0627\u0644\u0628\u064a\u0636\u0627\u0621','Casablanca','Casablanca'],[59,'\u0627\u0644\u0645\u062d\u0645\u062f\u064a\u0629','Mohammedia','Mohammedia'],[60,'\u0628\u0646 \u0633\u0644\u064a\u0645\u0627\u0646','Benslimane','Benslimane'],[61,'\u0633\u0637\u0627\u062a','Settat','Settat'],[62,'\u0627\u0644\u0643\u0627\u0631\u0629','El Gara','El Gara'],[63,'\u0627\u0644\u0628\u0631\u0648\u062c','El Brouj','El Brouj'],[64,'\u0627\u0628\u0646 \u0623\u062d\u0645\u062f','Ben Ahmed','Ben Ahmed'],[65,'\u0628\u0631\u0634\u064a\u062f','Berrechid','Berrechid'],[66,'\u0627\u0644\u062c\u062f\u064a\u062f\u0629','El Jadida','El Jadida'],[67,'\u0623\u0632\u0645\u0648\u0631','Azemmour','Azemmour'],[68,'\u0633\u064a\u062f\u064a \u0628\u0646\u0648\u0631','Sidi Bennour','Sidi Bennour'],[69,'\u062e\u0645\u064a\u0633 \u0627\u0644\u0632\u0645\u0627\u0645\u0631\u0629','Khémis Zemamra','Khemis Zemamra'],
+    [70,'\u062e\u0646\u064a\u0641\u0631\u0629','Khénifra','Khenifra'],[71,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0639\u0632\u0629','Moulay Bouazza','Moulay Bouazza'],[72,'\u0632\u0627\u0648\u064a\u0629 \u0623\u062d\u0646\u0635\u0627\u0644','Zaouiat Ahansal','Zaouiat Ahansal'],[73,'\u0628\u0646\u064a \u0645\u0644\u0627\u0644','Béni Mellal','Beni Mellal'],[74,'\u0623\u0632\u064a\u0644\u0627\u0644','Azilal','Azilal'],[75,'\u0627\u0644\u0641\u0642\u064a\u0647 \u0628\u0646\u0635\u0627\u0644\u062d','Fquih Ben Salah','Fquih Ben Salah'],[76,'\u062f\u0645\u0646\u0627\u062a','Demnate','Demnate'],[77,'\u0627\u0644\u0642\u0635\u064a\u0628\u0629','El Ksiba','El Ksiba'],[78,'\u0642\u0635\u0628\u0629 \u062a\u0627\u062f\u0644\u0629','Kasba Tadla','Kasba Tadla'],[79,'\u062e\u0631\u064a\u0628\u0643\u0629','Khouribga','Khouribga'],[80,'\u0648\u0627\u062f\u064a \u0632\u0645','Oued Zem','Oued Zem'],
+    [81,'\u0641\u0627\u0633','Fès','Fez'],[82,'\u0635\u0641\u0631\u0648','Sefrou','Sefrou'],[83,'\u0645\u0648\u0644\u0627\u064a \u064a\u0639\u0642\u0648\u0628','Moulay Yacoub','Moulay Yacoub'],[84,'\u0628\u0648\u0644\u0645\u0627\u0646','Boulemane','Boulemane'],[85,'\u0645\u064a\u0633\u0648\u0631','Missour','Missour'],[86,'\u0631\u0628\u0627\u0637 \u0627\u0644\u062e\u064a\u0631','Ribat El Kheir','Ribat El Kheir'],[87,'\u0627\u0644\u0645\u0646\u0632\u0644 \u0628\u0646\u064a \u064a\u0627\u0632\u063a\u0629','El Menzel','El Menzel'],[88,'\u0625\u0645\u0648\u0632\u0627\u0631 \u0643\u0646\u062f\u0631','Imouzzer Kandar','Imouzzer Kandar'],[89,'\u062a\u0627\u0632\u0629','Taza','Taza'],[90,'\u062a\u0627\u0648\u0646\u0627\u062a','Taounate','Taounate'],[91,'\u0623\u0643\u0646\u0648\u0644','Aknoul','Aknoul'],[92,'\u062a\u064a\u0632\u064a \u0648\u0633\u0644\u064a','Tizi Ousli','Tizi Ousli'],[93,'\u0628\u0648\u0631\u062f','Boured','Boured'],[94,'\u062a\u0627\u0647\u0644\u0629','Tahla','Tahla'],[95,'\u062a\u064a\u0633\u0629','Tissa','Tissa'],[96,'\u0642\u0631\u064a\u0629 \u0628\u0627 \u0645\u062d\u0645\u062f','Kariat Ba Mohamed','Kariat Ba Mohamed'],[97,'\u0643\u062a\u0627\u0645\u0629','Ketama','Ketama'],[98,'\u0648\u0627\u062f \u0623\u0645\u0644\u064a\u0644','Oued Amlil','Oued Amlil'],[99,'\u0645\u0643\u0646\u0627\u0633','Meknès','Meknes'],[100,'\u064a\u0641\u0631\u0646','Ifrane','Ifrane'],[101,'\u0627\u0644\u062d\u0627\u062c\u0628','El Hajeb','El Hajeb'],[102,'\u0632\u0631\u0647\u0648\u0646','Zerhoun','Zerhoun'],[103,'\u0622\u0632\u0631\u0648','Azrou','Azrou'],
+    [104,'\u0645\u0631\u0627\u0643\u0634','Marrakech','Marrakech'],[105,'\u0642\u0644\u0639\u0629 \u0627\u0644\u0633\u0631\u0627\u063a\u0646\u0629','Kelaat Sraghna','Kelaat Sraghna'],[106,'\u0627\u0644\u0635\u0648\u064a\u0631\u0629','Essaouira','Essaouira'],[107,'\u0634\u064a\u0634\u0627\u0648\u0629','Chichaoua','Chichaoua'],[108,'\u0628\u0646\u062c\u0631\u064a\u0631','Benguerir','Benguerir'],[109,'\u0627\u0644\u0631\u062d\u0627\u0645\u0646\u0629','Rhamna','Rhamna'],[110,'\u062a\u0645\u0646\u0627\u0631','Tamanar','Tamanar'],[111,'\u0622\u0633\u0641\u064a','Safi','Safi'],[112,'\u0627\u0644\u0648\u0644\u064a\u062f\u064a\u0629','Oualidia','Oualidia'],[113,'\u0627\u0644\u064a\u0648\u0633\u0641\u064a\u0629','Youssoufia','Youssoufia'],[114,'\u062a\u0633\u0644\u0637\u0627\u0646\u062a','Tasseltant','Tasseltant'],[115,'\u062a\u0627\u0645\u0635\u0644\u0648\u062d\u062a','Tameslohte','Tameslohte'],[116,'\u0642\u0637\u0627\u0631\u0629','Kattara','Kattara'],
+    [117,'\u0623\u0643\u0627\u062f\u064a\u0631','Agadir','Agadir'],[118,'\u062a\u0627\u0631\u0648\u062f\u0627\u0646\u062a','Taroudant','Taroudant'],[119,'\u062a\u0632\u0646\u064a\u062a','Tiznit','Tiznit'],[120,'\u0625\u063a\u0631\u0645','Igherm','Igherm'],[121,'\u062a\u0627\u0644\u0648\u064a\u0646','Taliouine','Taliouine'],[122,'\u062a\u0627\u0641\u0631\u0627\u0648\u062a','Tafraout','Tafraout'],[123,'\u0637\u0627\u0637\u0627','Tata','Tata'],[124,'\u0623\u0642\u0627','Akka','Akka'],[125,'\u0641\u0645 \u0644\u062d\u0635\u0646','Foum El Hisn','Foum El Hisn'],[126,'\u0628\u0648\u064a\u0643\u0631\u0629','Bouikra','Bouikra'],[127,'\u0623\u0648\u0644\u0627\u062f \u062a\u0627\u064a\u0645\u0629','Ouled Teima','Ouled Teima'],
+    [128,'\u0627\u0644\u0631\u0634\u064a\u062f\u064a\u0629','Errachidia','Errachidia'],[129,'\u0627\u0644\u0631\u064a\u0635\u0627\u0646\u064a','Rissani','Rissani'],[130,'\u0623\u0631\u0641\u0648\u062f','Erfoud','Erfoud'],[131,'\u062a\u0646\u062f\u064a\u062a','Tendit','Tendit'],[132,'\u0643\u0644\u0645\u064a\u0645\u0629','Goulmima','Goulmima'],[133,'\u0625\u0645\u0644\u0634\u064a\u0644','Imilchil','Imilchil'],[134,'\u062a\u0646\u062c\u062f\u0627\u062f','Tinjdad','Tinjdad'],[135,'\u0627\u0644\u0631\u064a\u0634','Er-Rich','Er-Rich'],[136,'\u0645\u064a\u062f\u0644\u062a','Midelt','Midelt'],[137,'\u0632\u0627\u0643\u0648\u0631\u0629','Zagora','Zagora'],[138,'\u0648\u0631\u0632\u0627\u0632\u0627\u062a','Ouarzazate','Ouarzazate'],[139,'\u062a\u0646\u063a\u064a\u0631','Tinghir','Tinghir'],[140,'\u0647\u0633\u0643\u0648\u0631\u0629','Skoura','Skoura'],[141,'\u0642\u0644\u0639\u0629 \u0645\u0643\u0648\u0646\u0629','Kelaat Mgouna','Kelaat Mgouna'],[142,'\u0623\u0643\u062f\u0632','Agdz','Agdz'],[143,'\u0628\u0648\u0645\u0627\u0644\u0646 \u062f\u0627\u062f\u0633','Boumalne Dadès','Boumalne Dades'],[144,'\u0627\u0644\u0646\u064a\u0641','Alnif','Alnif'],[145,'\u0623\u0633\u0648\u0644','Assoul','Assoul'],[146,'\u0623\u0645\u0633\u0645\u0631\u064a\u0631','Amsemrir','Amsemrir'],[147,'\u062a\u0627\u0632\u0627\u0631\u064a\u0646','Tazzarine','Tazzarine'],
+    [148,'\u0633\u064a\u062f\u064a \u0625\u0641\u0646\u064a','Sidi Ifni','Sidi Ifni'],[149,'\u0643\u0644\u0645\u064a\u0645','Guelmim','Guelmim'],[150,'\u0623\u0633\u0627','Assa','Assa'],[151,'\u0627\u0644\u0632\u0627\u0643','Zag','Zag'],[152,'\u0637\u0627\u0646\u0637\u0627\u0646','Tan-Tan','Tan-Tan'],[153,'\u0628\u0648\u064a\u0632\u0643\u0627\u0631\u0646','Bouizakarne','Bouizakarne'],[154,'\u0627\u0644\u0645\u062d\u0628\u0633','Mahbes','Mahbes'],[155,'\u0644\u0645\u0633\u064a\u062f','Lamsid','Lamsid'],[156,'\u0627\u0644\u0639\u064a\u0648\u0646','Laâyoune','Laayoune'],[157,'\u0627\u0644\u0633\u0645\u0627\u0631\u0629','Smara','Smara'],[158,'\u0628\u0648\u062c\u062f\u0648\u0631','Boujdour','Boujdour'],[159,'\u0637\u0631\u0641\u0627\u064a\u0629','Tarfaya','Tarfaya'],[160,'\u062a\u0641\u0627\u0631\u064a\u062a\u064a','Tifariti','Tifariti'],[161,'\u0628\u0648\u0643\u0631\u0627\u0639','Boucraa','Boucraa'],[162,'\u0643\u0644\u062a\u0629 \u0632\u0645\u0648\u0631','Guelta Zemmour','Guelta Zemmour'],[163,'\u0623\u0645\u0643\u0627\u0644\u0629','Amgala','Amgala'],[164,'\u0623\u062e\u0641\u0646\u064a\u0631','Akhfennir','Akhfennir'],[165,'\u0627\u0644\u062f\u0627\u062e\u0644\u0629','Dakhla','Dakhla'],[166,'\u0627\u0644\u0643\u0648\u064a\u0631\u0629','Lagouira','Lagouira'],[167,'\u0623\u0648\u0633\u0631\u062f','Aousserd','Aousserd'],[168,'\u0628\u0626\u0631 \u0643\u0646\u062f\u0648\u0632','Bir Gandouz','Bir Gandouz'],[169,'\u0628\u0626\u0631 \u0623\u0646\u0632\u0627\u0631\u0627\u0646','Bir Anzarane','Bir Anzarane'],
+    [301,'\u062e\u0645\u064a\u0633 \u0633\u064a\u062f\u064a \u0639\u0628\u062f \u0627\u0644\u062c\u0644\u064a\u0644','Khémis Sidi Abdeljalil','Khemis Sidi Abdeljalil'],[302,'\u0623\u0648\u0644\u0627\u062f \u0639\u064a\u0627\u062f','Ouled Ayad','Ouled Ayad'],[303,'\u062a\u0627\u0647\u0644\u0629','Tahla','Tahla'],[304,'\u0645\u0637\u0645\u0627\u0637\u0629','Matmata','Matmata'],[305,'\u0625\u064a\u0645\u0646\u062a\u0627\u0646\u0648\u062a','Imintanoute','Imintanoute'],[306,'\u0633\u064a\u062f\u064a \u063a\u0627\u0646\u0645','Sidi Ghanem','Sidi Ghanem'],[307,'\u062a\u0641\u0646\u062a\u0627\u0646','Tefentan','Tefentan'],[308,'\u0622\u064a\u062a \u0627\u0644\u0642\u0627\u0642','Aït El Kak','Ait El Kak'],[309,'\u0623\u0643\u062f\u0627\u0644 \u0623\u0645\u0644\u0634\u064a\u0644','Agdal Imilchil','Agdal Imilchil'],[310,'\u0627\u0643\u0648\u062f\u0627\u0644 \u0627\u0645\u0644\u0634\u064a\u0644 \u0645\u064a\u062f\u0644\u062a','Agoudal Imilchil Midelt','Agoudal Imilchil Midelt'],[311,'\u0623\u0643\u0627\u064a\u0648\u0627\u0631','Agaiouar','Agaiouar'],[312,'\u0639\u064a\u0646 \u0627\u0644\u0639\u0648\u062f\u0629','Aïn El Aouda','Ain El Aouda'],[313,'\u0623\u0633\u0643\u064a\u0646','Askin','Askin'],[314,'\u0622\u064a\u062a \u0648\u0631\u064a\u0631','Aït Ourir','Ait Ourir'],[315,'\u0632\u0627\u0648\u064a\u0629 \u0645\u0648\u0644\u0627\u064a \u0627\u0628\u0631\u0627\u0647\u064a\u0645','Zaouiat Moulay Brahim','Zaouiat Moulay Brahim'],[316,'\u062a\u0648\u0644\u0643\u0648\u0644\u062a','Toulkolt','Toulkolt'],[317,'\u0625\u064a\u0643\u0633','Ikes','Ikes'],[318,'\u0643\u0631\u0633','Guers','Guers'],[319,'\u062a\u064a\u0633\u0646\u062a','Tissint','Tissint'],[320,'\u0641\u0645 \u0632\u0643\u064a\u062f','Foum Zguid','Foum Zguid'],[321,'\u0642\u0635\u0631 \u0625\u064a\u0634','Ksar Ich','Ksar Ich'],[322,'\u0625\u064a\u0645\u064a\u0646 \u062b\u0644\u0627\u062b','Imin Thlat','Imin Thlat'],
 ];
 
 // Map Habous ville IDs to coordinates for Aladhan fallback + weather
@@ -1240,26 +1240,40 @@ function getSelectedCityName() {
     return c ? c[1] : HABOUS_CITIES[0][1];
 }
 
+// Normalize text for accent-insensitive search (é→e, ï→i, etc.)
+function normalizeSearch(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
 function initCitySearch() {
     const input = document.getElementById('citySearchInput');
     const dropdown = document.getElementById('cityDropdown');
     let highlightIdx = -1;
 
-    // Set initial value
-    input.value = getSelectedCityName();
+    // Set initial value — show Arabic + French
+    function getDisplayValue() {
+        const c = HABOUS_CITIES.find(([id]) => id === selectedVilleId);
+        return c ? `${c[1]} - ${c[2]}` : HABOUS_CITIES[0][1];
+    }
+    input.value = getDisplayValue();
 
     function renderDropdown(filter = '') {
         const query = filter.trim();
+        const queryNorm = normalizeSearch(query);
         const filtered = query
-            ? HABOUS_CITIES.filter(([, name]) => name.includes(query))
+            ? HABOUS_CITIES.filter(([, ar, fr, en]) =>
+                ar.includes(query) ||
+                normalizeSearch(fr).includes(queryNorm) ||
+                normalizeSearch(en).includes(queryNorm))
             : HABOUS_CITIES;
 
         if (filtered.length === 0) {
-            dropdown.innerHTML = '<div class="city-dropdown-empty">\u0644\u0627 \u062a\u0648\u062c\u062f \u0646\u062a\u0627\u0626\u062c</div>';
+            dropdown.innerHTML = '<div class="city-dropdown-empty">\u0644\u0627 \u062a\u0648\u062c\u062f \u0646\u062a\u0627\u0626\u062c / No results</div>';
         } else {
-            dropdown.innerHTML = filtered.map(([id, name], i) =>
-                `<div class="city-dropdown-item${id === selectedVilleId ? ' selected' : ''}${i === highlightIdx ? ' highlighted' : ''}" data-id="${id}" data-idx="${i}">${name}</div>`
-            ).join('');
+            dropdown.innerHTML = filtered.map(([id, ar, fr, en], i) => {
+                const label = fr !== en ? `${ar} - ${fr} / ${en}` : `${ar} - ${fr}`;
+                return `<div class="city-dropdown-item${id === selectedVilleId ? ' selected' : ''}${i === highlightIdx ? ' highlighted' : ''}" data-id="${id}" data-idx="${i}">${label}</div>`;
+            }).join('');
         }
         dropdown.classList.add('open');
     }
@@ -1267,7 +1281,7 @@ function initCitySearch() {
     function selectCity(villeId) {
         selectedVilleId = villeId;
         localStorage.setItem('prayerVille', villeId);
-        input.value = getSelectedCityName();
+        input.value = getDisplayValue();
         dropdown.classList.remove('open');
         highlightIdx = -1;
         fetchPrayerTimes();
@@ -1276,7 +1290,7 @@ function initCitySearch() {
 
     input.addEventListener('focus', () => {
         input.select();
-        renderDropdown(input.value === getSelectedCityName() ? '' : input.value);
+        renderDropdown(input.value === getDisplayValue() ? '' : input.value);
     });
 
     input.addEventListener('input', () => {
@@ -1302,7 +1316,7 @@ function initCitySearch() {
                 selectCity(parseInt(items[highlightIdx].dataset.id));
             }
         } else if (e.key === 'Escape') {
-            input.value = getSelectedCityName();
+            input.value = getDisplayValue();
             dropdown.classList.remove('open');
             input.blur();
         }
@@ -1317,7 +1331,7 @@ function initCitySearch() {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#citySearchWrap')) {
             dropdown.classList.remove('open');
-            input.value = getSelectedCityName();
+            input.value = getDisplayValue();
         }
     });
 }
@@ -1473,7 +1487,8 @@ async function fetchWeather() {
         const cur = data.current_condition[0];
         const desc = cur.weatherDesc?.[0]?.value || cur.weatherDesc || 'N/A';
         const icon = WEATHER_ICONS[desc] || '\ud83c\udf24\ufe0f';
-        const displayName = weatherCity.replace(/\+/g, ' ');
+        const cityData = HABOUS_CITIES.find(([id]) => id === selectedVilleId);
+        const displayName = cityData ? cityData[2] : weatherCity.replace(/\+/g, ' ');
 
         card.innerHTML = `
             <div class="weather-header">
