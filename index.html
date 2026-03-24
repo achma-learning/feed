@@ -89,432 +89,95 @@
             white-space: nowrap;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .floating-island:hover {
-            padding: 10px 28px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-        }
-        .island-dot {
-            width: 6px; height: 6px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        .island-divider {
-            width: 1px;
-            height: 16px;
-            background: rgba(255,255,255,0.2);
-        }
-        .island-time {
-            font-weight: 700;
-            font-size: 0.85rem;
-            font-variant-numeric: tabular-nums;
-        }
+        .floating-island:hover { padding: 10px 28px; box-shadow: 0 8px 30px rgba(0,0,0,0.35); }
+        .island-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+        .island-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.2); }
+        .island-time { font-weight: 700; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
         .island-date-en { opacity: 0.85; font-size: 0.75rem; }
-        .island-date-ar {
-            opacity: 0.85;
-            font-size: 0.75rem;
-            direction: rtl;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+        .island-date-ar { opacity: 0.85; font-size: 0.75rem; direction: rtl; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         /* ── NAV ── */
-        nav {
-            background: var(--nav-bg);
-            color: var(--nav-text);
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 52px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .nav-brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+        nav { background: var(--nav-bg); color: var(--nav-text); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
         .nav-brand span { font-weight: 300; opacity: 0.8; }
         .nav-controls { display: flex; align-items: center; gap: 6px; }
-        .nav-btn {
-            background: rgba(255,255,255,0.12);
-            border: none;
-            color: var(--nav-text);
-            width: 34px; height: 34px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .nav-btn { background: rgba(255,255,255,0.12); border: none; color: var(--nav-text); width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
         .nav-btn:hover { background: rgba(255,255,255,0.22); }
         .nav-btn.active { background: rgba(255,255,255,0.3); }
 
         /* ── CATEGORY TABS ── */
-        .category-bar {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            padding: 0 16px;
-            display: flex;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
+        .category-bar { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 16px; display: flex; overflow-x: auto; scrollbar-width: none; }
         .category-bar::-webkit-scrollbar { display: none; }
-        .cat-tab {
-            padding: 10px 14px;
-            cursor: pointer;
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            border-bottom: 2px solid transparent;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
+        .cat-tab { padding: 10px 14px; cursor: pointer; font-size: 0.78rem; font-weight: 500; color: var(--text-muted); border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
         .cat-tab:hover { color: var(--accent); }
         .cat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
         /* ── STATUS BAR ── */
-        .status-bar {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            padding: 6px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
+        .status-bar { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); }
         .status-left { display: flex; align-items: center; gap: 6px; }
-        .status-pulse {
-            width: 6px; height: 6px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        .sort-select {
-            background: var(--tag-bg);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.72rem;
-            cursor: pointer;
-        }
+        .status-pulse { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+        .sort-select { background: var(--tag-bg); border: 1px solid var(--border); color: var(--text-secondary); padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; }
 
         /* ── FEED STATUS BADGES ── */
-        .feed-status {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            padding: 6px 16px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            font-size: 0.65rem;
-        }
-        .feed-badge {
-            padding: 2px 7px;
-            border-radius: 10px;
-            font-weight: 500;
-        }
+        .feed-status { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 16px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-size: 0.65rem; }
+        .feed-badge { padding: 2px 7px; border-radius: 10px; font-weight: 500; }
         .feed-badge.ok { background: #dcfce7; color: #166534; }
         .feed-badge.fail { background: #fef2f2; color: #991b1b; }
         [data-theme="dark"] .feed-badge.ok { background: #14532d33; color: #4ade80; }
         [data-theme="dark"] .feed-badge.fail { background: #7f1d1d33; color: #fca5a5; }
 
         /* ── MAIN LAYOUT ── */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 0;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
+        .main-layout { display: grid; grid-template-columns: 1fr 320px; gap: 0; max-width: 1600px; margin: 0 auto; }
 
         /* ── FEED AREA ── */
-        .feed-area {
-            padding: 14px;
-            min-width: 0;
-        }
+        .feed-area { padding: 14px; min-width: 0; }
 
         /* ── SECTION HEADER ── */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 18px 0 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
-        }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
         .section-header:first-child { margin-top: 0; }
-        .section-header h2 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section-header h2 .section-icon {
-            width: 24px; height: 24px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: #fff;
-            font-weight: 700;
-        }
-        .section-header .section-count {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
+        .section-header h2 { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .section-header h2 .section-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #fff; font-weight: 700; }
+        .section-header .section-count { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
 
         /* ── REVUE FAR MAGAZINE GRID ── */
-        .far-revue-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .far-revue-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-        }
-        .far-revue-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-        .far-revue-card .revue-img-wrap {
-            position: relative;
-            width: 100%;
-            padding-top: 133%; /* ~3:4 magazine ratio */
-            overflow: hidden;
-            background: var(--far-accent-light);
-        }
-        .far-revue-card .revue-img-wrap img {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .far-revue-card:hover .revue-img-wrap img {
-            transform: scale(1.04);
-        }
-        .far-revue-card .revue-img-wrap .revue-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: var(--far-accent);
-            color: #fff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 0.6rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-        .far-revue-card .revue-body {
-            padding: 10px 12px 12px;
-        }
-        .far-revue-card .revue-title {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            line-height: 1.35;
-            margin-bottom: 6px;
-        }
-        .far-revue-card .revue-link {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--far-accent);
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: gap 0.2s;
-        }
-        .far-revue-card:hover .revue-link {
-            gap: 8px;
-        }
-        .far-revue-card .revue-link-arrow {
-            font-size: 0.65rem;
-            transition: transform 0.2s;
-        }
-        .far-revue-card:hover .revue-link-arrow {
-            transform: translateX(2px);
-        }
-        .far-revue-card .revue-img-placeholder {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--far-accent-light), var(--tag-bg));
-            color: var(--far-accent);
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        .far-show-more {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin: 8px auto 0;
-            padding: 8px 20px;
-            background: var(--tag-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .far-show-more:hover {
-            background: var(--far-accent);
-            color: #fff;
-            border-color: var(--far-accent);
-        }
-        .far-loading-bar {
-            height: 3px;
-            background: var(--far-accent);
-            border-radius: 2px;
-            width: 0;
-            transition: width 0.3s;
-            margin-bottom: 8px;
-        }
+        .far-revue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .far-revue-card { background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .far-revue-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .far-revue-card .revue-img-wrap { position: relative; width: 100%; padding-top: 133%; overflow: hidden; background: var(--far-accent-light); }
+        .far-revue-card .revue-img-wrap img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .far-revue-card:hover .revue-img-wrap img { transform: scale(1.04); }
+        .far-revue-card .revue-img-wrap .revue-badge { position: absolute; top: 8px; left: 8px; background: var(--far-accent); color: #fff; padding: 3px 8px; border-radius: 5px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+        .far-revue-card .revue-body { padding: 10px 12px 12px; }
+        .far-revue-card .revue-title { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); line-height: 1.35; margin-bottom: 6px; }
+        .far-revue-card .revue-link { font-size: 0.7rem; font-weight: 600; color: var(--far-accent); display: inline-flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+        .far-revue-card:hover .revue-link { gap: 8px; }
+        .far-revue-card .revue-link-arrow { font-size: 0.65rem; transition: transform 0.2s; }
+        .far-revue-card:hover .revue-link-arrow { transform: translateX(2px); }
+        .far-revue-card .revue-img-placeholder { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--far-accent-light), var(--tag-bg)); color: var(--far-accent); font-size: 2rem; font-weight: 700; }
+        .far-show-more { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 0; padding: 8px 20px; background: var(--tag-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .far-show-more:hover { background: var(--far-accent); color: #fff; border-color: var(--far-accent); }
 
         /* ── GRID VIEW ── */
-        .feed-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 14px;
-        }
+        .feed-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 
         /* ── CARD ── */
-        .card {
-            background: var(--bg-card);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-        .card-img-wrap {
-            position: relative;
-            width: 100%;
-            padding-top: 56%;
-            overflow: hidden;
-            background: var(--tag-bg);
-        }
-        .card-img-wrap img {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
+        .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .card-img-wrap { position: relative; width: 100%; padding-top: 56%; overflow: hidden; background: var(--tag-bg); }
+        .card-img-wrap img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         .card:hover .card-img-wrap img { transform: scale(1.04); }
-        .card-source-badge {
-            position: absolute;
-            top: 6px; left: 6px;
-            color: #fff;
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-size: 0.6rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .card-body {
-            padding: 10px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .card-title {
-            font-size: 0.82rem;
-            font-weight: 600;
-            line-height: 1.35;
-            margin-bottom: 8px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .card-meta {
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-        }
-        .card-tag {
-            background: var(--accent-light);
-            color: var(--accent);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.6rem;
-            font-weight: 600;
-        }
-        .no-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--accent-light), var(--tag-bg));
-            color: var(--accent);
-            font-size: 1.8rem;
-            font-weight: 700;
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-        }
+        .card-source-badge { position: absolute; top: 6px; left: 6px; color: #fff; padding: 2px 7px; border-radius: 4px; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .card-body { padding: 10px; flex: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 0.82rem; font-weight: 600; line-height: 1.35; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-meta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; font-size: 0.65rem; color: var(--text-muted); }
+        .card-tag { background: var(--accent-light); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-size: 0.6rem; font-weight: 600; }
+        .no-img { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent-light), var(--tag-bg)); color: var(--accent); font-size: 1.8rem; font-weight: 700; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         /* ── LIST VIEW ── */
-        .feed-list {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .feed-list .card {
-            flex-direction: row;
-            height: 100px;
-        }
-        .feed-list .card-img-wrap {
-            width: 130px;
-            min-width: 130px;
-            padding-top: 0;
-            height: 100%;
-        }
+        .feed-list { display: none; flex-direction: column; gap: 10px; max-width: 700px; margin: 0 auto; }
+        .feed-list .card { flex-direction: row; height: 100px; }
+        .feed-list .card-img-wrap { width: 130px; min-width: 130px; padding-top: 0; height: 100%; }
         .feed-list .card-body { padding: 8px 12px; }
         .feed-list .card-title { font-size: 0.8rem; -webkit-line-clamp: 2; }
 
@@ -525,436 +188,91 @@
         .view-list .feed-list { display: flex; }
 
         /* ── STORIES BAR ── */
-        .stories-bar {
-            display: flex;
-            gap: 12px;
-            padding: 10px 16px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-        }
+        .stories-bar { display: flex; gap: 12px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
         .stories-bar::-webkit-scrollbar { display: none; }
-        .story-item {
-            flex-shrink: 0;
-            width: 68px;
-            text-align: center;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .story-ring {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--accent), #f97316);
-            margin: 0 auto;
-        }
-        .story-ring img {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--bg-secondary);
-        }
-        .story-ring .story-placeholder {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border: 2px solid var(--bg-secondary);
-        }
-        .story-name {
-            font-size: 0.58rem;
-            margin-top: 3px;
-            color: var(--text-muted);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+        .story-item { flex-shrink: 0; width: 68px; text-align: center; cursor: pointer; text-decoration: none; }
+        .story-ring { width: 60px; height: 60px; border-radius: 50%; padding: 2px; background: linear-gradient(135deg, var(--accent), #f97316); margin: 0 auto; }
+        .story-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-secondary); }
+        .story-ring .story-placeholder { width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1.1rem; border: 2px solid var(--bg-secondary); }
+        .story-name { font-size: 0.58rem; margin-top: 3px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         /* ── SIDEBAR ── */
-        .sidebar {
-            background: var(--sidebar-bg);
-            border-left: 1px solid var(--border);
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            height: calc(100vh - 52px);
-            position: sticky;
-            top: 52px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-        }
+        .sidebar { background: var(--sidebar-bg); border-left: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 14px; height: calc(100vh - 52px); position: sticky; top: 52px; overflow-y: auto; scrollbar-width: thin; }
 
         /* ── PRAYER TIMES CARD ── */
-        .prayer-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: var(--shadow);
-            direction: rtl;
-            text-align: center;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-        }
-        .prayer-card-header {
-            margin-bottom: 12px;
-        }
-        .prayer-city-label {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-        .prayer-city-select {
-            background: var(--tag-bg);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            cursor: pointer;
-            direction: rtl;
-            font-family: inherit;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* ── SEARCHABLE CITY DROPDOWN ── */
-        .city-search-wrap {
-            position: relative;
-            width: 100%;
-        }
-        .city-search-input {
-            background: var(--tag-bg);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 7px 10px;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            direction: ltr;
-            font-family: inherit;
-            width: 100%;
-            text-align: center;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .city-search-input:focus {
-            border-color: var(--accent);
-        }
-        .city-search-input::placeholder {
-            color: var(--text-muted);
-        }
-        .city-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 220px;
-            overflow-y: auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-top: none;
-            border-radius: 0 0 6px 6px;
-            z-index: 50;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-            scrollbar-width: thin;
-        }
+        .prayer-card { background: var(--bg-card); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); direction: rtl; text-align: center; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .prayer-card-header { margin-bottom: 12px; }
+        .prayer-city-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+        .city-search-wrap { position: relative; width: 100%; }
+        .city-search-input { background: var(--tag-bg); border: 1px solid var(--border); color: var(--text-primary); padding: 7px 10px; border-radius: 6px; font-size: 0.82rem; direction: ltr; font-family: inherit; width: 100%; text-align: center; outline: none; transition: border-color 0.2s; }
+        .city-search-input:focus { border-color: var(--accent); }
+        .city-search-input::placeholder { color: var(--text-muted); }
+        .city-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; max-height: 220px; overflow-y: auto; background: var(--bg-card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; z-index: 50; box-shadow: 0 8px 16px rgba(0,0,0,0.12); scrollbar-width: thin; }
         .city-dropdown.open { display: block; }
-        .city-dropdown-item {
-            padding: 7px 10px;
-            cursor: pointer;
-            font-size: 0.78rem;
-            direction: ltr;
-            text-align: left;
-            color: var(--text-primary);
-            transition: background 0.15s;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-        }
-        .city-dropdown-item:hover,
-        .city-dropdown-item.highlighted {
-            background: var(--accent-light);
-            color: var(--accent);
-        }
-        .city-dropdown-item.selected {
-            font-weight: 700;
-            color: var(--accent);
-        }
-        .city-dropdown-empty {
-            padding: 12px 10px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            direction: ltr;
-        }
-        .prayer-hijri {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin: 8px 0 2px;
-        }
-        .prayer-gregorian {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-        }
-        .prayer-city-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-        .prayer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-        .prayer-item {
-            background: var(--tag-bg);
-            border-radius: 8px;
-            padding: 8px 6px;
-            text-align: center;
-        }
-        .prayer-item.active-prayer {
-            background: var(--accent);
-            color: #fff;
-        }
-        .prayer-item.active-prayer .prayer-name,
-        .prayer-item.active-prayer .prayer-time-val {
-            color: #fff;
-        }
-        .prayer-name {
-            font-size: 0.68rem;
-            color: var(--text-muted);
-            margin-bottom: 2px;
-        }
-        .prayer-time-val {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-variant-numeric: tabular-nums;
-        }
-        .prayer-loading {
-            padding: 20px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
+        .city-dropdown-item { padding: 7px 10px; cursor: pointer; font-size: 0.78rem; direction: ltr; text-align: left; color: var(--text-primary); transition: background 0.15s; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .city-dropdown-item:hover, .city-dropdown-item.highlighted { background: var(--accent-light); color: var(--accent); }
+        .city-dropdown-item.selected { font-weight: 700; color: var(--accent); }
+        .city-dropdown-empty { padding: 12px 10px; text-align: center; color: var(--text-muted); font-size: 0.75rem; direction: ltr; }
+        .prayer-hijri { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 8px 0 2px; }
+        .prayer-gregorian { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 10px; }
+        .prayer-city-name { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+        .prayer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .prayer-item { background: var(--tag-bg); border-radius: 8px; padding: 8px 6px; text-align: center; }
+        .prayer-item.active-prayer { background: var(--accent); color: #fff; }
+        .prayer-item.active-prayer .prayer-name, .prayer-item.active-prayer .prayer-time-val { color: #fff; }
+        .prayer-name { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 2px; }
+        .prayer-time-val { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+        .prayer-loading { padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
 
         /* ── WEATHER CARD ── */
-        .weather-card {
-            background: var(--weather-gradient);
-            border-radius: 12px;
-            padding: 16px;
-            color: #fff;
-            box-shadow: var(--shadow);
-        }
-        .weather-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .weather-city {
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .weather-icon {
-            font-size: 2rem;
-        }
-        .weather-temp {
-            font-size: 2.2rem;
-            font-weight: 700;
-            line-height: 1;
-        }
-        .weather-desc {
-            font-size: 0.75rem;
-            opacity: 0.85;
-            margin-top: 2px;
-        }
-        .weather-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin-top: 12px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        .weather-detail {
-            text-align: center;
-        }
-        .weather-detail-label {
-            font-size: 0.6rem;
-            opacity: 0.7;
-        }
-        .weather-detail-val {
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-        .weather-loading {
-            padding: 20px;
-            text-align: center;
-        }
+        .weather-card { background: var(--weather-gradient); border-radius: 12px; padding: 16px; color: #fff; box-shadow: var(--shadow); }
+        .weather-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .weather-city { font-size: 0.85rem; font-weight: 600; }
+        .weather-icon { font-size: 2rem; }
+        .weather-temp { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+        .weather-desc { font-size: 0.75rem; opacity: 0.85; margin-top: 2px; }
+        .weather-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.2); }
+        .weather-detail { text-align: center; }
+        .weather-detail-label { font-size: 0.6rem; opacity: 0.7; }
+        .weather-detail-val { font-size: 0.78rem; font-weight: 600; }
+        .weather-loading { padding: 20px; text-align: center; }
 
         /* ── CALENDAR CARD ── */
-        .calendar-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: var(--shadow);
-        }
-        .calendar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        .calendar-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        .calendar-nav {
-            display: flex;
-            gap: 4px;
-        }
-        .calendar-nav-btn {
-            background: var(--tag-bg);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            width: 26px; height: 26px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .calendar-nav-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .calendar-weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            margin-bottom: 4px;
-        }
-        .calendar-weekday {
-            text-align: center;
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            padding: 4px 0;
-        }
-        .calendar-days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-        }
-        .calendar-day {
-            text-align: center;
-            padding: 5px 0;
-            font-size: 0.72rem;
-            border-radius: 6px;
-            cursor: default;
-            color: var(--text-secondary);
-            transition: background 0.15s;
-        }
+        .calendar-card { background: var(--bg-card); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); }
+        .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .calendar-title { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); }
+        .calendar-nav { display: flex; gap: 4px; }
+        .calendar-nav-btn { background: var(--tag-bg); border: 1px solid var(--border); color: var(--text-secondary); width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .calendar-nav-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 4px; }
+        .calendar-weekday { text-align: center; font-size: 0.6rem; font-weight: 600; color: var(--text-muted); padding: 4px 0; }
+        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+        .calendar-day { text-align: center; padding: 5px 0; font-size: 0.72rem; border-radius: 6px; cursor: default; color: var(--text-secondary); transition: background 0.15s; }
         .calendar-day.empty { visibility: hidden; }
-        .calendar-day.today {
-            background: var(--accent);
-            color: #fff;
-            font-weight: 700;
-        }
-        .calendar-day.other-month {
-            color: var(--text-muted);
-            opacity: 0.4;
-            opacity: 0.8;
-            font-size: 0.8rem;
-        }
+        .calendar-day.today { background: var(--accent); color: #fff; font-weight: 700; }
 
         /* ── SIDEBAR TOGGLE (mobile) ── */
-        .sidebar-toggle {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 150;
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
+        .sidebar-toggle { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 150; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; border: none; cursor: pointer; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 
         /* ── SKELETON ── */
-        .skeleton {
-            background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 10px;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+        .skeleton { background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 10px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .skeleton-card { height: 240px; }
         .skeleton-list { height: 100px; }
-
-        .spinner-wrap {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-muted);
-            font-size: 0.82rem;
-        }
+        .spinner-wrap { text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.82rem; }
 
         /* ── FOOTER ── */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            border-top: 1px solid var(--border);
-        }
+        .footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.7rem; border-top: 1px solid var(--border); }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 1400px) {
-            .feed-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-        @media (max-width: 1100px) {
-            .feed-grid { grid-template-columns: repeat(3, 1fr); }
-            .main-layout { grid-template-columns: 1fr 280px; }
-        }
+        @media (max-width: 1400px) { .feed-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 1100px) { .feed-grid { grid-template-columns: repeat(3, 1fr); } .main-layout { grid-template-columns: 1fr 280px; } }
         @media (max-width: 860px) {
             .main-layout { grid-template-columns: 1fr; }
-            .sidebar {
-                position: fixed;
-                top: 0; right: -340px;
-                width: 320px;
-                height: 100vh;
-                z-index: 180;
-                border-left: 1px solid var(--border);
-                transition: right 0.3s ease;
-                box-shadow: -4px 0 20px rgba(0,0,0,0.1);
-            }
+            .sidebar { position: fixed; top: 0; right: -340px; width: 320px; height: 100vh; z-index: 180; border-left: 1px solid var(--border); transition: right 0.3s ease; box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
             .sidebar.open { right: 0; }
             .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.4);
-                z-index: 170;
-            }
+            .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 170; }
             .sidebar-overlay.open { display: block; }
             .feed-grid { grid-template-columns: repeat(3, 1fr); }
             .floating-island { font-size: 0.7rem; padding: 6px 16px; }
@@ -1042,17 +360,16 @@
                 </h2>
                 <span class="section-count" id="farCount"></span>
             </div>
-            <div class="far-loading-bar" id="farLoadingBar"></div>
             <div class="far-revue-grid" id="farRevueGrid"></div>
             <button class="far-show-more" id="farShowMore" style="display:none;">
-                Charger plus d'&eacute;ditions &#8594;
+                Voir toutes les &eacute;ditions &#8594;
             </button>
         </div>
 
         <!-- NEWS FEED SECTION -->
         <div class="feed-grid" id="feedGrid"></div>
         <div class="feed-list" id="feedList"></div>
-        <div class="footer">Auto-updates every 5 minutes &middot; Powered by RSS</div>
+        <div class="footer">Auto-updates every 5 minutes &middot; Powered by Cloudflare Worker</div>
     </div>
 
     <!-- SIDEBAR -->
@@ -1109,11 +426,10 @@
                 <a href="https://www.mapnews.ma/ar/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">MAP News</a>
                 <a href="https://www.sante.gov.ma" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Minist&egrave;re de la Sant&eacute;</a>
                 <a href="https://en.hespress.com/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Hespress</a>
-                <a href="https://www.has-sante.fr/jcms/fc_2874902/fr/actualites" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">HAS - Haute Autorit&eacute; de Sant&eacute;</a>
-                <a href="https://www.vidal.fr/actualites.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Vidal Actualit&eacute;s</a>
+                <a href="https://www.has-sante.fr/jcms/fc_2874902/fr/actualites" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">HAS</a>
+                <a href="https://www.vidal.fr/actualites.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Vidal</a>
                 <a href="https://ammps.sante.gov.ma/actualites" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">AMMPS</a>
                 <a href="https://www.hcp.ma/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">HCP Maroc</a>
-                <a href="https://www.maroc.ma/ar/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Maroc.ma</a>
                 <a href="https://revue.far.ma/revues" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Revue FAR</a>
             </div>
         </div>
@@ -1129,42 +445,41 @@
 // CONFIGURATION
 // ══════════════════════════════════════════
 
-const CORS_PROXIES = [
-    (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-    (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
-    (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-];
+// ⚠️  CHANGE THIS to your deployed Cloudflare Worker URL
+const WORKER_URL = 'https://feed-aggregator.acheghned-mohamed-aymane-learning.workers.dev';
 
-const FEEDS = [
-    { id: 'health-maroc', cat: 'health-maroc', name: 'Sant\u00e9 Maroc', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA:fr', color: '#16a34a' },
-    { id: 'health-world', cat: 'health-world', name: 'Health World', url: 'https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB:en', color: '#2563eb' },
-    { id: 'surgery', cat: 'surgery', name: 'Surgery & AI', url: 'https://news.google.com/rss/search?q=autonomous+robotic+surgery+ARS&hl=en&gl=US&ceid=US:en', color: '#9333ea' },
-    { id: 'map-politique', cat: 'map', name: 'MAP Politique', url: 'https://www.mapnews.ma/ar/actualites/politique/rss', color: '#0d9488' },
-    { id: 'map-economie', cat: 'map', name: 'MAP Economie', url: 'https://www.mapnews.ma/ar/actualites/economie/rss', color: '#0d9488' },
-    { id: 'map-social', cat: 'map', name: 'MAP Social', url: 'https://www.mapnews.ma/ar/actualites/social/rss', color: '#0d9488' },
-    { id: 'map-culture', cat: 'map', name: 'MAP Culture', url: 'https://www.mapnews.ma/ar/actualites/culture/rss', color: '#0891b2' },
-    { id: 'map-sport', cat: 'map', name: 'MAP Sport', url: 'https://www.mapnews.ma/ar/actualites/sport/rss', color: '#0891b2' },
-    { id: 'map-monde', cat: 'map', name: 'MAP Monde', url: 'https://www.mapnews.ma/ar/actualites/monde/rss', color: '#0891b2' },
-    { id: 'map-general', cat: 'map', name: 'MAP G\u00e9n\u00e9ral', url: 'https://www.mapnews.ma/ar/actualites/general/rss', color: '#0891b2' },
-    { id: 'newatlas-science', cat: 'newatlas', name: 'New Atlas Science', url: 'https://newatlas.com/science/feed/', color: '#ea580c' },
-    { id: 'newatlas-energy', cat: 'newatlas', name: 'New Atlas Energy', url: 'https://newatlas.com/energy/feed/', color: '#d97706' },
-    { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/feed/', color: '#db2777' },
-    { id: 'health-france', cat: 'health-world', name: 'Santé France', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=FR&ceid=FR:fr', color: '#1d4ed8' },
-    { id: 'map-regional', cat: 'map', name: 'MAP Régional', url: 'https://www.mapnews.ma/ar/actualites/regional/rss', color: '#0d9488' },
-    { id: 'mit', cat: 'mit', name: 'MIT News', url: 'https://news.mit.edu/rss/feed', color: '#475569' },
-    { id: 'has-actualites', cat: 'has', name: 'HAS Actualités', url: 'https://www.has-sante.fr/jcms/fc_2874902/fr/actualites?rss=true', color: '#7c3aed' },
-    { id: 'has-presse', cat: 'has', name: 'HAS Presse', url: 'https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse?rss=true', color: '#7c3aed' },
-    { id: 'vidal-medicaments', cat: 'vidal', name: 'Vidal Médicaments', url: 'https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.xml', color: '#0369a1' },
-    { id: 'vidal-diagnostic', cat: 'vidal', name: 'Vidal Diagnostic', url: 'https://www.vidal.fr/actualites/diagnostic-et-therapeutique.xml', color: '#0369a1' },
-    { id: 'vidal-sante-publique', cat: 'vidal', name: 'Vidal Santé Publique', url: 'https://www.vidal.fr/actualites/sante-publique.xml', color: '#0284c7' },
-    { id: 'vidal-innovation', cat: 'vidal', name: 'Vidal Innovation', url: 'https://www.vidal.fr/actualites/technologie-et-innovation.xml', color: '#0284c7' },
-];
+// Feed metadata (for UI rendering — actual fetching is done by the worker)
+const FEED_META = {
+    'health-maroc': { name: 'Santé Maroc', color: '#16a34a' },
+    'health-world': { name: 'Health World', color: '#2563eb' },
+    'surgery': { name: 'Surgery & AI', color: '#9333ea' },
+    'map-politique': { name: 'MAP Politique', color: '#0d9488' },
+    'map-economie': { name: 'MAP Economie', color: '#0d9488' },
+    'map-social': { name: 'MAP Social', color: '#0d9488' },
+    'map-culture': { name: 'MAP Culture', color: '#0891b2' },
+    'map-sport': { name: 'MAP Sport', color: '#0891b2' },
+    'map-monde': { name: 'MAP Monde', color: '#0891b2' },
+    'map-general': { name: 'MAP Général', color: '#0891b2' },
+    'map-regional': { name: 'MAP Régional', color: '#0d9488' },
+    'newatlas-science': { name: 'New Atlas Science', color: '#ea580c' },
+    'newatlas-energy': { name: 'New Atlas Energy', color: '#d97706' },
+    'newatlas-medical': { name: 'New Atlas Medical', color: '#db2777' },
+    'health-france': { name: 'Santé France', color: '#1d4ed8' },
+    'mit': { name: 'MIT News', color: '#475569' },
+    'has-actualites': { name: 'HAS Actualités', color: '#7c3aed' },
+    'has-presse': { name: 'HAS Presse', color: '#7c3aed' },
+    'vidal-medicaments': { name: 'Vidal Médicaments', color: '#0369a1' },
+    'vidal-diagnostic': { name: 'Vidal Diagnostic', color: '#0369a1' },
+    'vidal-sante-publique': { name: 'Vidal Santé Publique', color: '#0284c7' },
+    'vidal-innovation': { name: 'Vidal Innovation', color: '#0284c7' },
+    'sante-gov-activites': { name: 'Min. Santé Activités', color: '#15803d' },
+    'sante-gov-actualites': { name: 'Min. Santé Actualités', color: '#15803d' },
+    'ammps-actualites': { name: 'AMMPS', color: '#059669' },
+    'hcp-publications': { name: 'HCP Publications', color: '#b45309' },
+    'far-revue': { name: 'Revue FAR', color: '#5b6e1e' },
+};
 
-// Revue FAR — scraped from HTML pages
-const FAR_PAGES = [1, 2, 3, 4, 5];
-const FAR_BASE = 'https://revue.far.ma';
-
-// All Morocco cities from Habous.gov.ma — [villeId, arabicName, frenchName, englishName]
+// All Morocco cities — [villeId, arabicName, frenchName, englishName]
 const HABOUS_CITIES = [
     [1,'\u0627\u0644\u0631\u0628\u0627\u0637','Rabat','Rabat'],[2,'\u0627\u0644\u062e\u0645\u064a\u0633\u0627\u062a','Khémisset','Khemisset'],[3,'\u062a\u064a\u0641\u0644\u062a','Tiflet','Tiflet'],[4,'\u0627\u0644\u0631\u0645\u0627\u0646\u064a','Rommani','Rommani'],[5,'\u0648\u0627\u0644\u0645\u0627\u0633','Oulmès','Oulmes'],[6,'\u0628\u0648\u0632\u0646\u064a\u0642\u0629','Bouznika','Bouznika'],[7,'\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629','Kénitra','Kenitra'],[8,'\u0633\u064a\u062f\u064a \u0642\u0627\u0633\u0645','Sidi Kacem','Sidi Kacem'],[9,'\u0633\u064a\u062f\u064a \u064a\u062d\u064a\u0649 \u0627\u0644\u063a\u0631\u0628','Sidi Yahia El Gharb','Sidi Yahia El Gharb'],[10,'\u0633\u064a\u062f\u064a \u0633\u0644\u064a\u0645\u0627\u0646','Sidi Slimane','Sidi Slimane'],[11,'\u0633\u0648\u0642 \u0623\u0631\u0628\u0639\u0627\u0621 \u0627\u0644\u063a\u0631\u0628','Souk El Arbaa','Souk El Arbaa'],[12,'\u0639\u0631\u0628\u0627\u0648\u0629','Arbaoua','Arbaoua'],[13,'\u0645\u0648\u0644\u0627\u064a \u0628\u0648\u0633\u0644\u0647\u0627\u0645','Moulay Bousselham','Moulay Bousselham'],
     [14,'\u0637\u0646\u062c\u0629','Tanger','Tangier'],[15,'\u062a\u0637\u0648\u0627\u0646','Tétouan','Tetouan'],[16,'\u0627\u0644\u0639\u0631\u0627\u0626\u0634','Larache','Larache'],[17,'\u0623\u0635\u064a\u0644\u0629','Asilah','Asilah'],[18,'\u0634\u0641\u0634\u0627\u0648\u0646','Chefchaouen','Chefchaouen'],[19,'\u0645\u0631\u062a\u064a\u0644','Martil','Martil'],[20,'\u0627\u0644\u0645\u0636\u064a\u0642','M\'diq','Mdiq'],[21,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0643\u0628\u064a\u0631','Ksar El Kébir','Ksar El Kebir'],[22,'\u0627\u0644\u0642\u0635\u0631 \u0627\u0644\u0635\u063a\u064a\u0631','Ksar Sghir','Ksar Sghir'],[23,'\u0627\u0644\u062d\u0633\u064a\u0645\u0629','Al Hoceïma','Al Hoceima'],[24,'\u0633\u0628\u062a\u0629','Ceuta','Ceuta'],[25,'\u0627\u0644\u0641\u0646\u064a\u062f\u0642','Fnideq','Fnideq'],[26,'\u0627\u0644\u062c\u0628\u0647\u0629','Jebha','Jebha'],[27,'\u0648\u0627\u062f \u0644\u0627\u0648','Oued Laou','Oued Laou'],[28,'\u0628\u0627\u0628 \u0628\u0631\u062f','Bab Berred','Bab Berred'],[29,'\u0648\u0632\u0627\u0646','Ouezzane','Ouazzane'],[30,'\u0628\u0648\u0633\u0643\u0648\u0631','Bouskour','Bouskour'],
@@ -1179,7 +494,6 @@ const HABOUS_CITIES = [
     [301,'\u062e\u0645\u064a\u0633 \u0633\u064a\u062f\u064a \u0639\u0628\u062f \u0627\u0644\u062c\u0644\u064a\u0644','Khémis Sidi Abdeljalil','Khemis Sidi Abdeljalil'],[302,'\u0623\u0648\u0644\u0627\u062f \u0639\u064a\u0627\u062f','Ouled Ayad','Ouled Ayad'],[303,'\u062a\u0627\u0647\u0644\u0629','Tahla','Tahla'],[304,'\u0645\u0637\u0645\u0627\u0637\u0629','Matmata','Matmata'],[305,'\u0625\u064a\u0645\u0646\u062a\u0627\u0646\u0648\u062a','Imintanoute','Imintanoute'],[306,'\u0633\u064a\u062f\u064a \u063a\u0627\u0646\u0645','Sidi Ghanem','Sidi Ghanem'],[307,'\u062a\u0641\u0646\u062a\u0627\u0646','Tefentan','Tefentan'],[308,'\u0622\u064a\u062a \u0627\u0644\u0642\u0627\u0642','Aït El Kak','Ait El Kak'],[309,'\u0623\u0643\u062f\u0627\u0644 \u0623\u0645\u0644\u0634\u064a\u0644','Agdal Imilchil','Agdal Imilchil'],[310,'\u0627\u0643\u0648\u062f\u0627\u0644 \u0627\u0645\u0644\u0634\u064a\u0644 \u0645\u064a\u062f\u0644\u062a','Agoudal Imilchil Midelt','Agoudal Imilchil Midelt'],[311,'\u0623\u0643\u0627\u064a\u0648\u0627\u0631','Agaiouar','Agaiouar'],[312,'\u0639\u064a\u0646 \u0627\u0644\u0639\u0648\u062f\u0629','Aïn El Aouda','Ain El Aouda'],[313,'\u0623\u0633\u0643\u064a\u0646','Askin','Askin'],[314,'\u0622\u064a\u062a \u0648\u0631\u064a\u0631','Aït Ourir','Ait Ourir'],[315,'\u0632\u0627\u0648\u064a\u0629 \u0645\u0648\u0644\u0627\u064a \u0627\u0628\u0631\u0627\u0647\u064a\u0645','Zaouiat Moulay Brahim','Zaouiat Moulay Brahim'],[316,'\u062a\u0648\u0644\u0643\u0648\u0644\u062a','Toulkolt','Toulkolt'],[317,'\u0625\u064a\u0643\u0633','Ikes','Ikes'],[318,'\u0643\u0631\u0633','Guers','Guers'],[319,'\u062a\u064a\u0633\u0646\u062a','Tissint','Tissint'],[320,'\u0641\u0645 \u0632\u0643\u064a\u062f','Foum Zguid','Foum Zguid'],[321,'\u0642\u0635\u0631 \u0625\u064a\u0634','Ksar Ich','Ksar Ich'],[322,'\u0625\u064a\u0645\u064a\u0646 \u062b\u0644\u0627\u062b','Imin Thlat','Imin Thlat'],
 ];
 
-// Map Habous ville IDs to coordinates for Aladhan fallback + weather
 function getCityCoords(villeId) {
     const C = {1:[34.02,-6.84],7:[34.26,-6.58],14:[35.76,-5.83],15:[35.59,-5.36],23:[35.25,-3.93],31:[34.68,-1.91],39:[35.17,-2.93],58:[33.57,-7.59],66:[33.23,-8.50],70:[32.93,-5.67],73:[32.34,-6.35],79:[32.88,-6.91],81:[34.02,-5.01],89:[34.21,-4.01],99:[33.89,-5.55],104:[31.63,-7.98],106:[31.51,-9.77],111:[32.30,-9.24],117:[30.43,-9.60],118:[30.47,-8.88],119:[29.70,-9.80],128:[31.93,-4.43],136:[32.68,-4.73],137:[30.33,-5.84],138:[30.92,-6.90],139:[31.51,-5.53],149:[28.98,-10.06],152:[28.44,-11.10],156:[27.13,-13.16],165:[23.68,-15.96]};
     if (C[villeId]) return C[villeId];
@@ -1187,8 +501,9 @@ function getCityCoords(villeId) {
     if (villeId<=69) return C[58]; if (villeId<=80) return C[73]; if (villeId<=103) return C[81];
     if (villeId<=116) return C[104]; if (villeId<=127) return C[117]; if (villeId<=147) return C[128];
     if (villeId<=153) return C[149]; if (villeId<=164) return C[156]; if (villeId<=169) return C[165];
-    return C[104]; // default Marrakech region for 301+
+    return C[104];
 }
+
 function getCityWeatherName(villeId) {
     const N = {1:'Rabat',7:'Kenitra',14:'Tangier',15:'Tetouan',23:'Al+Hoceima',31:'Oujda',39:'Nador',58:'Casablanca',66:'El+Jadida',70:'Khenifra',73:'Beni+Mellal',79:'Khouribga',81:'Fes',89:'Taza',99:'Meknes',104:'Marrakech',106:'Essaouira',111:'Safi',117:'Agadir',118:'Taroudant',128:'Errachidia',136:'Midelt',137:'Zagora',138:'Ouarzazate',149:'Guelmim',152:'Tan-Tan',156:'Laayoune',165:'Dakhla'};
     if (N[villeId]) return N[villeId];
@@ -1204,24 +519,13 @@ const AR_MONTHS = ['\u064a\u0646\u0627\u064a\u0631','\u0641\u0628\u0631\u0627\u0
 const EN_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const EN_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-const PRAYER_NAMES = {
-    Fajr: '\u0627\u0644\u0641\u062c\u0631',
-    Sunrise: '\u0627\u0644\u0634\u0631\u0648\u0642',
-    Dhuhr: '\u0627\u0644\u0638\u0647\u0631',
-    Asr: '\u0627\u0644\u0639\u0635\u0631',
-    Maghrib: '\u0627\u0644\u0645\u063a\u0631\u0628',
-    Isha: '\u0627\u0644\u0639\u0634\u0627\u0621'
-};
+const PRAYER_NAMES = { Fajr:'\u0627\u0644\u0641\u062c\u0631', Sunrise:'\u0627\u0644\u0634\u0631\u0648\u0642', Dhuhr:'\u0627\u0644\u0638\u0647\u0631', Asr:'\u0627\u0644\u0639\u0635\u0631', Maghrib:'\u0627\u0644\u0645\u063a\u0631\u0628', Isha:'\u0627\u0644\u0639\u0634\u0627\u0621' };
 
 const WEATHER_ICONS = {
-    'Sunny': '\u2600\ufe0f', 'Clear': '\u2600\ufe0f',
-    'Partly cloudy': '\u26c5', 'Partly Cloudy': '\u26c5',
-    'Cloudy': '\u2601\ufe0f', 'Overcast': '\u2601\ufe0f',
-    'Mist': '\ud83c\udf2b\ufe0f', 'Fog': '\ud83c\udf2b\ufe0f',
-    'Light rain': '\ud83c\udf27\ufe0f', 'Rain': '\ud83c\udf27\ufe0f', 'Heavy rain': '\ud83c\udf27\ufe0f',
-    'Thunderstorm': '\u26c8\ufe0f', 'Snow': '\u2744\ufe0f',
-    'Patchy rain possible': '\ud83c\udf26\ufe0f',
-    'Light drizzle': '\ud83c\udf26\ufe0f',
+    'Sunny':'\u2600\ufe0f','Clear':'\u2600\ufe0f','Partly cloudy':'\u26c5','Partly Cloudy':'\u26c5',
+    'Cloudy':'\u2601\ufe0f','Overcast':'\u2601\ufe0f','Mist':'\ud83c\udf2b\ufe0f','Fog':'\ud83c\udf2b\ufe0f',
+    'Light rain':'\ud83c\udf27\ufe0f','Rain':'\ud83c\udf27\ufe0f','Heavy rain':'\ud83c\udf27\ufe0f',
+    'Thunderstorm':'\u26c8\ufe0f','Snow':'\u2744\ufe0f','Patchy rain possible':'\ud83c\udf26\ufe0f','Light drizzle':'\ud83c\udf26\ufe0f',
 };
 
 // ══════════════════════════════════════════
@@ -1232,9 +536,9 @@ let allArticles = [];
 let currentCategory = 'all';
 let currentSort = 'newest';
 let feedResults = {};
-let selectedVilleId = parseInt(localStorage.getItem('prayerVille') || '104'); // Default: Marrakech
+let selectedVilleId = parseInt(localStorage.getItem('prayerVille') || '104');
 let farRevues = [];
-let farLoadedPages = 0;
+let farShowAll = false;
 
 // ══════════════════════════════════════════
 // FLOATING ISLAND — Date & Time
@@ -1242,17 +546,9 @@ let farLoadedPages = 0;
 
 function updateIsland() {
     const now = new Date();
-    const dayEn = EN_DAYS[now.getDay()];
-    const monthEn = EN_MONTHS[now.getMonth()];
-    const dayAr = AR_DAYS[now.getDay()];
-    const monthAr = AR_MONTHS[now.getMonth()];
-
-    document.getElementById('islandDateEn').textContent =
-        `${dayEn}, ${monthEn} ${now.getDate()}, ${now.getFullYear()}`;
-    document.getElementById('islandDateAr').textContent =
-        `${dayAr} ${now.getDate()} ${monthAr} ${now.getFullYear()}`;
-    document.getElementById('islandTime').textContent =
-        now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('islandDateEn').textContent = `${EN_DAYS[now.getDay()]}, ${EN_MONTHS[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    document.getElementById('islandDateAr').textContent = `${AR_DAYS[now.getDay()]} ${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+    document.getElementById('islandTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 updateIsland();
 setInterval(updateIsland, 1000);
@@ -1264,12 +560,9 @@ setInterval(updateIsland, 1000);
 function initTheme() {
     const saved = localStorage.getItem('feedTheme');
     if (saved) document.body.dataset.theme = saved;
-    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.dataset.theme = 'dark';
-    }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.dataset.theme = 'dark';
 }
 initTheme();
-
 document.getElementById('btnDark').addEventListener('click', () => {
     const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
     document.body.dataset.theme = next;
@@ -1281,14 +574,8 @@ document.getElementById('btnDark').addEventListener('click', () => {
 // ══════════════════════════════════════════
 
 const feedArea = document.getElementById('feedArea');
-document.getElementById('btnGrid').addEventListener('click', () => {
-    feedArea.className = 'feed-area view-grid';
-    localStorage.setItem('feedView', 'grid');
-});
-document.getElementById('btnList').addEventListener('click', () => {
-    feedArea.className = 'feed-area view-list';
-    localStorage.setItem('feedView', 'list');
-});
+document.getElementById('btnGrid').addEventListener('click', () => { feedArea.className = 'feed-area view-grid'; localStorage.setItem('feedView', 'grid'); });
+document.getElementById('btnList').addEventListener('click', () => { feedArea.className = 'feed-area view-list'; localStorage.setItem('feedView', 'list'); });
 if (localStorage.getItem('feedView') === 'list') feedArea.className = 'feed-area view-list';
 
 // ══════════════════════════════════════════
@@ -1309,10 +596,7 @@ document.getElementById('categoryBar').addEventListener('click', (e) => {
 // SORT
 // ══════════════════════════════════════════
 
-document.getElementById('sortSelect').addEventListener('change', (e) => {
-    currentSort = e.target.value;
-    renderFeed();
-});
+document.getElementById('sortSelect').addEventListener('change', (e) => { currentSort = e.target.value; renderFeed(); });
 
 // ══════════════════════════════════════════
 // SIDEBAR MOBILE
@@ -1328,255 +612,62 @@ document.getElementById('sidebarOverlay').addEventListener('click', () => {
 });
 
 // ══════════════════════════════════════════
-// RSS PARSING
+// FETCH ALL FEEDS — Single call to Cloudflare Worker
 // ══════════════════════════════════════════
-
-function parseRSS(xml, feed) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xml, 'text/xml');
-    if (doc.querySelector('parsererror')) return [];
-
-    const items = doc.querySelectorAll('item');
-    const articles = [];
-
-    items.forEach(item => {
-        const title = item.querySelector('title')?.textContent || '';
-        const link = item.querySelector('link')?.textContent || '';
-        const pubDate = item.querySelector('pubDate')?.textContent || '';
-        const desc = item.querySelector('description')?.textContent || '';
-
-        let img = '';
-        const enc = item.querySelector('enclosure[type^="image"]');
-        if (enc) img = enc.getAttribute('url') || '';
-        if (!img) {
-            const mt = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail')[0];
-            if (mt) img = mt.getAttribute('url') || '';
-        }
-        if (!img) {
-            const mc = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'content')[0];
-            if (mc && ((mc.getAttribute('type') || '').startsWith('image') || mc.getAttribute('medium') === 'image'))
-                img = mc.getAttribute('url') || '';
-        }
-        if (!img) {
-            const m = desc.match(/<img[^>]+src=["']([^"']+)["']/);
-            if (m) img = m[1];
-        }
-
-        articles.push({
-            title: stripHTML(title),
-            link,
-            pubDate: pubDate ? new Date(pubDate) : new Date(),
-            image: img,
-            source: feed.name,
-            sourceId: feed.id,
-            cat: feed.cat,
-            color: feed.color,
-            description: stripHTML(desc).slice(0, 160)
-        });
-    });
-    return articles;
-}
-
-function stripHTML(html) {
-    const t = document.createElement('div');
-    t.innerHTML = html;
-    return t.textContent || '';
-}
-
-// ══════════════════════════════════════════
-// FETCH WITH CORS PROXY FALLBACK
-// ══════════════════════════════════════════
-
-async function fetchWithFallback(url, timeoutMs = 12000) {
-    // Try direct fetch first (works for CORS-enabled APIs like New Atlas)
-    try {
-        const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), timeoutMs);
-        const resp = await fetch(url, { signal: ctrl.signal });
-        clearTimeout(tid);
-        if (resp.ok) {
-            const text = await resp.text();
-            if (text.includes('<') && (text.includes('<rss') || text.includes('<feed') || text.includes('<item') || text.includes('<entry'))) {
-                return text;
-            }
-        }
-    } catch (e) { /* fallback to proxies */ }
-
-    // Try CORS proxies
-    for (let i = 0; i < CORS_PROXIES.length; i++) {
-        try {
-            const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), timeoutMs);
-            const resp = await fetch(CORS_PROXIES[i](url), { signal: ctrl.signal });
-            clearTimeout(tid);
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const text = await resp.text();
-            if (!text.includes('<') || (text.includes('<!DOCTYPE html>') && !text.includes('<rss') && !text.includes('<feed') && !text.includes('<item')))
-                throw new Error('Not RSS');
-            return text;
-        } catch (e) {
-            if (i === CORS_PROXIES.length - 1) throw e;
-        }
-    }
-}
-
-async function fetchHTML(url, timeoutMs = 12000) {
-    // For fetching HTML pages (Revue FAR)
-    try {
-        const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), timeoutMs);
-        const resp = await fetch(url, { signal: ctrl.signal });
-        clearTimeout(tid);
-        if (resp.ok) return await resp.text();
-    } catch (e) { /* fallback */ }
-
-    for (let i = 0; i < CORS_PROXIES.length; i++) {
-        try {
-            const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), timeoutMs);
-            const resp = await fetch(CORS_PROXIES[i](url), { signal: ctrl.signal });
-            clearTimeout(tid);
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            return await resp.text();
-        } catch (e) {
-            if (i === CORS_PROXIES.length - 1) throw e;
-        }
-    }
-}
-
-async function fetchFeed(feed) {
-    try {
-        const xml = await fetchWithFallback(feed.url);
-        const articles = parseRSS(xml, feed);
-        feedResults[feed.id] = { ok: true, count: articles.length };
-        return articles;
-    } catch (err) {
-        feedResults[feed.id] = { ok: false, error: err.message };
-        return [];
-    }
-}
 
 async function fetchAllFeeds() {
     document.getElementById('statusText').textContent = 'Updating feeds...';
-    feedResults = {};
     showSkeletons();
 
-    const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
-    allArticles = [];
-    results.forEach(r => { if (r.status === 'fulfilled') allArticles.push(...r.value); });
+    try {
+        const resp = await fetch(`${WORKER_URL}/api/feeds`);
+        if (!resp.ok) throw new Error(`Worker returned ${resp.status}`);
+        const data = await resp.json();
 
-    const now = new Date();
-    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const ok = Object.values(feedResults).filter(r => r.ok).length;
-    document.getElementById('statusText').textContent =
-        `${allArticles.length} articles from ${ok}/${FEEDS.length} sources \u00b7 ${time}`;
+        // Convert pubDate strings to Date objects
+        allArticles = (data.articles || []).map(a => ({
+            ...a,
+            pubDate: new Date(a.pubDate),
+        }));
+
+        farRevues = data.far || [];
+        feedResults = data.feedResults || {};
+
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const ok = Object.values(feedResults).filter(r => r.ok).length;
+        const total = Object.keys(feedResults).length;
+        document.getElementById('statusText').textContent =
+            `${allArticles.length} articles from ${ok}/${total} sources \u00b7 ${time}`;
+
+        const cacheHit = resp.headers.get('X-Cache');
+        if (cacheHit === 'HIT') {
+            document.getElementById('statusText').textContent += ' (cached)';
+        }
+
+    } catch (err) {
+        console.error('Feed fetch failed:', err);
+        document.getElementById('statusText').textContent = 'Error: ' + err.message;
+        // Clear skeletons
+        document.getElementById('feedGrid').innerHTML = '<div class="spinner-wrap">Failed to load feeds. Check Worker URL.</div>';
+        document.getElementById('feedList').innerHTML = '';
+        return;
+    }
 
     renderFeedStatus();
     renderStories();
     renderFeed();
+    renderFarSection();
 }
 
 // ══════════════════════════════════════════
-// REVUE FAR — HTML SCRAPING
+// REVUE FAR — Client-side pagination of worker data
 // ══════════════════════════════════════════
 
-function parseFarRevuePage(html) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const cards = doc.querySelectorAll('.card.card-hover-shadow');
-    const revues = [];
-
-    cards.forEach(card => {
-        const linkEl = card.querySelector('a[href*="editon"]') || card.querySelector('a[href*="/editon"]');
-        const imgEl = card.querySelector('img.card-img-top');
-        const titleEl = card.querySelector('.card-title');
-
-        if (!linkEl) return;
-
-        let link = linkEl.getAttribute('href') || '';
-        if (link && !link.startsWith('http')) {
-            link = FAR_BASE + (link.startsWith('/') ? '' : '/') + link;
-        }
-
-        let image = imgEl ? (imgEl.getAttribute('src') || '') : '';
-        if (image && !image.startsWith('http')) {
-            image = FAR_BASE + (image.startsWith('/') ? '' : '/') + image;
-        }
-
-        const title = titleEl ? titleEl.textContent.trim() : '';
-
-        if (title && link) {
-            revues.push({ title, link, image, source: 'Revue FAR', cat: 'far' });
-        }
-    });
-
-    return revues;
-}
-
-async function fetchFarRevues(pages = [1]) {
-    const bar = document.getElementById('farLoadingBar');
-    bar.style.width = '10%';
-
-    const allRevues = [];
-    for (let i = 0; i < pages.length; i++) {
-        const page = pages[i];
-        bar.style.width = `${10 + ((i + 1) / pages.length) * 80}%`;
-        try {
-            const html = await fetchHTML(`${FAR_BASE}/revues?page=${page}`);
-            const revues = parseFarRevuePage(html);
-            allRevues.push(...revues);
-        } catch (e) {
-            console.warn(`FAR page ${page} failed:`, e);
-        }
-    }
-
-    bar.style.width = '100%';
-    setTimeout(() => { bar.style.width = '0'; }, 500);
-
-    return allRevues;
-}
-
-async function loadInitialFarRevues() {
-    try {
-        const revues = await fetchFarRevues([1, 2]);
-        farRevues = revues;
-        farLoadedPages = 2;
-        feedResults['far-revue'] = { ok: revues.length > 0, count: revues.length };
-        renderFarSection();
-        renderFeedStatus();
-
-        if (revues.length > 0 && farLoadedPages < FAR_PAGES.length) {
-            document.getElementById('farShowMore').style.display = 'flex';
-        }
-    } catch (e) {
-        console.warn('FAR scraping failed:', e);
-        feedResults['far-revue'] = { ok: false, count: 0, error: e.message || 'Failed to load' };
-        renderFeedStatus();
-    }
-}
-
-async function loadMoreFarRevues() {
-    const btn = document.getElementById('farShowMore');
-    btn.textContent = 'Chargement...';
-    btn.disabled = true;
-
-    try {
-        const remainingPages = FAR_PAGES.filter(p => p > farLoadedPages);
-        const revues = await fetchFarRevues(remainingPages);
-        farRevues.push(...revues);
-        farLoadedPages = FAR_PAGES[FAR_PAGES.length - 1];
-
-        feedResults['far-revue'] = { ok: farRevues.length > 0, count: farRevues.length };
-        renderFarSection();
-        renderFeedStatus();
-    } catch (e) {
-        console.warn('FAR load more failed:', e);
-    }
-
-    btn.style.display = 'none';
-}
-
-document.getElementById('farShowMore').addEventListener('click', loadMoreFarRevues);
+document.getElementById('farShowMore').addEventListener('click', () => {
+    farShowAll = true;
+    renderFarSection();
+});
 
 function renderFarSection() {
     const section = document.getElementById('farSection');
@@ -1585,12 +676,11 @@ function renderFarSection() {
 
     const showFar = currentCategory === 'all' || currentCategory === 'far';
     section.style.display = showFar && farRevues.length > 0 ? 'block' : 'none';
-
     if (!showFar || farRevues.length === 0) return;
 
-    const limit = currentCategory === 'far' ? farRevues.length : 5;
+    const limit = (currentCategory === 'far' || farShowAll) ? farRevues.length : 5;
     const display = farRevues.slice(0, limit);
-    count.textContent = `${display.length} of ${farRevues.length} éditions`;
+    count.textContent = `${display.length} of ${farRevues.length} \u00e9ditions`;
 
     grid.innerHTML = display.map(r => `
         <a class="far-revue-card" href="${r.link}" target="_blank" rel="noopener">
@@ -1604,21 +694,13 @@ function renderFarSection() {
             </div>
             <div class="revue-body">
                 <div class="revue-title">${esc(r.title)}</div>
-                <span class="revue-link">
-                    En savoir plus <span class="revue-link-arrow">&#8594;</span>
-                </span>
+                <span class="revue-link">En savoir plus <span class="revue-link-arrow">&#8594;</span></span>
             </div>
         </a>
     `).join('');
 
     const moreBtn = document.getElementById('farShowMore');
-    if (currentCategory === 'far' && farLoadedPages < FAR_PAGES[FAR_PAGES.length - 1]) {
-        moreBtn.style.display = 'flex';
-        moreBtn.textContent = 'Charger plus d\'éditions →';
-        moreBtn.disabled = false;
-    } else if (currentCategory === 'all') {
-        moreBtn.style.display = 'none';
-    }
+    moreBtn.style.display = (display.length < farRevues.length && !farShowAll) ? 'flex' : 'none';
 }
 
 // ══════════════════════════════════════════
@@ -1631,29 +713,21 @@ function showSkeletons() {
 }
 
 function renderFeedStatus() {
-    const allFeedIds = [...FEEDS, { id: 'far-revue', name: 'Revue FAR' }];
-    document.getElementById('feedStatus').innerHTML = allFeedIds.map(f => {
-        const r = feedResults[f.id];
-        if (!r) return '';
-        return `<span class="feed-badge ${r.ok ? 'ok' : 'fail'}" title="${r.ok ? '' : (r.error||'')}">${f.name} ${r.ok ? '\u2713 ' + r.count : '\u2717'}</span>`;
+    const allIds = Object.keys(feedResults);
+    document.getElementById('feedStatus').innerHTML = allIds.map(id => {
+        const r = feedResults[id];
+        const meta = FEED_META[id] || { name: id };
+        return `<span class="feed-badge ${r.ok ? 'ok' : 'fail'}" title="${r.ok ? '' : (r.error||'')}">${meta.name} ${r.ok ? '\u2713 ' + r.count : '\u2717'}</span>`;
     }).join('');
 }
 
 function renderStories() {
     const bySource = {};
     allArticles.forEach(a => {
-        if (!bySource[a.sourceId] || a.pubDate > bySource[a.sourceId].pubDate)
-            bySource[a.sourceId] = a;
+        if (!bySource[a.sourceId] || a.pubDate > bySource[a.sourceId].pubDate) bySource[a.sourceId] = a;
     });
-    // Add FAR as a story too
     if (farRevues.length > 0) {
-        bySource['far-revue'] = {
-            link: `${FAR_BASE}/revues`,
-            image: farRevues[0].image,
-            source: 'Revue FAR',
-            sourceId: 'far-revue',
-            color: '#5b6e1e'
-        };
+        bySource['far-revue'] = { link: 'https://revue.far.ma/revues', image: farRevues[0].image, source: 'Revue FAR', sourceId: 'far-revue', color: '#5b6e1e' };
     }
     document.getElementById('storiesBar').innerHTML = Object.values(bySource).map(a => `
         <a class="story-item" href="${a.link}" target="_blank" rel="noopener">
@@ -1668,10 +742,7 @@ function renderStories() {
 }
 
 function renderFeed() {
-    let filtered = currentCategory === 'all'
-        ? [...allArticles]
-        : allArticles.filter(a => a.cat === currentCategory);
-
+    let filtered = currentCategory === 'all' ? [...allArticles] : allArticles.filter(a => a.cat === currentCategory);
     if (currentSort === 'newest') filtered.sort((a, b) => b.pubDate - a.pubDate);
     else if (currentSort === 'oldest') filtered.sort((a, b) => a.pubDate - b.pubDate);
     else filtered.sort((a, b) => a.source.localeCompare(b.source));
@@ -1684,15 +755,11 @@ function renderFeed() {
 function timeAgo(date) {
     const s = Math.floor((Date.now() - date) / 1000);
     if (s < 60) return 'now';
-    const m = Math.floor(s / 60);
-    if (m < 60) return m + 'm';
-    const h = Math.floor(m / 60);
-    if (h < 24) return h + 'h';
-    const d = Math.floor(h / 24);
-    if (d < 7) return d + 'd';
+    const m = Math.floor(s / 60); if (m < 60) return m + 'm';
+    const h = Math.floor(m / 60); if (h < 24) return h + 'h';
+    const d = Math.floor(h / 24); if (d < 7) return d + 'd';
     return date.toLocaleDateString();
 }
-
 function esc(s) { return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;'); }
 
 function cardHTML(a) {
@@ -1704,10 +771,7 @@ function cardHTML(a) {
         </div>
         <div class="card-body">
             <div class="card-title">${esc(a.title)}</div>
-            <div class="card-meta">
-                <span class="card-tag">${esc(a.cat)}</span>
-                <span>${timeAgo(a.pubDate)}</span>
-            </div>
+            <div class="card-meta"><span class="card-tag">${esc(a.cat)}</span><span>${timeAgo(a.pubDate)}</span></div>
         </div>
     </a>`;
 }
@@ -1720,10 +784,7 @@ function listCardHTML(a) {
         </div>
         <div class="card-body">
             <div class="card-title">${esc(a.title)}</div>
-            <div class="card-meta">
-                <span class="card-tag" style="background:${a.color};color:#fff">${esc(a.source)}</span>
-                <span>${timeAgo(a.pubDate)}</span>
-            </div>
+            <div class="card-meta"><span class="card-tag" style="background:${a.color};color:#fff">${esc(a.source)}</span><span>${timeAgo(a.pubDate)}</span></div>
         </div>
     </a>`;
 }
@@ -1732,38 +793,23 @@ function listCardHTML(a) {
 // SEARCHABLE CITY COMBOBOX
 // ══════════════════════════════════════════
 
-function getSelectedCityName() {
-    const c = HABOUS_CITIES.find(([id]) => id === selectedVilleId);
-    return c ? c[1] : HABOUS_CITIES[0][1];
-}
-
-// Normalize text for accent-insensitive search (é→e, ï→i, etc.)
-function normalizeSearch(str) {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-}
+function getSelectedCityName() { const c = HABOUS_CITIES.find(([id]) => id === selectedVilleId); return c ? c[1] : HABOUS_CITIES[0][1]; }
+function normalizeSearch(str) { return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
 
 function initCitySearch() {
     const input = document.getElementById('citySearchInput');
     const dropdown = document.getElementById('cityDropdown');
     let highlightIdx = -1;
 
-    // Set initial value — show Arabic + French
-    function getDisplayValue() {
-        const c = HABOUS_CITIES.find(([id]) => id === selectedVilleId);
-        return c ? `${c[1]} - ${c[2]}` : HABOUS_CITIES[0][1];
-    }
+    function getDisplayValue() { const c = HABOUS_CITIES.find(([id]) => id === selectedVilleId); return c ? `${c[1]} - ${c[2]}` : HABOUS_CITIES[0][1]; }
     input.value = getDisplayValue();
 
     function renderDropdown(filter = '') {
         const query = filter.trim();
         const queryNorm = normalizeSearch(query);
         const filtered = query
-            ? HABOUS_CITIES.filter(([, ar, fr, en]) =>
-                ar.includes(query) ||
-                normalizeSearch(fr).includes(queryNorm) ||
-                normalizeSearch(en).includes(queryNorm))
+            ? HABOUS_CITIES.filter(([, ar, fr, en]) => ar.includes(query) || normalizeSearch(fr).includes(queryNorm) || normalizeSearch(en).includes(queryNorm))
             : HABOUS_CITIES;
-
         if (filtered.length === 0) {
             dropdown.innerHTML = '<div class="city-dropdown-empty">\u0644\u0627 \u062a\u0648\u062c\u062f \u0646\u062a\u0627\u0626\u062c / No results</div>';
         } else {
@@ -1785,157 +831,68 @@ function initCitySearch() {
         fetchWeather();
     }
 
-    input.addEventListener('focus', () => {
-        input.select();
-        renderDropdown(input.value === getDisplayValue() ? '' : input.value);
-    });
-
-    input.addEventListener('input', () => {
-        highlightIdx = -1;
-        renderDropdown(input.value);
-    });
-
+    input.addEventListener('focus', () => { input.select(); renderDropdown(input.value === getDisplayValue() ? '' : input.value); });
+    input.addEventListener('input', () => { highlightIdx = -1; renderDropdown(input.value); });
     input.addEventListener('keydown', (e) => {
         const items = dropdown.querySelectorAll('.city-dropdown-item');
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            highlightIdx = Math.min(highlightIdx + 1, items.length - 1);
-            items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightIdx));
-            if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' });
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            highlightIdx = Math.max(highlightIdx - 1, 0);
-            items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightIdx));
-            if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' });
-        } else if (e.key === 'Enter') {
-            e.preventDefault();
-            if (highlightIdx >= 0 && items[highlightIdx]) {
-                selectCity(parseInt(items[highlightIdx].dataset.id));
-            }
-        } else if (e.key === 'Escape') {
-            input.value = getDisplayValue();
-            dropdown.classList.remove('open');
-            input.blur();
-        }
+        if (e.key === 'ArrowDown') { e.preventDefault(); highlightIdx = Math.min(highlightIdx + 1, items.length - 1); items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightIdx)); if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' }); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); highlightIdx = Math.max(highlightIdx - 1, 0); items.forEach((el, i) => el.classList.toggle('highlighted', i === highlightIdx)); if (items[highlightIdx]) items[highlightIdx].scrollIntoView({ block: 'nearest' }); }
+        else if (e.key === 'Enter') { e.preventDefault(); if (highlightIdx >= 0 && items[highlightIdx]) selectCity(parseInt(items[highlightIdx].dataset.id)); }
+        else if (e.key === 'Escape') { input.value = getDisplayValue(); dropdown.classList.remove('open'); input.blur(); }
     });
-
-    dropdown.addEventListener('click', (e) => {
-        const item = e.target.closest('.city-dropdown-item');
-        if (item) selectCity(parseInt(item.dataset.id));
-    });
-
-    // Close dropdown on outside click
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#citySearchWrap')) {
-            dropdown.classList.remove('open');
-            input.value = getDisplayValue();
-        }
-    });
+    dropdown.addEventListener('click', (e) => { const item = e.target.closest('.city-dropdown-item'); if (item) selectCity(parseInt(item.dataset.id)); });
+    document.addEventListener('click', (e) => { if (!e.target.closest('#citySearchWrap')) { dropdown.classList.remove('open'); input.value = getDisplayValue(); } });
 }
 initCitySearch();
 
 // ══════════════════════════════════════════
-// PRAYER TIMES — Habous API + Aladhan fallback
+// PRAYER TIMES — Worker (Habous) + Aladhan fallback
 // ══════════════════════════════════════════
-
-function parseHabousPrayerHTML(html) {
-    const times = {};
-    const patterns = [
-        { key: 'Fajr', ar: '\u0627\u0644\u0641\u062c\u0631' },
-        { key: 'Sunrise', ar: '\u0627\u0644\u0634\u0631\u0648\u0642' },
-        { key: 'Dhuhr', ar: '\u0627\u0644\u0638\u0647\u0631' },
-        { key: 'Asr', ar: '\u0627\u0644\u0639\u0635\u0631' },
-        { key: 'Maghrib', ar: '\u0627\u0644\u0645\u063a\u0631\u0628' },
-        { key: 'Isha', ar: '\u0627\u0644\u0639\u0634\u0627\u0621' },
-    ];
-    for (const p of patterns) {
-        const regex = new RegExp(p.ar + '[^\\d]*(\\d{1,2}:\\d{2})');
-        const match = html.match(regex);
-        if (match) times[p.key] = match[1];
-    }
-    // Extract Hijri date
-    const hijriMatch = html.match(/(\u0627\u0644[\u0627-\u064a]+\s+\d+\s+[\u0627-\u064a]+\s+\d+\s*\u0647\u0640?)/);
-    const hijriDate = hijriMatch ? hijriMatch[1].trim() : '';
-    const gregMatch = html.match(/\u0627\u0644\u0645\u0648\u0627\u0641\u0642\s*([\d\s\u0627-\u064a]+\u0645)/);
-    const gregDate = gregMatch ? gregMatch[1].trim() : '';
-    return { times, hijriDate, gregDate };
-}
-
-async function fetchPrayerFromHabous(villeId) {
-    const url = `https://www.habous.gov.ma/prieres/horaire-api.php?ville=${villeId}`;
-    for (let i = 0; i < CORS_PROXIES.length; i++) {
-        try {
-            const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), 10000);
-            const resp = await fetch(CORS_PROXIES[i](url), { signal: ctrl.signal });
-            clearTimeout(tid);
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const html = await resp.text();
-            const parsed = parseHabousPrayerHTML(html);
-            if (Object.keys(parsed.times).length >= 5) return parsed;
-            throw new Error('Incomplete data');
-        } catch (e) {
-            if (i === CORS_PROXIES.length - 1) throw e;
-        }
-    }
-}
-
-async function fetchPrayerFromAladhan(villeId) {
-    const [lat, lng] = getCityCoords(villeId);
-    const now = new Date();
-    const dateStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
-    const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=21`;
-    const resp = await fetch(url);
-    const data = await resp.json();
-    if (data.code !== 200) throw new Error('Aladhan API error');
-    return data.data;
-}
 
 async function fetchPrayerTimes() {
     const cityName = getSelectedCityName();
     const now = new Date();
-
     document.getElementById('prayerGrid').innerHTML = '<div class="prayer-loading">\u062c\u0627\u0631\u064a \u0627\u0644\u062a\u062d\u0645\u064a\u0644...</div>';
 
     let timings = null;
     let hijriText = '';
     let gregText = '';
 
-    // Try Habous API first
+    // Try Cloudflare Worker → Habous
     try {
-        const habous = await fetchPrayerFromHabous(selectedVilleId);
-        timings = habous.times;
-        hijriText = habous.hijriDate;
-        gregText = habous.gregDate;
-    } catch (e) {
-        console.warn('Habous API failed, trying Aladhan:', e.message);
-    }
+        const resp = await fetch(`${WORKER_URL}/api/prayer?ville=${selectedVilleId}`);
+        if (resp.ok) {
+            const data = await resp.json();
+            if (data.times && Object.keys(data.times).length >= 5) {
+                timings = data.times;
+                hijriText = data.hijriDate || '';
+                gregText = data.gregDate || '';
+            }
+        }
+    } catch (e) { console.warn('Worker prayer failed:', e.message); }
 
-    // Fallback to Aladhan
+    // Fallback: Aladhan API (has CORS headers, direct fetch works)
     if (!timings || Object.keys(timings).length < 5) {
         try {
-            const data = await fetchPrayerFromAladhan(selectedVilleId);
-            timings = {};
-            ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'].forEach(k => {
-                timings[k] = data.timings[k];
-            });
-            const hijri = data.date.hijri;
-            hijriText = `${AR_DAYS[now.getDay()]} ${hijri.day} ${hijri.month.ar || hijri.month.en} ${hijri.year}\u0647\u0640`;
-            gregText = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
+            const [lat, lng] = getCityCoords(selectedVilleId);
+            const dateStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+            const resp = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=21`);
+            const data = await resp.json();
+            if (data.code === 200) {
+                timings = {};
+                ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'].forEach(k => { timings[k] = data.data.timings[k]; });
+                const hijri = data.data.date.hijri;
+                hijriText = `${AR_DAYS[now.getDay()]} ${hijri.day} ${hijri.month.ar || hijri.month.en} ${hijri.year}\u0647\u0640`;
+                gregText = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
+            }
         } catch (err) {
-            document.getElementById('prayerGrid').innerHTML =
-                '<div class="prayer-loading" style="color:var(--accent)">\u062e\u0637\u0623 \u0641\u064a \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0648\u0627\u0642\u064a\u062a</div>';
+            document.getElementById('prayerGrid').innerHTML = '<div class="prayer-loading" style="color:var(--accent)">\u062e\u0637\u0623 \u0641\u064a \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0648\u0627\u0642\u064a\u062a</div>';
             return;
         }
     }
 
-    // If no hijri from Habous, build from Aladhan or show static
-    if (!hijriText) {
-        hijriText = `${AR_DAYS[now.getDay()]}`;
-    }
-    if (!gregText) {
-        gregText = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
-    }
+    if (!hijriText) hijriText = `${AR_DAYS[now.getDay()]}`;
+    if (!gregText) gregText = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()}\u0645`;
 
     document.getElementById('prayerHijri').textContent = hijriText;
     document.getElementById('prayerGregorian').textContent = `\u0627\u0644\u0645\u0648\u0627\u0641\u0642 ${gregText}`;
@@ -1948,72 +905,40 @@ async function fetchPrayerTimes() {
     for (let i = prayerKeys.length - 1; i >= 0; i--) {
         if (!timings[prayerKeys[i]]) continue;
         const [h, m] = timings[prayerKeys[i]].split(':').map(Number);
-        if (nowMinutes >= h * 60 + m) {
-            activePrayer = prayerKeys[i];
-            break;
-        }
+        if (nowMinutes >= h * 60 + m) { activePrayer = prayerKeys[i]; break; }
     }
 
-    document.getElementById('prayerGrid').innerHTML = prayerKeys.map(key => {
-        const isActive = key === activePrayer;
-        return `<div class="prayer-item ${isActive ? 'active-prayer' : ''}">
+    document.getElementById('prayerGrid').innerHTML = prayerKeys.map(key =>
+        `<div class="prayer-item ${key === activePrayer ? 'active-prayer' : ''}">
             <div class="prayer-name">${PRAYER_NAMES[key]}</div>
             <div class="prayer-time-val">${timings[key] || '--:--'}</div>
-        </div>`;
-    }).join('');
+        </div>`
+    ).join('');
 }
 
 // ══════════════════════════════════════════
-// WEATHER (wttr.in)
+// WEATHER (wttr.in — has CORS, direct fetch)
 // ══════════════════════════════════════════
 
 async function fetchWeather() {
     const card = document.getElementById('weatherCard');
     const weatherCity = getCityWeatherName(selectedVilleId);
-
     try {
-        let data;
-        try {
-            const resp = await fetch(`https://wttr.in/${weatherCity}?format=j1`);
-            data = await resp.json();
-        } catch {
-            const resp = await fetch(CORS_PROXIES[0](`https://wttr.in/${weatherCity}?format=j1`));
-            data = await resp.json();
-        }
-
+        const resp = await fetch(`https://wttr.in/${weatherCity}?format=j1`);
+        const data = await resp.json();
         const cur = data.current_condition[0];
-        const desc = cur.weatherDesc?.[0]?.value || cur.weatherDesc || 'N/A';
+        const desc = cur.weatherDesc?.[0]?.value || 'N/A';
         const icon = WEATHER_ICONS[desc] || '\ud83c\udf24\ufe0f';
         const cityData = HABOUS_CITIES.find(([id]) => id === selectedVilleId);
         const displayName = cityData ? cityData[2] : weatherCity.replace(/\+/g, ' ');
-
         card.innerHTML = `
-            <div class="weather-header">
-                <div>
-                    <div class="weather-city">${displayName}</div>
-                    <div class="weather-temp">${cur.temp_C}\u00b0C</div>
-                    <div class="weather-desc">${desc}</div>
-                </div>
-                <div class="weather-icon">${icon}</div>
-            </div>
+            <div class="weather-header"><div><div class="weather-city">${displayName}</div><div class="weather-temp">${cur.temp_C}\u00b0C</div><div class="weather-desc">${desc}</div></div><div class="weather-icon">${icon}</div></div>
             <div class="weather-details">
-                <div class="weather-detail">
-                    <div class="weather-detail-label">Humidity</div>
-                    <div class="weather-detail-val">${cur.humidity}%</div>
-                </div>
-                <div class="weather-detail">
-                    <div class="weather-detail-label">Wind</div>
-                    <div class="weather-detail-val">${cur.windspeedKmph} km/h</div>
-                </div>
-                <div class="weather-detail">
-                    <div class="weather-detail-label">Feels like</div>
-                    <div class="weather-detail-val">${cur.FeelsLikeC}\u00b0C</div>
-                </div>
-            </div>
-        `;
-    } catch (err) {
-        card.innerHTML = '<div class="weather-loading">Weather unavailable</div>';
-    }
+                <div class="weather-detail"><div class="weather-detail-label">Humidity</div><div class="weather-detail-val">${cur.humidity}%</div></div>
+                <div class="weather-detail"><div class="weather-detail-label">Wind</div><div class="weather-detail-val">${cur.windspeedKmph} km/h</div></div>
+                <div class="weather-detail"><div class="weather-detail-label">Feels like</div><div class="weather-detail-val">${cur.FeelsLikeC}\u00b0C</div></div>
+            </div>`;
+    } catch (err) { card.innerHTML = '<div class="weather-loading">Weather unavailable</div>'; }
 }
 
 // ══════════════════════════════════════════
@@ -2028,31 +953,19 @@ function renderCalendar() {
     const month = calendarDate.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const startDay = (firstDay.getDay() + 6) % 7; // Monday=0
-
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'];
+    const startDay = (firstDay.getDay() + 6) % 7;
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     document.getElementById('calendarTitle').textContent = `${monthNames[month]} ${year}`;
-
     let html = '';
-    for (let i = 0; i < startDay; i++) {
-        html += '<div class="calendar-day empty"></div>';
-    }
+    for (let i = 0; i < startDay; i++) html += '<div class="calendar-day empty"></div>';
     for (let d = 1; d <= lastDay.getDate(); d++) {
         const isToday = d === now.getDate() && month === now.getMonth() && year === now.getFullYear();
         html += `<div class="calendar-day${isToday ? ' today' : ''}">${d}</div>`;
     }
     document.getElementById('calendarDays').innerHTML = html;
 }
-
-document.getElementById('calPrev').addEventListener('click', () => {
-    calendarDate.setMonth(calendarDate.getMonth() - 1);
-    renderCalendar();
-});
-document.getElementById('calNext').addEventListener('click', () => {
-    calendarDate.setMonth(calendarDate.getMonth() + 1);
-    renderCalendar();
-});
+document.getElementById('calPrev').addEventListener('click', () => { calendarDate.setMonth(calendarDate.getMonth() - 1); renderCalendar(); });
+document.getElementById('calNext').addEventListener('click', () => { calendarDate.setMonth(calendarDate.getMonth() + 1); renderCalendar(); });
 renderCalendar();
 
 // ══════════════════════════════════════════
@@ -2060,23 +973,20 @@ renderCalendar();
 // ══════════════════════════════════════════
 
 document.getElementById('btnRefresh').addEventListener('click', () => {
+    farShowAll = false;
     fetchAllFeeds();
-    loadInitialFarRevues();
     fetchPrayerTimes();
     fetchWeather();
 });
 
-// Launch all
+// Launch
 fetchAllFeeds();
-loadInitialFarRevues();
 fetchPrayerTimes();
 fetchWeather();
 
-// Auto-refresh every 5 minutes
+// Auto-refresh
 setInterval(fetchAllFeeds, 5 * 60 * 1000);
-// Refresh prayer times every hour
 setInterval(fetchPrayerTimes, 60 * 60 * 1000);
-// Refresh weather every 30 minutes
 setInterval(fetchWeather, 30 * 60 * 1000);
 </script>
 </body>

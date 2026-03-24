@@ -1,0 +1,14 @@
+{
+  "name": "feed-aggregator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker that aggregates RSS feeds and scrapes HTML sources for achma-learning/feed",
+  "scripts": {
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
+    "tail": "npx wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
