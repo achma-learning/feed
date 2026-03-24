@@ -67,6 +67,10 @@ Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 + https://www.sante.gov.ma/Publications/Pages/Rapports.aspx
 + https://www.sante.gov.ma/Publications/Pages/Bullten_%C3%89pid%C3%A9miologique.aspx
 
+// Haute Autorité de Santé - HAS news start
+HAS Actualités : https://www.has-sante.fr/jcms/fc_2874902/fr/actualites
+HAS Actualités presse : https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse
+// end of HAS news
 // vidal news : https://www.vidal.fr/actualites.html
 // other vidal :
 Actualités médicaments et autres produits de santé : https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.html
