@@ -9,25 +9,12 @@ const RSS_FEEDS = [
   { id: 'health-maroc', cat: 'health-maroc', name: 'Santé Maroc', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=MA&ceid=MA:fr', color: '#16a34a' },
   { id: 'health-world', cat: 'health-world', name: 'Health World', url: 'https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNR3QwTlRFU0JXVnVMVWRDS0FBUAE?hl=en-GB&gl=GB&ceid=GB:en', color: '#2563eb' },
   { id: 'surgery', cat: 'surgery', name: 'Surgery & AI', url: 'https://news.google.com/rss/search?q=robotic+surgery+OR+surgical+robotics+OR+AI+surgery&hl=en&gl=US&ceid=US:en', color: '#9333ea' },
-  { id: 'map-politique', cat: 'map', name: 'MAP Politique', url: 'https://www.mapnews.ma/ar/actualites/politique/rss', color: '#0d9488' },
-  { id: 'map-economie', cat: 'map', name: 'MAP Economie', url: 'https://www.mapnews.ma/ar/actualites/economie/rss', color: '#0d9488' },
-  { id: 'map-social', cat: 'map', name: 'MAP Social', url: 'https://www.mapnews.ma/ar/actualites/social/rss', color: '#0d9488' },
-  { id: 'map-culture', cat: 'map', name: 'MAP Culture', url: 'https://www.mapnews.ma/ar/actualites/culture/rss', color: '#0891b2' },
-  { id: 'map-sport', cat: 'map', name: 'MAP Sport', url: 'https://www.mapnews.ma/ar/actualites/sport/rss', color: '#0891b2' },
-  { id: 'map-monde', cat: 'map', name: 'MAP Monde', url: 'https://www.mapnews.ma/ar/actualites/monde/rss', color: '#0891b2' },
-  { id: 'map-general', cat: 'map', name: 'MAP Général', url: 'https://www.mapnews.ma/ar/actualites/general/rss', color: '#0891b2' },
-  { id: 'map-regional', cat: 'map', name: 'MAP Régional', url: 'https://www.mapnews.ma/ar/actualites/regional/rss', color: '#0d9488' },
-  { id: 'newatlas-science', cat: 'newatlas', name: 'New Atlas Science', url: 'https://newatlas.com/science/feed/', color: '#ea580c' },
-  { id: 'newatlas-energy', cat: 'newatlas', name: 'New Atlas Energy', url: 'https://newatlas.com/energy/feed/', color: '#d97706' },
-  { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/feed/', color: '#db2777' },
+  { id: 'map-news', cat: 'map', name: 'MAP News', url: 'https://news.google.com/rss/search?q=site:mapnews.ma&hl=ar&gl=MA&ceid=MA:ar', color: '#0d9488' },
+  { id: 'newatlas-science', cat: 'newatlas', name: 'New Atlas Science', url: 'https://newatlas.com/science/index.rss', color: '#ea580c' },
+  { id: 'newatlas-energy', cat: 'newatlas', name: 'New Atlas Energy', url: 'https://newatlas.com/energy/index.rss', color: '#d97706' },
+  { id: 'newatlas-medical', cat: 'newatlas', name: 'New Atlas Medical', url: 'https://newatlas.com/medical/index.rss', color: '#db2777' },
   { id: 'health-france', cat: 'health-world', name: 'Santé France', url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtWnlLQUFQAQ?hl=fr&gl=FR&ceid=FR:fr', color: '#1d4ed8' },
   { id: 'mit', cat: 'mit', name: 'MIT News', url: 'https://news.mit.edu/rss/feed', color: '#475569' },
-  { id: 'has-actualites', cat: 'has', name: 'HAS Actualités', url: 'https://www.has-sante.fr/jcms/fc_2874902/fr/actualites?rss=true', color: '#7c3aed' },
-  { id: 'has-presse', cat: 'has', name: 'HAS Presse', url: 'https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse?rss=true', color: '#7c3aed' },
-  { id: 'vidal-medicaments', cat: 'vidal', name: 'Vidal Médicaments', url: 'https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.xml', color: '#0369a1' },
-  { id: 'vidal-diagnostic', cat: 'vidal', name: 'Vidal Diagnostic', url: 'https://www.vidal.fr/actualites/diagnostic-et-therapeutique.xml', color: '#0369a1' },
-  { id: 'vidal-sante-publique', cat: 'vidal', name: 'Vidal Santé Publique', url: 'https://www.vidal.fr/actualites/sante-publique.xml', color: '#0284c7' },
-  { id: 'vidal-innovation', cat: 'vidal', name: 'Vidal Innovation', url: 'https://www.vidal.fr/actualites/technologie-et-innovation.xml', color: '#0284c7' },
 ];
 
 // ── HTML Scrape Sources (no RSS available) ──
@@ -36,6 +23,9 @@ const SCRAPE_SOURCES = [
   { id: 'sante-gov-actualites', cat: 'sante-gov', name: 'Min. Santé Actualités', url: 'https://www.sante.gov.ma/Pages/toutes_actualites.aspx', color: '#15803d' },
   { id: 'ammps-actualites', cat: 'sante-gov', name: 'AMMPS Actualités', url: 'https://ammps.sante.gov.ma/actualites', color: '#059669' },
   { id: 'hcp-publications', cat: 'hcp', name: 'HCP Publications', url: 'https://www.hcp.ma/downloads/', color: '#b45309' },
+  { id: 'has-actualites', cat: 'has', name: 'HAS Actualités', url: 'https://www.has-sante.fr/jcms/fc_2874902/fr/actualites', color: '#7c3aed' },
+  { id: 'has-presse', cat: 'has', name: 'HAS Presse', url: 'https://www.has-sante.fr/jcms/p_3029290/fr/actualites-presse', color: '#7c3aed' },
+  { id: 'vidal-actualites', cat: 'vidal', name: 'Vidal Actualités', url: 'https://www.vidal.fr/actualites.html', color: '#0369a1' },
 ];
 
 const FAR_BASE = 'https://revue.far.ma';
@@ -440,6 +430,11 @@ async function scrapeSingleHTML(src) {
       return scrapeAMMPS(html, src);
     case 'hcp-publications':
       return scrapeHCP(html, src);
+    case 'has-actualites':
+    case 'has-presse':
+      return scrapeHAS(src, html);
+    case 'vidal-actualites':
+      return scrapeVidal(src, html);
     default:
       return [];
   }
