@@ -8,7 +8,7 @@ like an information diet, you don't eat whatstover, and same philosophie apply t
 ---
 
 # on linux : news flash - local don't sync
-# next step : next-cloude
+# next step : next-cloud + next app news
 ### https://www.youtube.com/watch?v=_7LTwnAaQ3k
 
 # feed
