@@ -8,6 +8,8 @@ like an information diet, you don't eat whatstover, and same philosophie apply t
 ---
 
 # on linux : news flash - local don't sync
+# next step : next-cloude
+### https://www.youtube.com/watch?v=_7LTwnAaQ3k
 
 # feed
 try feed with two ways to display news, one is vertical for phone like whatsapp news, one is 5 per line, 
