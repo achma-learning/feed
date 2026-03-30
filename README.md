@@ -1,8 +1,9 @@
 # how about using this website : 
-
+"https://www.inoreader.com/all_articles"
++ and then later build a userscript that add the clock like the floating island, and prayer and weather widget at sidebar to this website
 + sante : https://www.sante.gov.ma/Pages/FluxRssSante.aspx
 
-
+---
 # feed
 try feed with two ways to display news, one is vertical for phone like whatsapp news, one is 5 per line, 
 color like hespress english , with dark mode support : (https://en.hespress.com/)
