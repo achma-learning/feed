@@ -1,6 +1,6 @@
 # how about using this website : 
 "https://www.inoreader.com/all_articles"
-+ and then later build a userscript that add the clock like the floating island, and prayer and weather widget at sidebar to this website
++ and then later build a userscript that add the clock like the floating island, and prayer weather calendar quick-Links widgets at sidebar to this website, like in "https://achma-learning.github.io/feed/"
 
 ---
 # feed
