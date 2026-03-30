@@ -1,6 +1,7 @@
 ```
 like an information diet, you don't eat whatstover, and same philosophie apply to your brain, feed good infos, sometimes less is more (ما قل وكفئ خير مما كثر وألهئ)
 ```
+idea gold : how about building a userscript that add a sidebar at left of screen / that display and hide with alt+n , to display feed at sidebar
 ---
 i think now to use RSS feed , Since it's simple and functionnal, there is also n8n and openclaw/clawbot but a bit complexe for now and not interrested
 ---
