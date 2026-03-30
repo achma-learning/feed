@@ -5,8 +5,10 @@ like an information diet, you don't eat whatstover, and same philosophie apply t
 "https://www.inoreader.com/all_articles"
 + https://github.com/DIYgod/RSSHub
 + and then later build a userscript that add the clock like the floating island, and prayer weather calendar quick-Links widgets at sidebar to this website, like in "https://achma-learning.github.io/feed/"
-
 ---
+
+# on linux : news flash - local don't sync
+
 # feed
 try feed with two ways to display news, one is vertical for phone like whatsapp news, one is 5 per line, 
 color like hespress english , with dark mode support : (https://en.hespress.com/)
