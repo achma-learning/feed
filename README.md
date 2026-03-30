@@ -1,3 +1,8 @@
+# how about using this website : 
+
++ sante : https://www.sante.gov.ma/Pages/FluxRssSante.aspx
+
+
 # feed
 try feed with two ways to display news, one is vertical for phone like whatsapp news, one is 5 per line, 
 color like hespress english , with dark mode support : (https://en.hespress.com/)
@@ -66,6 +71,13 @@ Fêtes nationales et religieuses
 + https://ammps.sante.gov.ma/actualites/categories/communique_presse
 + https://ammps.sante.gov.ma/actualites/categories/actualites_internationales
 
++ https://www.sante.gov.ma/Pages/FluxRssSante.aspx
+  + Actualités
+  + Annonces
+  + Communiques
+  + Activities
+  + SanteNews
+  
 + https://www.sante.gov.ma/Pages/activites.aspx
 + https://www.sante.gov.ma/Pages/toutes_actualites.aspx?activiteID=* (for example : https://www.sante.gov.ma/Pages/toutes_actualites.aspx?activiteID=605)
 
