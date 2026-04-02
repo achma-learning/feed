@@ -94,6 +94,7 @@ Fêtes nationales et religieuses
 + https://www.sante.gov.ma/Pages/toutes_actualites.aspx?activiteID=* (for example : https://www.sante.gov.ma/Pages/toutes_actualites.aspx?activiteID=605)
 
 + https://www.youtube.com/@allodocteurs
++ https://www.allodocteurs.fr
 
 + https://www.sante.gov.ma/Pages/Dossiers.aspx
 + https://www.sante.gov.ma/Publications/Etudes_enquete/Pages/default.aspx
