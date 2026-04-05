@@ -122,6 +122,8 @@ Agence Nationale de Sécurité du Médicament (France) : https://ansm.sante.fr/a
 // end of other vidal :
 
 // Haut-Commissariat au Plan du Maroc - HCP news
++ rss feed 1 : https://www.hcp.ma/xml/syndication.rss
++ RSS feed 2 : https://www.hcp.ma/xml/atom.xml
 + Publications générales : https://www.hcp.ma/downloads/?tag=Publications+g%C3%A9n%C3%A9rales
 + Publications thématiques : https://www.hcp.ma/downloads/?tag=Publications+th%C3%A9matiques
   + Publications thématiques [Economie] : https://www.hcp.ma/downloads/?tag=Publications+th%C3%A9matiques
