@@ -72,7 +72,7 @@ Fêtes nationales et religieuses
 + https://newatlas.com/science/
 + https://newatlas.com/energy/
 + https://newatlas.com/medical/
-+ https://news.mit.edu/
++ https://news.mit.edu/rss
 
 + https://revue.far.ma/revues?page=1
 
