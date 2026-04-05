@@ -111,6 +111,7 @@ Fêtes nationales et religieuses
 Agence Nationale de Sécurité du Médicament (France) : https://ansm.sante.fr/actualites/a-la-une
 
 // vidal news : https://www.vidal.fr/actualites.html
++ vidal RSS : https://www.vidal.fr/rss.xml
 // other vidal :
 + Actualités médicaments et autres produits de santé : https://www.vidal.fr/actualites/medicaments-et-produits-de-sante.html
 + Actualités diagnostic et prise en charge thérapeutique : https://www.vidal.fr/actualites/diagnostic-et-therapeutique.html
