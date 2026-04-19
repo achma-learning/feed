@@ -64,6 +64,13 @@ General : https://www.mapnews.ma/ar/actualites/general/rss
 Monde : https://www.mapnews.ma/ar/actualites/monde/rss
 // end of map news RSS
 
+// weather
++ https://www.marocmeteo.ma/fr/rss.xml
++ https://wttr.in/Marrakech or https://wttr.in/"city"
++ https://www.marocmeteo.ma/fr/climat-du-maroc-0
++ https://www.meteomaroc.com/meteo/marrakech
+// end of weather
+
 //
 https://www.maroc.ma/ar/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1
 Fêtes nationales et religieuses
